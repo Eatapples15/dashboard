@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Rischi e Tematiche</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .contenitore-iframe {
+            display: none; /* Nascondi inizialmente i contenitori degli iframe */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Layout a griglia per gli iframe */
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .contenitore-iframe.attivo {
+            display: grid; /* Mostra il contenitore attivo */
+        }
+
+        .iframe-pagina {
+            width: 100%;
+            height: 400px; /* Altezza predefinita, puoi modificarla */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Stili per i pulsanti di navigazione */
+        .nav-rischi {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .nav-rischi button {
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-rischi button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dashboard Rischi e Tematiche</h1>
+        <p>Visualizzazione integrata delle informazioni per la gestione dei rischi.</p>
+    </header>
+
+    <main>
+        <nav class="nav-rischi">
+            <button onclick="mostraContenuto('terremoto')"><i class="fas fa-mountain"></i> Terremoto</button>
+            <button onclick="mostraContenuto('incendi')"><i class="fas fa-fire"></i> Incendi</button>
+            </nav>
+
+        <section id="terremoto-contenuto" class="contenitore-iframe">
+            <iframe class="iframe-pagina" src="https://terremoti.ingv.it/" title="Lista Terremoti INGV"></iframe>
+            <iframe class="iframe-pagina" src="https://shakemap.ingv.it/index.html" title="ShakeMap INGV"></iframe>
+            <iframe class="iframe-pagina" src="https://diss.ingv.it/mapper/" title="DISS - Mapper INGV"></iframe>
+        </section>
+
+        <section id="incendi-contenuto" class="contenitore-iframe">
+            <iframe class="iframe-pagina" src="https://forest-fire.emergency.copernicus.eu/apps/effis_current_situation/" title="Copernicus EFFIS"></iframe>
+        </section>
+
+        </main>
+
+    <footer>
+        <p>&copy; 2025 Dashboard Rischi e Tematiche</p>
+    </footer>
+
+    <script>
+        function mostraContenuto(idContenuto) {
+            // Nascondi tutti i contenitori
+            const tuttiContenitori = document.querySelectorAll('.contenitore-iframe');
+            tuttiContenitori.forEach(contenitore => {
+                contenitore.classList.remove('attivo');
+            });
+
+            // Mostra il contenitore selezionato
+            const contenitoreDaMostrare = document.getElementById(idContenuto + '-contenuto');
+            if (contenitoreDaMostrare) {
+                contenitoreDaMostrare.classList.add('attivo');
+            }
+        }
+
+        // Mostra il contenuto del terremoto all'avvio (opzionale)
+        mostraContenuto('terremoto');
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</body>
+</html>
