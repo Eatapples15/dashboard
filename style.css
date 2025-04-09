@@ -1,0 +1,103 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+header h1 {
+    margin-bottom: 5px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.rischio {
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.rischio h2 {
+    color: #e74c3c; /* Rosso per i rischi */
+    margin-top: 0;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rischio h2.terremoto {
+    color: #d35400; /* Arancione per terremoto */
+}
+
+.rischio h2.incendi {
+    color: #c0392b; /* Rosso scuro per incendi */
+}
+
+.siti-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Layout compatto responsivo */
+    gap: 10px;
+}
+
+.sito {
+    background-color: #ecf0f1;
+    border-radius: 3px;
+    padding: 10px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.sito:hover {
+    background-color: #d5d8dc;
+}
+
+.sito a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Assicura che l'intero blocco sia cliccabile */
+}
+
+.sito .titolo {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.sito .descrizione {
+    font-size: 0.9em;
+    color: #777;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #777;
+    font-size: 0.8em;
+}
+
+/* Stili specifici per le icone (opzionale, richiede Font Awesome) */
+.fa-mountain {
+    color: #d35400; /* Arancione per terremoto */
+}
+
+.fa-fire {
+    color: #c0392b; /* Rosso scuro per incendi */
+}
