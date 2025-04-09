@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Protezione Civile Basilicata - SALA di CONTROLLO</title>
+    <title>Dashboard Sala COntrollo - Protezione Civile Basilicata</title>
     <link rel="stylesheet" href="style.css">
     <style>
         /* --- Stili Generali --- */
@@ -171,6 +171,7 @@
             display: inline-block;
             font-weight: bold;
             transition: background-color 0.3s ease;
+            margin-top: 10px; /* Aggiunto un po' di spazio sopra i pulsanti */
         }
 
         .external-link-button:hover {
@@ -201,6 +202,39 @@
             color: #ced4da;
             margin-bottom: 0;
             font-size: 0.9em;
+        }
+
+        #bollettini-section.active {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        #bollettini-section .website-preview:first-child .iframe-container {
+            height: 800px; /* Aumenta l'altezza per il Centro Funzionale */
+        }
+
+        #bollettini-section .website-preview:last-child {
+            display: none; /* Nasconde l'anteprima del Bollettino COM */
+        }
+
+        #bollettini-section .generate-map-button {
+            padding: 12px 15px;
+            background-color: #3867d6; /* Blu per il bottone "Genera Mappa" */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        #bollettini-section .generate-map-button:hover {
+            background-color: #2a52be;
         }
 
         /* --- Footer --- */
@@ -240,7 +274,7 @@
 
     <main>
         <section id="home-section" class="rischio-section active">
-            <h2>Home - Notifiche e Allerte</h2>
+            <h2><i class="fas fa-bullhorn"></i> Home - Notifiche e Allerte</h2>
             <div id="notifiche-container">
                 <div class="notifica">
                     <h3><i class="fas fa-exclamation-triangle"></i> Allerta Meteo Gialla</h3>
@@ -261,7 +295,7 @@
                     <iframe src="https://terremoti.ingv.it/"></iframe>
                 </div>
             </div>
-             <a href="https://terremoti.ingv.it/" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza Mappa INGV</a>
+            <a href="https://terremoti.ingv.it/" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza Mappa INGV</a>
             <a href="https://shakemap.ingv.it/index.html" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza ShakeMap INGV</a>
             <a href="https://diss.ingv.it/mapper/" target="_blank" class="external-link-button"><i class="fas fa-database"></i> Visualizza DISS - Mapper INGV</a>
             <a href="https://ran.protezionecivile.it/IT/quakelive.php" target="_blank" class="external-link-button"><i class="fas fa-rss"></i> Visualizza QuakeLive RAN</a>
@@ -297,12 +331,7 @@
                     <iframe src="https://centrofunzionale.regione.basilicata.it/it/bollettini-avvisi.php?lt=A"></iframe>
                 </div>
             </div>
-            <div class="website-preview">
-                <h3><i class="fas fa-envelope-open-text"></i> Bollettino COM</h3>
-                <div class="iframe-container">
-                    <iframe src="https://eatapples15.github.io/bollettinocom/"></iframe>
-                </div>
-            </div>
+            <a href="https://eatapples15.github.io/bollettinocom/" target="_blank" class="generate-map-button"><i class="fas fa-map-marked-alt"></i> Genera Mappa Bollettino COM</a>
         </section>
     </main>
 
