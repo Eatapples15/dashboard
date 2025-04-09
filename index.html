@@ -100,6 +100,10 @@
             text-align: center;
         }
 
+        #widget-meteo iframe {
+            border: 0;
+        }
+
         footer {
             grid-area: footer;
             background-color: #2c3e50;
@@ -118,7 +122,7 @@
     <nav>
         <div id="widget-meteo">
             <h3>Meteo Basilicata</h3>
-            <p>Widget meteo qui</p>
+            <div><iframe src="https://www.3bmeteo.com/moduli_esterni/localita_1_giorno_compatto/5483/ffffff/fc9b2a/5e5e5e/ffffff/it" width="187" height="268" frameborder="0"></iframe><br/><a href="https://www.3bmeteo.com/meteo/potenza" target="_blank" style="color:#333; font-size:0.8em;">Meteo Potenza</a></div>
         </div>
         <button onclick="showSection('terremoto')"><i class="fas fa-mountain"></i> Terremoto</button>
         <button onclick="showSection('idrogeologico')"><i class="fas fa-water"></i> Idrogeologico</button>
