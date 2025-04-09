@@ -3,94 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Rischi e Tematiche</title>
+    <title>Dashboard Protezione Civile</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .contenitore-iframe {
-            display: none; /* Nascondi inizialmente i contenitori degli iframe */
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Layout a griglia per gli iframe */
-            gap: 10px;
-            margin-top: 15px;
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: grid;
+            grid-template-columns: auto 1fr; /* Colonna fissa per la navigazione, spazio flessibile per il contenuto */
+            grid-template-rows: auto 1fr auto;
+            grid-template-areas:
+                "header header"
+                "nav main"
+                "footer footer";
+            min-height: 100vh;
         }
 
-        .contenitore-iframe.attivo {
-            display: grid; /* Mostra il contenitore attivo */
+        header {
+            grid-area: header;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
         }
 
-        .iframe-pagina {
-            width: 100%;
-            height: 400px; /* Altezza predefinita, puoi modificarla */
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        /* Stili per i pulsanti di navigazione */
-        .nav-rischi {
+        nav {
+            grid-area: nav;
+            background-color: #34495e;
+            padding: 20px;
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            flex-direction: column;
+            align-items: stretch;
         }
 
-        .nav-rischi button {
+        nav button {
             padding: 10px 15px;
+            margin-bottom: 10px;
             background-color: #3498db;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            text-align: left;
         }
 
-        .nav-rischi button:hover {
+        nav button:hover {
             background-color: #2980b9;
+        }
+
+        main {
+            grid-area: main;
+            padding: 20px;
+        }
+
+        .rischio-section {
+            display: none; /* Nascondi tutte le sezioni di default */
+        }
+
+        .rischio-section.active {
+            display: block;
+        }
+
+        .link-compatto {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .link-compatto a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link-compatto a:hover {
+            text-decoration: underline;
+        }
+
+        .link-descrizione {
+            color: #777;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        #widget-meteo {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        footer {
+            grid-area: footer;
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8em;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Dashboard Rischi e Tematiche</h1>
-        <p>Visualizzazione integrata delle informazioni per la gestione dei rischi.</p>
+        <h1>Dashboard Protezione Civile - Potenza</h1>
     </header>
 
+    <nav>
+        <div id="widget-meteo">
+            <h3>Meteo Basilicata</h3>
+            <p>Widget meteo qui</p>
+        </div>
+        <button onclick="showSection('terremoto')"><i class="fas fa-mountain"></i> Terremoto</button>
+        <button onclick="showSection('idrogeologico')"><i class="fas fa-water"></i> Idrogeologico</button>
+        <button onclick="showSection('incendi')"><i class="fas fa-fire"></i> Incendi</button>
+        <button onclick="showSection('piani')"><i class="fas fa-file-alt"></i> Piani Protezione Civile</button>
+        <button onclick="showSection('bollettini')"><i class="fas fa-newspaper"></i> Bollettini</button>
+        <button onclick="window.open('http://www.gtfleet.net/View/Login.aspx', '_blank')"><i class="fas fa-truck"></i> Monitoraggio Flotta</button>
+        <button onclick="window.open('https://protezionecivile.apperosrl.it/websor', '_blank')"><i class="fas fa-globe"></i> WebSor</button>
+        <button onclick="window.open('https://protezionecivile.apperosrl.it/mgo/', '_blank')"><i class="fas fa-map-marked-alt"></i> MGO</button>
+    </nav>
+
     <main>
-        <nav class="nav-rischi">
-            <button onclick="mostraContenuto('terremoto')"><i class="fas fa-mountain"></i> Terremoto</button>
-            <button onclick="mostraContenuto('incendi')"><i class="fas fa-fire"></i> Incendi</button>
-            </nav>
-
-        <section id="terremoto-contenuto" class="contenitore-iframe">
-            <iframe class="iframe-pagina" src="https://terremoti.ingv.it/" title="Lista Terremoti INGV"></iframe>
-            <iframe class="iframe-pagina" src="https://shakemap.ingv.it/index.html" title="ShakeMap INGV"></iframe>
-            <iframe class="iframe-pagina" src="https://diss.ingv.it/mapper/" title="DISS - Mapper INGV"></iframe>
+        <section id="terremoto-section" class="rischio-section active">
+            <h2>Terremoto</h2>
+            <div class="link-compatto">
+                <a href="https://terremoti.ingv.it/" target="_blank">Lista Terremoti INGV</a>
+                <p class="link-descrizione">Aggiornamenti in tempo reale sui terremoti.</p>
+            </div>
+            <div class="link-compatto">
+                <a href="https://shakemap.ingv.it/index.html" target="_blank">ShakeMap INGV</a>
+                <p class="link-descrizione">Mappa dello scuotimento sismico.</p>
+            </div>
+            <div class="link-compatto">
+                <a href="https://diss.ingv.it/mapper/" target="_blank">DISS - Mapper INGV</a>
+                <p class="link-descrizione">Database delle sorgenti sismogenetiche.</p>
+            </div>
         </section>
 
-        <section id="incendi-contenuto" class="contenitore-iframe">
-            <iframe class="iframe-pagina" src="https://forest-fire.emergency.copernicus.eu/apps/effis_current_situation/" title="Copernicus EFFIS"></iframe>
+        <section id="idrogeologico-section" class="rischio-section">
+            <h2>Idrogeologico</h2>
+            <p>Contenuti in arrivo...</p>
         </section>
 
-        </main>
+        <section id="incendi-section" class="rischio-section">
+            <h2>Incendi</h2>
+            <div class="link-compatto">
+                <a href="https://forest-fire.emergency.copernicus.eu/apps/effis_current_situation/" target="_blank">Copernicus EFFIS</a>
+                <p class="link-descrizione">Situazione attuale degli incendi boschivi in Europa.</p>
+            </div>
+            <div class="link-compatto">
+                <a href="https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@21.2,39.6,5.3z" target="_blank">NASA FIRMS</a>
+                <p class="link-descrizione">Mappa degli incendi attivi rilevati dai satelliti NASA.</p>
+            </div>
+            <div class="link-compatto">
+                <a href="http://www.pcn.minambiente.it/viewer/index.php?services=AIB_Incendi_PNZ" target="_blank">PNZ Incendi (Ministero Ambiente)</a>
+                <p class="link-descrizione">Informazioni sugli incendi dal Portale Cartografico Nazionale.</p>
+                <p class="link-descrizione">Percorso file: [INSERISCI QUI IL PERCORSO DEL FILE]</p>
+            </div>
+        </section>
+
+        <section id="piani-section" class="rischio-section">
+            <h2>Piani Protezione Civile</h2>
+            <div class="link-compatto">
+                <a href="https://simonpc.regione.basilicata.it/" target="_blank">SIMON PC Regione Basilicata</a>
+                <p class="link-descrizione">Portale dei Piani di Protezione Civile della Basilicata.</p>
+            </div>
+        </section>
+
+        <section id="bollettini-section" class="rischio-section">
+            <h2>Bollettini</h2>
+            <div class="link-compatto">
+                <a href="https://centrofunzionale.regione.basilicata.it/it/bollettini-avvisi.php?lt=A" target="_blank">Bollettini e Avvisi (Centro Funzionale Basilicata)</a>
+                <p class="link-descrizione">Bollettini di allerta meteo e avvisi dalla Regione Basilicata.</p>
+            </div>
+            <div class="link-compatto">
+                <a href="https://eatapples15.github.io/bollettinocom/" target="_blank">Bollettino COM</a>
+                <p class="link-descrizione">Bollettino di comunicazione di emergenza (fonte esterna).</p>
+            </div>
+        </section>
+    </main>
 
     <footer>
-        <p>&copy; 2025 Dashboard Rischi e Tematiche</p>
+        <p>&copy; 2025 Dashboard Protezione Civile - Potenza</p>
     </footer>
 
     <script>
-        function mostraContenuto(idContenuto) {
-            // Nascondi tutti i contenitori
-            const tuttiContenitori = document.querySelectorAll('.contenitore-iframe');
-            tuttiContenitori.forEach(contenitore => {
-                contenitore.classList.remove('attivo');
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.rischio-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
             });
-
-            // Mostra il contenitore selezionato
-            const contenitoreDaMostrare = document.getElementById(idContenuto + '-contenuto');
-            if (contenitoreDaMostrare) {
-                contenitoreDaMostrare.classList.add('attivo');
+            const sectionToShow = document.getElementById(sectionId + '-section');
+            if (sectionToShow) {
+                sectionToShow.classList.add('active');
             }
         }
 
-        // Mostra il contenuto del terremoto all'avvio (opzionale)
-        mostraContenuto('terremoto');
+        // Mostra la sezione Terremoto all'avvio
+        showSection('terremoto');
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
