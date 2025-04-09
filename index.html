@@ -91,7 +91,7 @@
             margin-top: 5px;
         }
 
-        #widget-meteo {
+        #widget-meteo-container {
             background-color: #f9f9f9;
             padding: 15px;
             border-radius: 5px;
@@ -100,8 +100,41 @@
             text-align: center;
         }
 
-        #widget-meteo iframe {
+        #widget-meteo-container iframe {
             border: 0;
+        }
+
+        #realtime-clock {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        #home-section {
+            display: none; /* Nascosta di default */
+        }
+
+        #home-section.active {
+            display: block;
+        }
+
+        .notifica {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #f39c12; /* Bordo colorato per evidenziare */
+        }
+
+        .notifica h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .notifica p {
+            color: #555;
+            margin-bottom: 0;
         }
 
         footer {
@@ -120,10 +153,12 @@
     </header>
 
     <nav>
-        <div id="widget-meteo">
+        <div id="widget-meteo-container">
             <h3>Meteo Basilicata</h3>
             <div><iframe src="https://www.3bmeteo.com/moduli_esterni/localita_1_giorno_compatto/5483/ffffff/fc9b2a/5e5e5e/ffffff/it" width="187" height="268" frameborder="0"></iframe><br/><a href="https://www.3bmeteo.com/meteo/potenza" target="_blank" style="color:#333; font-size:0.8em;">Meteo Potenza</a></div>
+            <div id="realtime-clock"></div>
         </div>
+        <button onclick="showSection('home')"><i class="fas fa-home"></i> Home</button>
         <button onclick="showSection('terremoto')"><i class="fas fa-mountain"></i> Terremoto</button>
         <button onclick="showSection('idrogeologico')"><i class="fas fa-water"></i> Idrogeologico</button>
         <button onclick="showSection('incendi')"><i class="fas fa-fire"></i> Incendi</button>
@@ -135,7 +170,21 @@
     </nav>
 
     <main>
-        <section id="terremoto-section" class="rischio-section active">
+        <section id="home-section" class="rischio-section active">
+            <h2>Home - Notifiche e Allerte</h2>
+            <div id="notifiche-container">
+                <div class="notifica">
+                    <h3>[Data e Ora] Allerta Meteo Gialla</h3>
+                    <p>Previste precipitazioni intense e possibili raffiche di vento a partire dalle ore [ora] di oggi. Si raccomanda cautela negli spostamenti.</p>
+                </div>
+                <div class="notifica">
+                    <h3>[Data e Ora] Aggiornamento Viabilità</h3>
+                    <p>Chiusura temporanea della SS [numero strada] a causa di lavori in corso nel tratto [tratto]. Seguire le indicazioni stradali alternative.</p>
+                </div>
+                </div>
+        </section>
+
+        <section id="terremoto-section" class="rischio-section">
             <h2>Terremoto</h2>
             <div class="link-compatto">
                 <a href="https://terremoti.ingv.it/" target="_blank">Lista Terremoti INGV</a>
@@ -210,8 +259,26 @@
             }
         }
 
-        // Mostra la sezione Terremoto all'avvio
-        showSection('terremoto');
+        // Mostra la sezione Home all'avvio
+        showSection('home');
+
+        function updateClock() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Mese è 0-indexed
+            const year = now.getFullYear();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const dateTimeString = `${day}/${month}/${year} - ${hours}:${minutes}:${seconds}`;
+            document.getElementById('realtime-clock').textContent = dateTimeString;
+        }
+
+        // Aggiorna l'orologio ogni secondo
+        setInterval(updateClock, 1000);
+
+        // Inizializza l'orologio all'avvio
+        updateClock();
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
