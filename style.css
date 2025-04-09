@@ -1,103 +1,83 @@
-body {
-    font-family: sans-serif;
-    margin: 20px;
-    background-color: #f4f4f4;
-    color: #333;
+/* Stili di base per il body e l'header (già inclusi nell'<style> nel file HTML) */
+
+/* Stili per la navigazione laterale */
+nav {
+    /* ... (già inclusi nell'<style> nel file HTML) */
 }
 
-header {
-    background-color: #2c3e50;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    margin-bottom: 20px;
-    border-radius: 5px;
+/* Stili per i pulsanti della navigazione */
+nav button {
+    /* ... (già inclusi nell'<style> nel file HTML) */
 }
 
-header h1 {
-    margin-bottom: 5px;
-}
-
+/* Stili per il contenuto principale */
 main {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    /* ... (già inclusi nell'<style> nel file HTML) */
 }
 
-.rischio {
-    background-color: white;
+/* Stili per le sezioni dei rischi */
+.rischio-section {
+    /* ... (già inclusi nell'<style> nel file HTML) */
+}
+
+/* Stili per i link compatti */
+.link-compatto {
+    /* ... (già inclusi nell'<style> nel file HTML) */
+}
+
+/* Stili per il contenitore del widget meteo e orologio */
+#widget-meteo-container {
+    background-color: #f9f9f9;
     padding: 15px;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.rischio h2 {
-    color: #e74c3c; /* Rosso per i rischi */
-    margin-top: 0;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.rischio h2.terremoto {
-    color: #d35400; /* Arancione per terremoto */
-}
-
-.rischio h2.incendi {
-    color: #c0392b; /* Rosso scuro per incendi */
-}
-
-.siti-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Layout compatto responsivo */
-    gap: 10px;
-}
-
-.sito {
-    background-color: #ecf0f1;
-    border-radius: 3px;
-    padding: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
     text-align: center;
-    transition: background-color 0.3s ease;
 }
 
-.sito:hover {
-    background-color: #d5d8dc;
+#widget-meteo-container iframe {
+    border: 0;
 }
 
-.sito a {
-    text-decoration: none;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%; /* Assicura che l'intero blocco sia cliccabile */
-}
-
-.sito .titolo {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.sito .descrizione {
+#realtime-clock {
     font-size: 0.9em;
-    color: #777;
+    color: #555;
+    margin-top: 10px;
 }
 
+/* Stili per la sezione Home */
+#home-section {
+    display: none;
+}
+
+#home-section.active {
+    display: block;
+}
+
+#notifiche-container {
+    /* Puoi aggiungere stili per il contenitore delle notifiche se necessario */
+}
+
+.notifica {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #f39c12; /* Bordo colorato per evidenziare */
+}
+
+.notifica h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.notifica p {
+    color: #555;
+    margin-bottom: 0;
+}
+
+/* Stili per il footer */
 footer {
-    text-align: center;
-    margin-top: 30px;
-    color: #777;
-    font-size: 0.8em;
-}
-
-/* Stili specifici per le icone (opzionale, richiede Font Awesome) */
-.fa-mountain {
-    color: #d35400; /* Arancione per terremoto */
-}
-
-.fa-fire {
-    color: #c0392b; /* Rosso scuro per incendi */
+    /* ... (già inclusi nell'<style> nel file HTML) */
 }
