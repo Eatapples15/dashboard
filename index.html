@@ -79,9 +79,8 @@
         }
 
         #terremoto-section.active {
-            display: grid;
-            grid-template-columns: 1fr; /* Una colonna per farli riempire la pagina verticalmente */
-            grid-template-rows: auto auto auto; /* Altezza automatica per i contenuti */
+            display: flex;
+            flex-direction: column;
             gap: 20px;
         }
 
@@ -92,7 +91,7 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
-            height: auto; /* Permette all'iframe di espandersi in altezza */
+            height: auto;
         }
 
         .website-preview h3 {
@@ -104,10 +103,10 @@
         .website-preview iframe-container {
             position: relative;
             width: 100%;
-            height: 400px; /* Altezza maggiore per visualizzare più contenuto, regolabile */
+            height: 500px; /* Altezza maggiore per la visualizzazione principale */
             border: 1px solid #ccc;
             border-radius: 3px;
-            overflow: auto; /* Aggiunge la scrollbar se il contenuto è troppo grande */
+            overflow: auto;
         }
 
         .website-preview iframe {
@@ -116,15 +115,22 @@
             border: none;
         }
 
-        .website-preview a.original-link {
-            margin-top: 10px;
-            color: #3498db;
+        .external-link-button {
+            padding: 10px 15px;
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
             text-decoration: none;
+            display: inline-block;
             font-weight: bold;
+            transition: background-color 0.3s ease;
         }
 
-        .website-preview a.original-link:hover {
-            text-decoration: underline;
+        .external-link-button:hover {
+            background-color: #e18b07;
         }
 
         #widget-meteo-container {
@@ -233,18 +239,9 @@
                     <iframe src="https://terremoti.ingv.it/"></iframe>
                 </div>
             </div>
-            <div class="website-preview">
-                <h3>ShakeMap INGV</h3>
-                <div class="iframe-container">
-                    <iframe src="https://shakemap.ingv.it/index.html"></iframe>
-                </div>
-            </div>
-            <div class="website-preview">
-                <h3>DISS - Mapper INGV</h3>
-                <div class="iframe-container">
-                    <iframe src="https://diss.ingv.it/mapper/"></iframe>
-                </div>
-            </div>
+            <a href="https://shakemap.ingv.it/index.html" target="_blank" class="external-link-button">Visualizza ShakeMap INGV</a>
+            <a href="https://diss.ingv.it/mapper/" target="_blank" class="external-link-button">Visualizza DISS - Mapper INGV</a>
+            <a href="https://ran.protezionecivile.it/IT/quakelive.php" target="_blank" class="external-link-button">Visualizza QuakeLive RAN</a>
         </section>
 
         <section id="idrogeologico-section" class="rischio-section">
