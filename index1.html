@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Sala COntrollo - Protezione Civile Basilicata</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="SALA CONTROLLO.png" type="image/png">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rss-parser/3.12.1/rss-parser.min.js"></script>
     <style>
         /* --- Stili Generali --- */
         body {
@@ -182,6 +185,7 @@
             background-color: #34495e;
             padding: 15px;
             border-radius: 4px;
+            margin-bottom: 15px;
         }
 
         .notifica {
@@ -249,28 +253,38 @@
         }
 
         /* --- Stili per il Feed RSS --- */
-        #trenitalia-feed ul, #rfi-feed ul {
+        #trenitalia-feed ul,
+        #rfi-feed ul,
+        #ansa-basilicata-news ul {
             list-style-type: none;
             padding: 0;
             margin: 0;
         }
 
-        #trenitalia-feed li, #rfi-feed li {
+        #trenitalia-feed li,
+        #rfi-feed li,
+        #ansa-basilicata-news li {
             padding: 8px 0;
             border-bottom: 1px solid #4a6572;
         }
 
-        #trenitalia-feed li:last-child, #rfi-feed li:last-child {
+        #trenitalia-feed li:last-child,
+        #rfi-feed li:last-child,
+        #ansa-basilicata-news li:last-child {
             border-bottom: none;
         }
 
-        #trenitalia-feed li a, #rfi-feed li a {
+        #trenitalia-feed li a,
+        #rfi-feed li a,
+        #ansa-basilicata-news li a {
             color: #f8f9fa;
             text-decoration: none;
             font-weight: bold;
         }
 
-        #trenitalia-feed li a:hover, #rfi-feed li a:hover {
+        #trenitalia-feed li a:hover,
+        #rfi-feed li a:hover,
+        #ansa-basilicata-news li a:hover {
             text-decoration: underline;
         }
 
@@ -279,6 +293,26 @@
             font-size: 0.8em;
             margin-left: 5px;
             font-weight: normal;
+        }
+
+        /* --- Stili specifici per i link nella Home --- */
+        .link-button {
+            display: block;
+            padding: 12px 15px;
+            background-color: #3867d6; /* Blu per i link */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .link-button:hover {
+            background-color: #2a52be;
         }
     </style>
 </head>
@@ -314,25 +348,24 @@
                     <p><i class="fas fa-clock"></i> [Data e Ora] Previste precipitazioni intense e possibili raffiche di vento. Si raccomanda cautela negli spostamenti.</p>
                 </div>
                 <div class="notifica">
-                    <h3><i class="fas fa-road"></i> Aggiornamenti Viabilità ANAS - Basilicata</h3>
-                    <div class="iframe-container" style="height: 300px; border: 1px solid #4a6572; border-radius: 4px; overflow: auto; background-color: #212529;">
-                        <iframe src="https://www.stradeanas.it/it/comunicati-stampa?field_regions_category_tid=30&field_compartimento_tid=All&date_filter%5Bvalue%5D%5Byear%5D=&date_filter_1%5Bvalue%5D%5Bmonth%5D=&keys=" style="width: 100%; height: 100%; border: none;"></iframe>
-                    </div>
+                    <h3><i class="fas fa-road"></i> Aggiornamenti Viabilità</h3>
+                    <a href="https://www.stradeanas.it/it/comunicati-stampa?field_regions_category_tid=30&field_compartimento_tid=All&date_filter%5Bvalue%5D%5Byear%5D=&date_filter_1%5Bvalue%5D%5Bmonth%5D=&keys=" target="_blank" class="link-button"><i class="fas fa-external-link-alt"></i> Vai agli aggiornamenti Viabilità ANAS</a>
                 </div>
                 <div class="notifica">
-                    <h3><i class="fas fa-train"></i> Ultimi aggiornamenti FS - Basilicata</h3>
-                    <div id="trenitalia-feed">
-                        <p>Caricamento degli aggiornamenti...</p>
-                    </div>
+                    <h3><i class="fas fa-train"></i> Aggiornamenti RFI</h3>
+                    <a href="https://www.rfi.it/it/news-e-media/infomobilita.html?noup=notices&selectRegion=basilicata" target="_blank" class="link-button"><i class="fas fa-external-link-alt"></i> Vai agli aggiornamenti RFI</a>
                 </div>
                 <div class="notifica">
-                    <h3><i class="fas fa-train"></i> RFI - Infomobilità Basilicata</h3>
-                    <div id="rfi-feed">
-                        <p>Caricamento degli aggiornamenti RFI...</p>
+                    <h3><i class="fas fa-car"></i> Traffico Autostrade per l'Italia</h3>
+                    <a href="https://www.autostrade.it/it/infoviabilita/traffico-in-real-time" target="_blank" class="link-button"><i class="fas fa-external-link-alt"></i> Traffico in tempo reale Autostrade</a>
+                </div>
+                <div class="notifica">
+                    <h3><i class="fas fa-newspaper"></i> Notizie ANSA - Basilicata</h3>
+                    <div id="ansa-basilicata-news">
+                        <p>Caricamento delle notizie...</p>
                     </div>
                 </div>
             </div>
-        </section>
         </section>
 
         <section id="terremoto-section" class="rischio-section">
@@ -344,29 +377,3 @@
                 </div>
             </div>
             <a href="https://terremoti.ingv.it/" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza Mappa INGV</a>
-            <a href="https://shakemap.ingv.it/index.html" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza ShakeMap INGV</a>
-            <a href="https://diss.ingv.it/mapper/" target="_blank" class="external-link-button"><i class="fas fa-database"></i> Visualizza DISS - Mapper INGV</a>
-            <a href="https://ran.protezionecivile.it/IT/quakelive.php" target="_blank" class="external-link-button"><i class="fas fa-rss"></i> Visualizza QuakeLive RAN</a>
-        </section>
-
-        <section id="idrogeologico-section" class="rischio-section">
-            <h2><i class="fas fa-water"></i> Idrogeologico</h2>
-            <p>Contenuti in arrivo...</p>
-        </section>
-
-        <section id="incendi-section" class="rischio-section">
-            <h2><i class="fas fa-fire"></i> Incendi</h2>
-            <a href="https://forest-fire.emergency.copernicus.eu/apps/effis_current_situation/" target="_blank" class="external-link-button"><i class="fas fa-globe-europe"></i> Copernicus EFFIS</a>
-            <a href="https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@21.2,39.6,5.3z" target="_blank" class="external-link-button"><i class="fas fa-satellite"></i> NASA FIRMS</a>
-            <a href="http://www.pcn.minambiente.it/viewer/index.php?services=AIB_Incendi_PNZ" target="_blank" class="external-link-button"><i class="fas fa-map"></i> PNZ Incendi (Ministero Ambiente)</a>
-        </section>
-
-        <section id="piani-section" class="rischio-section">
-            <h2><i class="fas fa-file-alt"></i> Piani Protezione Civile</h2>
-            <div class="website-preview">
-                <h3><i class="fas fa-book"></i> SIMON PC Regione Basilicata</h3>
-                <div class="iframe-container">
-                    <iframe src="https://simonpc.regione.basilicata.it/"></iframe>
-                </div>
-            </div>
-        </section>
