@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Sala COntrollo - Protezione Civile Basilicata - Idrogeologico</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="SALA CONTROLLO.png" type="image/png">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* Stili di base per la pagina (potresti volerli centralizzare in style.css) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #1e272e;
+            color: #f8f9fa;
+            padding: 20px;
+        }
+        h2 {
+            color: #f8f9fa;
+            margin-top: 0;
+            border-bottom: 2px solid #4a6572;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .website-preview {
+            background-color: #34495e;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .website-preview h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #f8f9fa;
+            border-bottom: 1px solid #4a6572;
+            padding-bottom: 5px;
+            font-size: 1.1em;
+        }
+        .website-preview iframe-container {
+            position: relative;
+            width: 100%;
+            height: 800px; /* Altezza maggiore per la vista completa */
+            border: 1px solid #4a6572;
+            border-radius: 3px;
+            overflow: auto;
+            background-color: #212529;
+        }
+        .website-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #4a6572;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        .back-button:hover {
+            background-color: #5e7d8a;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Torna alla Home</a>
+    <h2><i class="fas fa-water"></i> Rischio Idrogeologico - Visualizzazione Completa</h2>
+    <div class="website-preview">
+        <h3><i class="fas fa-globe"></i> Mappa Rischio Idrogeologico (ISPRA)</h3>
+        <div class="iframe-container">
+            <iframe src="https://beta.idrogeo.isprambiente.it/app/" style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Puoi aggiungere qui script specifici per questa pagina se necessario
+    </script>
+</body>
+</html>
