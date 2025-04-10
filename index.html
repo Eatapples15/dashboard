@@ -394,5 +394,24 @@
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</main>
+
+    <footer>
+        </footer>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then((registration) => {
+                        console.log('Service Worker registrato con successo:', registration);
+                    })
+                    .catch((error) => {
+                        console.log('Errore nella registrazione del Service Worker:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
+
