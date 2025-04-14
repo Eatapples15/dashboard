@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Sala Controllo - Protezione Civile Basilicata</title>
+    <title>Dashboard Sala Controllo - Protezione Civile Basilicata - Terremoto</title>
     <link rel="icon" href="SALA CONTROLLO.png" type="image/png">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
@@ -56,7 +56,7 @@
             margin-top: 10px;
         }
 
-        .sidebar button {
+        .sidebar a {
             padding: 12px 15px;
             margin-bottom: 8px;
             background-color: #4a6572;
@@ -67,34 +67,21 @@
             transition: background-color 0.3s ease;
             text-align: left;
             font-weight: bold;
-            display: flex; /* Allinea icona e testo */
-            align-items: center; /* Verticalmente al centro */
+            text-decoration: none;
+            display: block;
         }
 
-        .sidebar button i {
+        .sidebar a i {
             margin-right: 10px;
         }
 
-        .sidebar button:hover {
+        .sidebar a:hover {
             background-color: #5e7d8a;
         }
 
         .sidebar .back-button {
             margin-top: auto; /* Spinge il bottone "Torna alla Home" in basso */
             background-color: #2c3e50;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            padding: 10px 15px;
-            text-align: left;
-            font-size: 0.9em;
-            cursor: pointer;
-            display: flex; /* Allinea icona e testo */
-            align-items: center; /* Verticalmente al centro */
-        }
-
-        .sidebar .back-button i {
-            margin-right: 10px;
         }
 
         .sidebar .back-button:hover {
@@ -123,7 +110,7 @@
             margin: 0;
         }
 
-        /* Contenuto principale (Griglia per le sezioni) */
+        /* Contenuto principale (Griglia per i siti) */
         main {
             grid-area: main;
             padding: 20px;
@@ -131,18 +118,10 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             overflow-y: auto; /* Scrollbar per il contenuto principale */
-            display: grid;
-            grid-template-columns: 1fr; /* Inizialmente una sola colonna, la griglia interna delle sezioni gestirà il layout */
-            grid-gap: 20px;
+            display: grid; /* **Abilita la griglia per gli elementi interni** */
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* **Definisce le colonne della griglia** */
+            grid-gap: 20px; /* **Spazio tra gli elementi della griglia** */
             align-items: start;
-        }
-
-        main > section {
-            display: none; /* Nasconde tutte le sezioni di default */
-        }
-
-        main > section.active {
-            display: block; /* Mostra la sezione attiva */
         }
 
         main h2 {
@@ -154,77 +133,6 @@
             grid-column: 1 / -1; /* Occupa tutta la larghezza nella griglia principale */
         }
 
-        /* Stili per la sezione Home (Griglia interna) */
-        #home-section.active {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            grid-gap: 20px;
-        }
-
-        .home-grid-item {
-            background-color: #34495e;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            min-height: 200px;
-        }
-
-        .home-grid-item h3 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: #f8f9fa;
-            border-bottom: 1px solid #4a6572;
-            padding-bottom: 5px;
-            font-size: 1.1em;
-        }
-
-        .home-grid-item p {
-            color: #ced4da;
-            margin-bottom: 10px;
-            font-size: 0.9em;
-        }
-
-        .home-grid-item .iframe-container {
-            flex-grow: 1;
-            overflow: hidden;
-            border-radius: 3px;
-            background-color: #212529;
-        }
-
-        .home-grid-item .iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .home-grid-item .link-button {
-            display: inline-block;
-            padding: 8px 12px;
-            background-color: #4a6572;
-            color: white;
-            border-radius: 4px;
-            text-decoration: none;
-            margin-top: 5px;
-            font-size: 0.9em;
-        }
-
-        .home-grid-item .link-button:hover {
-            background-color: #5e7d8a;
-        }
-
-        /* Stili per le sezioni con iframe (Terremoto, Idrogeologico, Incendi) */
-        #terremoto-section.active,
-        #idrogeologico-section.active,
-        #incendi-section.active,
-        #piani-section.active,
-        #bollettini-section.active {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            grid-gap: 20px;
-        }
-
         .website-preview {
             background-color: #34495e;
             border-radius: 4px;
@@ -232,7 +140,7 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
-            height: auto;
+            min-height: 300px; /* Altezza minima per le anteprime */
         }
 
         .website-preview h3 {
@@ -252,7 +160,7 @@
             border-radius: 3px;
             overflow: hidden;
             background-color: #212529;
-            flex-grow: 1;
+            flex-grow: 1; /* L'iframe container si espande per riempire lo spazio */
         }
 
         .website-preview iframe {
@@ -262,6 +170,7 @@
         }
 
         .external-link-button {
+            display: inline-block;
             padding: 12px 15px;
             background-color: #e67e22;
             color: white;
@@ -270,7 +179,6 @@
             cursor: pointer;
             text-align: center;
             text-decoration: none;
-            display: inline-block;
             font-weight: bold;
             transition: background-color 0.3s ease;
             margin-top: 10px;
@@ -278,32 +186,6 @@
 
         .external-link-button:hover {
             background-color: #d35400;
-        }
-
-        #notifiche-container {
-            background-color: #34495e;
-            padding: 15px;
-            border-radius: 4px;
-        }
-
-        .notifica {
-            background-color: #4a6572;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            border-left: 5px solid #f39c12; /* Giallo/Arancio allerta */
-        }
-
-        .notifica h3 {
-            margin-top: 0;
-            color: #f8f9fa;
-            font-size: 1em;
-        }
-
-        .notifica p {
-            color: #ced4da;
-            margin-bottom: 0;
-            font-size: 0.9em;
         }
 
         /* Footer */
@@ -316,42 +198,7 @@
             font-size: 0.8em;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
         }
-
-        /* Correzione visualizzazione widget meteo */
-        #widget-meteo-container iframe {
-            width: 100%; /* Assicura che l'iframe occupi tutta la larghezza del contenitore */
-        }
     </style>
-    <script>
-        function showSection(sectionId) {
-            const sections = document.querySelectorAll('main > section');
-            sections.forEach(section => section.classList.remove('active'));
-            document.getElementById(sectionId + '-section').classList.add('active');
-        }
-
-        function updateClock() {
-            const now = new Date();
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0'); // Mese è 0-indexed
-            const year = now.getFullYear();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            const dateTimeString = `<span class="math-inline">\{day\}/</span>{month}/${year} - <span class="math-inline">\{hours\}\:</span>{minutes}:${seconds}`;
-            document.getElementById('realtime-clock').textContent = dateTimeString;
-        }
-
-        // Aggiorna l'orologio ogni secondo
-        setInterval(updateClock, 1000);
-
-        // Inizializza l'orologio all'avvio
-        updateClock();
-
-        // Mostra la sezione Home all'avvio
-        document.addEventListener('DOMContentLoaded', () => {
-            showSection('home');
-        });
-    </script>
 </head>
 <body>
     <div class="sidebar">
@@ -360,33 +207,77 @@
             <div><iframe src="https://www.3bmeteo.com/moduli_esterni/localita_1_giorno_compatto/5483/ffffff/fc9b2a/5e5e5e/ffffff/it" width="100%" height="200" frameborder="0" style="border-radius: 4px;"></iframe><br/><a href="https://www.3bmeteo.com/meteo/potenza" target="_blank" style="color:#ced4da; font-size:0.8em;">Meteo Potenza</a></div>
             <div id="realtime-clock"></div>
         </div>
-        <button onclick="showSection('home')"><i class="fas fa-home"></i> Home</button>
-        <button onclick="showSection('terremoti.html')"><i class="fas fa-mountain"></i> Terremoto</button>
-        <button onclick="showSection('idrogeologico.html')"><i class="fas fa-water"></i> Idrogeologico</button>
-        <button onclick="showSection('incendi.html')"><i class="fas fa-fire"></i> Incendi</button>
-        <button onclick="showSection('piani.html')"><i class="fas fa-file-alt"></i> Piani Protezione Civile</button>
-        <button onclick="showSection('bollettini')"><i class="fas fa-newspaper"></i> Bollettini</button>
-        <button onclick="window.open('http://www.gtfleet.net/View/Login.aspx', '_blank')"><i class="fas fa-truck"></i> Monitoraggio Flotta</button>
-        <button onclick="window.open('https://protezionecivile.apperosrl.it/websor', '_blank')"><i class="fas fa-globe"></i> WebSor</button>
-        <button onclick="window.open('https://protezionecivile.apperosrl.it/mgo/', '_blank')"><i class="fas fa-map-marked-alt"></i> MGO</button>
-        <button class="back-button" onclick="window.location.href='index.html'"><i class="fas fa-arrow-left"></i> Torna alla Home</button>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="terremoto.html" class="active"><i class="fas fa-mountain"></i> Terremoto</a>
+        <a href="#"><i class="fas fa-water"></i> Idrogeologico</a>
+        <a href="#"><i class="fas fa-fire"></i> Incendi</a>
+        <a href="#"><i class="fas fa-file-alt"></i> Piani Protezione Civile</a>
+        <a href="#"><i class="fas fa-newspaper"></i> Bollettini</a>
+        <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank"><i class="fas fa-truck"></i> Monitoraggio Flotta</a>
+        <a href="https://protezionecivile.apperosrl.it/websor" target="_blank"><i class="fas fa-globe"></i> WebSor</a>
+        <a href="https://protezionecivile.apperosrl.it/mgo/" target="_blank"><i class="fas fa-map-marked-alt"></i> MGO</a>
+        <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Torna alla Dashboard</a>
     </div>
 
     <header>
         <img src="SALA CONTROLLO.png" alt="Sala Controllo Protezione Civile">
-        <h1>Dashboard Sala Controllo - Protezione Civile Basilicata</h1>
+        <h1>Dashboard Sala Controllo - Protezione Civile Basilicata - Terremoto</h1>
     </header>
 
     <main>
-        <section id="home-section" class="rischio-section active">
-            <h2><i class="fas fa-bullhorn"></i> Home - Notifiche e Allerte</h2>
-            <div class="home-grid-container">
-                <div id="notifiche-container" class="home-grid-item">
-                    <h3><i class="fas fa-bell"></i> Notifiche Recenti</h3>
-                    <div class="notifica">
-                        <h3><i class="fas fa-exclamation-triangle"></i> Allerta Meteo Gialla</h3>
-                        <p><i class="fas fa-clock"></i> [Data e Ora] Previste precipitazioni intense e possibili raffiche di vento. Si raccomanda cautela negli spostamenti.</p>
-                    </div>
-                    <div class="notifica">
-                        <h3><i class="fas fa-road"></i> Aggiornamenti Viabilità</h3>
-                        <a href="https://www.stradeanas.it/it/comunicati-stampa?field_regions_category_tid=30&field_compartimento_tid=All&date_filter%5Bvalue%5D%5Byear%5D=&date_filter_1%5Bvalue%5D%5Bmonth%5D=&keys=" target="_blank"
+        <h2><i class="fas fa-mountain"></i> Terremoto - Visualizzazioni</h2>
+        <div class="website-preview">
+            <h3><i class="fas fa-list-alt"></i> Lista Terremoti INGV</h3>
+            <div class="iframe-container">
+                <iframe src="https://terremoti.ingv.it/"></iframe>
+            </div>
+            <a href="https://terremoti.ingv.it/" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza Mappa INGV</a>
+        </div>
+        <div class="website-preview">
+            <h3><i class="fas fa-map-marked-alt"></i> ShakeMap INGV</h3>
+            <div class="iframe-container">
+                <iframe src="https://shakemap.ingv.it/index.html"></iframe>
+            </div>
+            <a href="https://shakemap.ingv.it/index.html" target="_blank" class="external-link-button"><i class="fas fa-external-link-alt"></i> Apri ShakeMap INGV</a>
+        </div>
+        <div class="website-preview">
+            <h3><i class="fas fa-database"></i> DISS - Mapper INGV</h3>
+            <div class="iframe-container">
+                <iframe src="https://diss.ingv.it/mapper/"></iframe>
+            </div>
+            <a href="https://diss.ingv.it/mapper/" target="_blank" class="external-link-button"><i class="fas fa-external-link-alt"></i> Apri DISS - Mapper INGV</a>
+        </div>
+        <div class="website-preview">
+            <h3><i class="fas fa-rss"></i> QuakeLive RAN</h3>
+            <div class="iframe-container">
+                <iframe src="https://ran.protezionecivile.it/IT/quakelive.php"></iframe>
+            </div>
+            <a href="https://ran.protezionecivile.it/IT/quakelive.php" target="_blank" class="external-link-button"><i class="fas fa-external-link-alt"></i> Apri QuakeLive RAN</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Dashboard Protezione Civile - Potenza</p>
+    </footer>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Mese è 0-indexed
+            const year = now.getFullYear();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const dateTimeString = `${day}/${month}/${year} - ${hours}:${minutes}:${seconds}`;
+            document.getElementById('realtime-clock').textContent = dateTimeString;
+        }
+
+        // Aggiorna l'orologio ogni secondo
+        setInterval(updateClock, 1000);
+
+        // Inizializza l'orologio all'avvio
+        updateClock();
+    </script>
+</body>
+</html>
