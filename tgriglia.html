@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Sala Controllo - Protezione Civile Basilicata - Terremoto</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="icon" href="SALA CONTROLLO.png" type="image/png">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
@@ -14,28 +13,112 @@
             margin: 0;
             background-color: #1e272e;
             color: #f8f9fa;
-            padding: 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Griglia responsiva */
-            grid-gap: 20px;
+            grid-template-columns: 200px 1fr; /* Colonna fissa per il menu e il resto */
+            grid-template-rows: auto 1fr auto; /* Riga automatica per header, contenuto principale, footer */
+            grid-template-areas:
+                "menu header"
+                "menu main"
+                "menu footer";
+            height: 100vh;
+            overflow: hidden; /* Impedisce la scrollbar principale */
         }
-        h2 {
+
+        /* Menu di navigazione */
+        .sidebar-menu {
+            grid-area: menu;
+            background-color: #34495e;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            overflow-y: auto; /* Scrollbar per il menu se necessario */
+        }
+
+        .sidebar-menu a {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background-color: #4a6572;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: left;
+            font-weight: bold;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: #5e7d8a;
+        }
+
+        .sidebar-menu .back-button {
+            margin-top: auto; /* Spinge il bottone "Torna alla Home" in basso */
+            background-color: #2c3e50;
+        }
+
+        .sidebar-menu .back-button:hover {
+            background-color: #34495e;
+        }
+
+        /* Header */
+        header {
+            grid-area: header;
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        header img {
+            max-height: 40px;
+        }
+
+        header h1 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        /* Contenuto principale (Griglia per i siti) */
+        main {
+            grid-area: main;
+            padding: 20px;
+            background-color: #2c3e50;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            overflow-y: auto; /* Scrollbar per il contenuto principale */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-gap: 20px;
+            align-items: start;
+        }
+
+        main h2 {
             color: #f8f9fa;
             margin-top: 0;
             border-bottom: 2px solid #4a6572;
             padding-bottom: 10px;
             margin-bottom: 15px;
-            grid-column: 1 / -1; /* Occupare tutta la larghezza */
+            grid-column: 1 / -1;
         }
+
         .website-preview {
             background-color: #34495e;
             border-radius: 4px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
             padding: 15px;
-            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
+            min-height: 300px; /* Altezza minima per le anteprime */
         }
+
         .website-preview h3 {
             margin-top: 0;
             margin-bottom: 10px;
@@ -44,28 +127,24 @@
             padding-bottom: 5px;
             font-size: 1.1em;
         }
+
         .website-preview iframe-container {
             position: relative;
             width: 100%;
-            height: 400px; /* Altezza predefinita, può essere sovrascritta */
+            height: 400px; /* Altezza predefinita per gli iframe */
             border: 1px solid #4a6572;
             border-radius: 3px;
-            overflow: auto;
+            overflow: hidden;
             background-color: #212529;
+            flex-grow: 1; /* L'iframe container si espande per riempire lo spazio */
         }
+
         .website-preview iframe {
             width: 100%;
             height: 100%;
             border: none;
         }
-        .link-container {
-            grid-column: 1 / -1; /* Occupare tutta la larghezza per i link */
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-            align-items: center; /* Allineamento verticale al centro */
-        }
+
         .external-link-button {
             display: inline-block;
             padding: 12px 15px;
@@ -78,47 +157,78 @@
             text-decoration: none;
             font-weight: bold;
             transition: background-color 0.3s ease;
+            margin-top: 10px;
         }
+
         .external-link-button:hover {
             background-color: #d35400;
         }
-        .back-button {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #4a6572;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 0.9em;
-            transition: background-color 0.3s ease;
-            margin-bottom: 20px;
-            grid-column: 1 / -1; /* Occupare tutta la larghezza */
-        }
-        .back-button:hover {
-            background-color: #5e7d8a;
+
+        /* Footer */
+        footer {
+            grid-area: footer;
+            background-color: #2c3e50;
+            color: #ced4da;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8em;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
-    <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Torna alla Home</a>
-    <h2><i class="fas fa-mountain"></i> Terremoto</h2>
-    <div class="website-preview">
-        <h3><i class="fas fa-list-alt"></i> Lista Terremoti INGV</h3>
-        <div class="iframe-container">
-            <iframe src="https://terremoti.ingv.it/"></iframe>
-        </div>
-    </div>
-    <div class="link-container">
-        <a href="https://terremoti.ingv.it/" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza Mappa INGV</a>
-        <a href="https://shakemap.ingv.it/index.html" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza ShakeMap INGV</a>
-        <a href="https://diss.ingv.it/mapper/" target="_blank" class="external-link-button"><i class="fas fa-database"></i> Visualizza DISS - Mapper INGV</a>
-        <a href="https://ran.protezionecivile.it/IT/quakelive.php" target="_blank" class="external-link-button"><i class="fas fa-rss"></i> Visualizza QuakeLive RAN</a>
+    <div class="sidebar-menu">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="terremoto.html" class="active"><i class="fas fa-mountain"></i> Terremoto</a>
+        <a href="#"><i class="fas fa-water"></i> Idrogeologico</a>
+        <a href="#"><i class="fas fa-fire"></i> Incendi</a>
+        <a href="#"><i class="fas fa-file-alt"></i> Piani Protezione Civile</a>
+        <a href="#"><i class="fas fa-newspaper"></i> Bollettini</a>
+        <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank"><i class="fas fa-truck"></i> Monitoraggio Flotta</a>
+        <a href="https://protezionecivile.apperosrl.it/websor" target="_blank"><i class="fas fa-globe"></i> WebSor</a>
+        <a href="https://protezionecivile.apperosrl.it/mgo/" target="_blank"><i class="fas fa-map-marked-alt"></i> MGO</a>
+        <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Torna alla Dashboard</a>
     </div>
 
-    <script>
-        // Puoi aggiungere qui script specifici per questa pagina se necessario
-    </script>
+    <header>
+        <img src="SALA CONTROLLO.png" alt="Sala Controllo Protezione Civile">
+        <h1>Dashboard Sala Controllo - Protezione Civile Basilicata - Terremoto</h1>
+    </header>
+
+    <main>
+        <h2><i class="fas fa-mountain"></i> Terremoto - Visualizzazioni</h2>
+        <div class="website-preview">
+            <h3><i class="fas fa-list-alt"></i> Lista Terremoti INGV</h3>
+            <div class="iframe-container">
+                <iframe src="https://terremoti.ingv.it/"></iframe>
+            </div>
+            <a href="https://terremoti.ingv.it/" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza Mappa INGV</a>
+        </div>
+        <div class="website-preview">
+            <h3><i class="fas fa-map-marked-alt"></i> ShakeMap INGV</h3>
+            <div class="iframe-container">
+                <iframe src="https://shakemap.ingv.it/index.html"></iframe>
+            </div>
+            <a href="https://shakemap.ingv.it/index.html" target="_blank" class="external-link-button"><i class="fas fa-external-link-alt"></i> Apri ShakeMap INGV</a>
+        </div>
+        <div class="website-preview">
+            <h3><i class="fas fa-database"></i> DISS - Mapper INGV</h3>
+            <div class="iframe-container">
+                <iframe src="https://diss.ingv.it/mapper/"></iframe>
+            </div>
+            <a href="https://diss.ingv.it/mapper/" target="_blank" class="external-link-button"><i class="fas fa-external-link-alt"></i> Apri DISS - Mapper INGV</a>
+        </div>
+        <div class="website-preview">
+            <h3><i class="fas fa-rss"></i> QuakeLive RAN</h3>
+            <div class="iframe-container">
+                <iframe src="https://ran.protezionecivile.it/IT/quakelive.php"></iframe>
+            </div>
+            <a href="https://ran.protezionecivile.it/IT/quakelive.php" target="_blank" class="external-link-button"><i class="fas fa-external-link-alt"></i> Apri QuakeLive RAN</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Dashboard Protezione Civile - Potenza</p>
+    </footer>
 </body>
 </html>
