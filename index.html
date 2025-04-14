@@ -75,6 +75,8 @@
 
         .sidebar a i {
             margin-right: 10px;
+            width: 20px; /* Larghezza fissa per le icone */
+            text-align: center; /* Allinea l'icona al centro */
         }
 
         .sidebar a:hover {
@@ -155,7 +157,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             overflow-y: auto; /* Scrollbar per il contenuto principale */
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr 1fr; /* Due colonne principali */
+            grid-template-rows: auto auto; /* Due righe principali */
             grid-gap: 20px;
             align-items: start;
         }
@@ -169,7 +172,14 @@
             grid-column: 1 / -1; /* Occupa tutta la larghezza nella griglia principale */
         }
 
-        .home-grid-item {
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 20px;
+            margin-bottom: 20px; /* Spazio tra le griglie */
+        }
+
+        .dashboard-grid-item {
             background-color: #34495e;
             border-radius: 4px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -179,7 +189,7 @@
             min-height: 200px;
         }
 
-        .home-grid-item h3 {
+        .dashboard-grid-item h3 {
             margin-top: 0;
             margin-bottom: 10px;
             color: #f8f9fa;
@@ -188,26 +198,26 @@
             font-size: 1.1em;
         }
 
-        .home-grid-item p {
+        .dashboard-grid-item p {
             color: #ced4da;
             margin-bottom: 10px;
             font-size: 0.9em;
         }
 
-        .home-grid-item .iframe-container {
+        .dashboard-grid-item .iframe-container {
             flex-grow: 1;
             overflow: hidden;
             border-radius: 3px;
             background-color: #212529;
         }
 
-        .home-grid-item .iframe-container iframe {
+        .dashboard-grid-item .iframe-container iframe {
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        .home-grid-item .link-button {
+        .dashboard-grid-item .link-button {
             display: inline-block;
             padding: 8px 12px;
             background-color: #4a6572;
@@ -218,7 +228,7 @@
             font-size: 0.9em;
         }
 
-        .home-grid-item .link-button:hover {
+        .dashboard-grid-item .link-button:hover {
             background-color: #5e7d8a;
         }
 
@@ -238,93 +248,6 @@
             width: 100%; /* Assicura che l'iframe occupi tutta la larghezza del contenitore */
         }
     </style>
-    <script>
-        function updateClock() {
-            const now = new Date();
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0'); // Mese è 0-indexed
-            const year = now.getFullYear();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            const dateTimeString = `<span class="math-inline">\{day\}/</span>{month}/${year} - <span class="math-inline">\{hours\}\:</span>{minutes}:${seconds}`;
-            document.getElementById('realtime-clock').textContent = dateTimeString;
-        }
-
-        // Aggiorna l'orologio ogni secondo
-        setInterval(updateClock, 1000);
-
-        // Inizializza l'orologio all'avvio
-        updateClock();
-    </script>
-</head>
-<body>
-    <div class="sidebar">
-        <div id="widget-meteo-container">
-            <h3>Meteo Basilicata</h3>
-            <div><iframe src="https://www.3bmeteo.com/moduli_esterni/localita_1_giorno_compatto/5483/ffffff/fc9b2a/5e5e5e/ffffff/it" width="100%" height="200" frameborder="0" style="border-radius: 4px;"></iframe><br/><a href="https://www.3bmeteo.com/meteo/potenza" target="_blank" style="color:#ced4da; font-size:0.8em;">Meteo Potenza</a></div>
-            <div id="realtime-clock"></div>
-        </div>
-        <div class="sidebar-section">
-            <h3><i class="fas fa-exclamation-triangle"></i> Emergenze</h3>
-            <ul id="feed-emergenze">
-                <li>Caricamento feed...</li>
-            </ul>
-        </div>
-        <div class="sidebar-section">
-            <h3><i class="fas fa-road"></i> Viabilità Basilicata</h3>
-            <ul id="feed-viabilita">
-                <li>Caricamento feed...</li>
-            </ul>
-        </div>
-        <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
-        <a href="terremoti.html"><i class="fas fa-mountain"></i> Terremoto</a>
-        <a href="idrogeologico.html" class="active"><i class="fas fa-water"></i> Idrogeologico</a>
-        <a href="incendi.html" class="active"><i class="fas fa-fire"></i> Incendi</a>
-        <a href="piani.html" class="active"><i class="fas fa-file-alt"></i> Piani Protezione Civile</a>
-        <a href="bollettini.html" class="active"><i class="fas fa-newspaper"></i> Bollettini</a>
-        <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank"><i class="fas fa-truck"></i> Monitoraggio Flotta</a>
-        <a href="https://protezionecivile.apperosrl.it/websor" target="_blank"><i class="fas fa-globe"></i> WebSor</a>
-        <a href="https://protezionecivile.apperosrl.it/mgo/" target="_blank"><i class="fas fa-map-marked-alt"></i> MGO</a>
-    </div>
-
-    <header>
-        <img src="SALA CONTROLLO.png" alt="Sala Controllo Protezione Civile">
-        <h1>Dashboard Sala Controllo - Protezione Civile Basilicata</h1>
-    </header>
-
-    <main>
-        <h2><i class="fas fa-bullhorn"></i> Home - Notifiche e Allerte</h2>
-        <div class="home-grid-container">
-            <div class="home-grid-item">
-                <h3><i class="fas fa-bell"></i> Notifiche Recenti</h3>
-                <p>Qui verranno visualizzate le notifiche più recenti.</p>
-                <ul>
-                    <li>[Data e Ora] Notifica di esempio 1</li>
-                    <li>[Data e Ora] Notifica di esempio 2</li>
-                </ul>
-            </div>
-            <div class="home-grid-item">
-                <h3><i class="fas fa-exclamation-triangle"></i> Allerte Meteo</h3>
-                <p>Informazioni sulle allerte meteo in corso.</p>
-                <iframe src="https://www.3bmeteo.com/moduli_esterni/allerta_meteo/basilicata/it" width="100%" height="200" frameborder="0" style="border-radius: 4px;"></iframe>
-            </div>
-            <div class="home-grid-item">
-                <h3><i class="fas fa-rss"></i> Feed RSS Esterni</h3>
-                <p>Aggregatore di feed RSS importanti.</p>
-                <a href="#" class="link-button"><i class="fas fa-rss"></i> Visualizza Feed</a>
-            </div>
-            <div class="home-grid-item">
-                <h3><i class="fas fa-chart-bar"></i> Statistiche</h3>
-                <p>Grafici e statistiche rilevanti.</p>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Dashboard Protezione Civile - Regione Basilicata</p>
-    </footer>
-
     <script>
         function updateClock() {
             const now = new Date();
@@ -377,4 +300,71 @@
             '<a href="#">[14/04/2025 13:00] Chiusura temporanea della SP10 per frana.</a>'
         ];
 
-        // Popola i feed all'avvio (con dati di esempio
+        // Popola i feed all'avvio (con dati di esempio)
+        populateFeed('feed-emergenze', emergenzeData);
+        populateFeed('feed-viabilita', viabilitaData);
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <div id="widget-meteo-container">
+            <h3>Meteo Basilicata</h3>
+            <div><iframe src="https://www.3bmeteo.com/moduli_esterni/localita_1_giorno_compatto/5483/ffffff/fc9b2a/5e5e5e/ffffff/it" width="100%" height="200" frameborder="0" style="border-radius: 4px;"></iframe><br/><a href="https://www.3bmeteo.com/meteo/potenza" target="_blank" style="color:#ced4da; font-size:0.8em;">Meteo Potenza</a></div>
+            <div id="realtime-clock"></div>
+        </div>
+        <div class="sidebar-section">
+            <h3><i class="fas fa-exclamation-triangle"></i> Emergenze</h3>
+            <ul id="feed-emergenze">
+                <li>Caricamento feed...</li>
+            </ul>
+        </div>
+        <div class="sidebar-section">
+            <h3><i class="fas fa-road"></i> Viabilità Basilicata</h3>
+            <ul id="feed-viabilita">
+                <li>Caricamento feed...</li>
+            </ul>
+        </div>
+        <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="terremoti.html"><i class="fas fa-mountain"></i> Terremoto</a>
+        <a href="idrogeologico.html"><i class="fas fa-water"></i> Idrogeologico</a>
+        <a href="incendi.html"><i class="fas fa-fire"></i> Incendi</a>
+        <a href="piani.html"><i class="fas fa-file-alt"></i> Piani PC</a>
+        <a href="bollettini.html"><i class="fas fa-newspaper"></i> Bollettini</a>
+        <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank"><i class="fas fa-truck"></i> Flotta</a>
+        <a href="https://protezionecivile.apperosrl.it/websor" target="_blank"><i class="fas fa-globe"></i> WebSor</a>
+        <a href="https://protezionecivile.apperosrl.it/mgo/" target="_blank"><i class="fas fa-map-marked-alt"></i> MGO</a>
+    </div>
+
+    <header>
+        <img src="SALA CONTROLLO.png" alt="Sala Controllo Protezione Civile">
+        <h1>Dashboard Sala Controllo - Protezione Civile Basilicata</h1>
+    </header>
+
+    <main>
+        <h2><i class="fas fa-tachometer-alt"></i> Vista Unica - Informazioni Cruciali</h2>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-grid-item">
+                <h3><i class="fas fa-bell"></i> Notifiche Recenti</h3>
+                <p>Ultime notifiche dal sistema.</p>
+                <ul>
+                    <li>[14/04/2025 14:00] Allerta meteo arancione per piogge intense.</li>
+                    <li>[14/04/2025 13:45] Chiusura tratto autostradale A3 per incidente.</li>
+                    <li>[14/04/2025 13:15] Aggiornamento situazione incendio boschivo a Melfi.</li>
+                </ul>
+            </div>
+            <div class="dashboard-grid-item">
+                <h3><i class="fas fa-exclamation-triangle"></i> Allerte Meteo Attuali</h3>
+                <p>Situazione allerte meteorologiche in tempo reale.</p>
+                <iframe src="https://www.3bmeteo.com/moduli_esterni/allerta_meteo/basilicata/it" width="100%" height="200" frameborder="0" style="border-radius: 4px;"></iframe>
+            </div>
+            <div class="dashboard-grid-item">
+                <h3><i class="fas fa-map-marked-alt"></i> Eventi in Corso</h3>
+                <p>Mappa interattiva degli eventi attivi.</p>
+                <div class="iframe-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d815489.7793288851!2d15.62355814869623!3d40.63697773777853!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133041a3dd489b91%3A0x305c81111894460!2sBasilicata!5e0!3m2!1sit!2sit!4v1713098188869!5m2!1sit!2sit" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            <div class="dashboard-grid-item">
+                <h3><i class="fas fa-traffic-light"></i> Stato Viabilità</h3>
+                <p>Informazioni aggiornate sul traffico e la vi
