@@ -14,7 +14,7 @@
             background-color: #1e272e;
             color: #f8f9fa;
             display: grid;
-            grid-template-columns: 250px 1fr; /* Colonna fissa per la sidebar */
+            grid-template-columns: 280px 1fr; /* Aumentata larghezza sidebar */
             grid-template-rows: auto 1fr auto;
             grid-template-areas:
                 "sidebar header"
@@ -24,7 +24,7 @@
             overflow: hidden; /* Impedisce la scrollbar principale */
         }
 
-        /* Sidebar (Menu + Widget Meteo/Orario) */
+        /* Sidebar (Menu + Widget Meteo/Orario + Feed Emergenze) */
         .sidebar {
             grid-area: sidebar;
             background-color: #34495e;
@@ -79,6 +79,49 @@
 
         .sidebar a:hover {
             background-color: #5e7d8a;
+        }
+
+        .sidebar-section {
+            background-color: #4a6572;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            padding: 15px;
+        }
+
+        .sidebar-section h3 {
+            color: #f8f9fa;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            border-bottom: 1px solid #5e7d8a;
+            padding-bottom: 5px;
+        }
+
+        .sidebar-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-section ul li {
+            color: #ced4da;
+            font-size: 0.9em;
+            padding: 8px 0;
+            border-bottom: 1px solid #5e7d8a;
+        }
+
+        .sidebar-section ul li:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-section a {
+            color: #f8f9fa;
+            text-decoration: none;
+            font-weight: normal;
+        }
+
+        .sidebar-section a:hover {
+            text-decoration: underline;
         }
 
         /* Header */
@@ -204,7 +247,7 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            const dateTimeString = `${day}/${month}/${year} - ${hours}:${minutes}:${seconds}`;
+            const dateTimeString = `<span class="math-inline">\{day\}/</span>{month}/${year} - <span class="math-inline">\{hours\}\:</span>{minutes}:${seconds}`;
             document.getElementById('realtime-clock').textContent = dateTimeString;
         }
 
@@ -221,6 +264,18 @@
             <h3>Meteo Basilicata</h3>
             <div><iframe src="https://www.3bmeteo.com/moduli_esterni/localita_1_giorno_compatto/5483/ffffff/fc9b2a/5e5e5e/ffffff/it" width="100%" height="200" frameborder="0" style="border-radius: 4px;"></iframe><br/><a href="https://www.3bmeteo.com/meteo/potenza" target="_blank" style="color:#ced4da; font-size:0.8em;">Meteo Potenza</a></div>
             <div id="realtime-clock"></div>
+        </div>
+        <div class="sidebar-section">
+            <h3><i class="fas fa-exclamation-triangle"></i> Emergenze</h3>
+            <ul id="feed-emergenze">
+                <li>Caricamento feed...</li>
+            </ul>
+        </div>
+        <div class="sidebar-section">
+            <h3><i class="fas fa-road"></i> Viabilità Basilicata</h3>
+            <ul id="feed-viabilita">
+                <li>Caricamento feed...</li>
+            </ul>
         </div>
         <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
         <a href="terremoti.html"><i class="fas fa-mountain"></i> Terremoto</a>
@@ -255,14 +310,14 @@
                 <iframe src="https://www.3bmeteo.com/moduli_esterni/allerta_meteo/basilicata/it" width="100%" height="200" frameborder="0" style="border-radius: 4px;"></iframe>
             </div>
             <div class="home-grid-item">
-                <h3><i class="fas fa-rss"></i> Feed RSS</h3>
+                <h3><i class="fas fa-rss"></i> Feed RSS Esterni</h3>
                 <p>Aggregatore di feed RSS importanti.</p>
                 <a href="#" class="link-button"><i class="fas fa-rss"></i> Visualizza Feed</a>
             </div>
             <div class="home-grid-item">
                 <h3><i class="fas fa-chart-bar"></i> Statistiche</h3>
                 <p>Grafici e statistiche rilevanti.</p>
-                </div>
+            </div>
         </div>
     </main>
 
@@ -279,7 +334,7 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            const dateTimeString = `${day}/${month}/${year} - ${hours}:${minutes}:${seconds}`;
+            const dateTimeString = `<span class="math-inline">\{day\}/</span>{month}/${year} - <span class="math-inline">\{hours\}\:</span>{minutes}:${seconds}`;
             document.getElementById('realtime-clock').textContent = dateTimeString;
         }
 
@@ -288,6 +343,38 @@
 
         // Inizializza l'orologio all'avvio
         updateClock();
-    </script>
-</body>
-</html>
+
+        // Funzione per popolare il feed (esempio con dati statici - da sostituire con API reali)
+        function populateFeed(feedId, data) {
+            const feedElement = document.getElementById(feedId);
+            if (feedElement) {
+                feedElement.innerHTML = ''; // Pulisci il contenuto precedente
+                if (data && data.length > 0) {
+                    data.forEach(item => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = item;
+                        feedElement.appendChild(listItem);
+                    });
+                } else {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = 'Nessuna informazione disponibile al momento.';
+                    feedElement.appendChild(listItem);
+                }
+            }
+        }
+
+        // Dati di esempio per il feed emergenze (da sostituire con una chiamata API)
+        const emergenzeData = [
+            '<a href="#">[14/04/2025 14:00] Allerta gialla per rischio idrogeologico in alcune zone.</a>',
+            '<a href="#">[14/04/2025 13:30] Incendio boschivo segnalato nei pressi di Matera.</a>',
+            '<a href="#">[14/04/2025 12:45] Aggiornamento viabilità: traffico rallentato sulla SS7.</a>'
+        ];
+
+        // Dati di esempio per il feed viabilità (da sostituire con una chiamata API)
+        const viabilitaData = [
+            '<a href="#">[14/04/2025 14:15] SS655 Potenza-Matera: traffico regolare.</a>',
+            '<a href="#">[14/04/2025 13:50] A3 Salerno-Reggio Calabria: possibili rallentamenti per lavori.</a>',
+            '<a href="#">[14/04/2025 13:00] Chiusura temporanea della SP10 per frana.</a>'
+        ];
+
+        // Popola i feed all'avvio (con dati di esempio
