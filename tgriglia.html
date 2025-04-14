@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Sala Controllo - Protezione Civile Basilicata - Terremoto</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="SALA CONTROLLO.png" type="image/png">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* Stili di base per la pagina */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #1e272e;
+            color: #f8f9fa;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Griglia responsiva */
+            grid-gap: 20px;
+        }
+        h2 {
+            color: #f8f9fa;
+            margin-top: 0;
+            border-bottom: 2px solid #4a6572;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            grid-column: 1 / -1; /* Occupare tutta la larghezza */
+        }
+        .website-preview {
+            background-color: #34495e;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .website-preview h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #f8f9fa;
+            border-bottom: 1px solid #4a6572;
+            padding-bottom: 5px;
+            font-size: 1.1em;
+        }
+        .website-preview iframe-container {
+            position: relative;
+            width: 100%;
+            height: 400px; /* Altezza predefinita, può essere sovrascritta */
+            border: 1px solid #4a6572;
+            border-radius: 3px;
+            overflow: auto;
+            background-color: #212529;
+        }
+        .website-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .link-container {
+            grid-column: 1 / -1; /* Occupare tutta la larghezza per i link */
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            align-items: center; /* Allineamento verticale al centro */
+        }
+        .external-link-button {
+            display: inline-block;
+            padding: 12px 15px;
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .external-link-button:hover {
+            background-color: #d35400;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #4a6572;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+            grid-column: 1 / -1; /* Occupare tutta la larghezza */
+        }
+        .back-button:hover {
+            background-color: #5e7d8a;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Torna alla Home</a>
+    <h2><i class="fas fa-mountain"></i> Terremoto</h2>
+    <div class="website-preview">
+        <h3><i class="fas fa-list-alt"></i> Lista Terremoti INGV</h3>
+        <div class="iframe-container">
+            <iframe src="https://terremoti.ingv.it/"></iframe>
+        </div>
+    </div>
+    <div class="link-container">
+        <a href="https://terremoti.ingv.it/" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza Mappa INGV</a>
+        <a href="https://shakemap.ingv.it/index.html" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza ShakeMap INGV</a>
+        <a href="https://diss.ingv.it/mapper/" target="_blank" class="external-link-button"><i class="fas fa-database"></i> Visualizza DISS - Mapper INGV</a>
+        <a href="https://ran.protezionecivile.it/IT/quakelive.php" target="_blank" class="external-link-button"><i class="fas fa-rss"></i> Visualizza QuakeLive RAN</a>
+    </div>
+
+    <script>
+        // Puoi aggiungere qui script specifici per questa pagina se necessario
+    </script>
+</body>
+</html>
