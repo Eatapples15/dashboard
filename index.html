@@ -81,15 +81,6 @@
             background-color: #5e7d8a;
         }
 
-        .sidebar a.back-button {
-            margin-top: auto; /* Spinge il bottone "Torna alla Home" in basso */
-            background-color: #2c3e50;
-        }
-
-        .sidebar a.back-button:hover {
-            background-color: #34495e;
-        }
-
         /* Header */
         header {
             grid-area: header;
@@ -112,7 +103,7 @@
             margin: 0;
         }
 
-        /* Contenuto principale (Griglia per i siti) */
+        /* Contenuto principale (Griglia per la Home) */
         main {
             grid-area: main;
             padding: 20px;
@@ -120,9 +111,9 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             overflow-y: auto; /* Scrollbar per il contenuto principale */
-            display: grid; /* **Abilita la griglia per gli elementi interni** */
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* **Definisce le colonne della griglia** */
-            grid-gap: 20px; /* **Spazio tra gli elementi della griglia** */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 20px;
             align-items: start;
         }
 
@@ -135,17 +126,17 @@
             grid-column: 1 / -1; /* Occupa tutta la larghezza nella griglia principale */
         }
 
-        .website-preview {
+        .home-grid-item {
             background-color: #34495e;
             border-radius: 4px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
             padding: 15px;
             display: flex;
             flex-direction: column;
-            min-height: 300px; /* Altezza minima per le anteprime */
+            min-height: 200px;
         }
 
-        .website-preview h3 {
+        .home-grid-item h3 {
             margin-top: 0;
             margin-bottom: 10px;
             color: #f8f9fa;
@@ -154,40 +145,38 @@
             font-size: 1.1em;
         }
 
-        .website-preview iframe-container {
-            position: relative;
-            width: 100%;
-            height: 400px; /* Altezza predefinita per gli iframe */
-            border: 1px solid #4a6572;
-            border-radius: 3px;
-            overflow: hidden;
-            background-color: #212529;
-            flex-grow: 1; /* L'iframe container si espande per riempire lo spazio */
+        .home-grid-item p {
+            color: #ced4da;
+            margin-bottom: 10px;
+            font-size: 0.9em;
         }
 
-        .website-preview iframe {
+        .home-grid-item .iframe-container {
+            flex-grow: 1;
+            overflow: hidden;
+            border-radius: 3px;
+            background-color: #212529;
+        }
+
+        .home-grid-item .iframe-container iframe {
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        .external-link-button {
+        .home-grid-item .link-button {
             display: inline-block;
-            padding: 12px 15px;
-            background-color: #e67e22;
+            padding: 8px 12px;
+            background-color: #4a6572;
             color: white;
-            border: none;
             border-radius: 4px;
-            cursor: pointer;
-            text-align: center;
             text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            margin-top: 10px;
+            margin-top: 5px;
+            font-size: 0.9em;
         }
 
-        .external-link-button:hover {
-            background-color: #d35400;
+        .home-grid-item .link-button:hover {
+            background-color: #5e7d8a;
         }
 
         /* Footer */
@@ -233,8 +222,8 @@
             <div><iframe src="https://www.3bmeteo.com/moduli_esterni/localita_1_giorno_compatto/5483/ffffff/fc9b2a/5e5e5e/ffffff/it" width="100%" height="200" frameborder="0" style="border-radius: 4px;"></iframe><br/><a href="https://www.3bmeteo.com/meteo/potenza" target="_blank" style="color:#ced4da; font-size:0.8em;">Meteo Potenza</a></div>
             <div id="realtime-clock"></div>
         </div>
-        <a href="index.html"><i class="fas fa-home"></i> Home</a>
-        <a href="terremoti.html" class="active"><i class="fas fa-mountain"></i> Terremoto</a>
+        <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="terremoto.html"><i class="fas fa-mountain"></i> Terremoto</a>
         <a href="idrogeologico.html"><i class="fas fa-water"></i> Idrogeologico</a>
         <a href="incendi.html"><i class="fas fa-fire"></i> Incendi</a>
         <a href="piani.html"><i class="fas fa-file-alt"></i> Piani Protezione Civile</a>
@@ -242,43 +231,38 @@
         <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank"><i class="fas fa-truck"></i> Monitoraggio Flotta</a>
         <a href="https://protezionecivile.apperosrl.it/websor" target="_blank"><i class="fas fa-globe"></i> WebSor</a>
         <a href="https://protezionecivile.apperosrl.it/mgo/" target="_blank"><i class="fas fa-map-marked-alt"></i> MGO</a>
-        <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Torna alla Dashboard</a>
     </div>
 
     <header>
         <img src="SALA CONTROLLO.png" alt="Sala Controllo Protezione Civile">
-        <h1>Dashboard Sala Controllo - Protezione Civile Basilicata - Terremoto</h1>
+        <h1>Dashboard Sala Controllo - Protezione Civile Basilicata</h1>
     </header>
 
     <main>
-        <h2><i class="fas fa-mountain"></i> Terremoto - Visualizzazioni</h2>
-        <div class="website-preview">
-            <h3><i class="fas fa-list-alt"></i> Lista Terremoti INGV</h3>
-            <div class="iframe-container">
-                <iframe src="https://terremoti.ingv.it/"></iframe>
+        <h2><i class="fas fa-bullhorn"></i> Home - Notifiche e Allerte</h2>
+        <div class="home-grid-container">
+            <div class="home-grid-item">
+                <h3><i class="fas fa-bell"></i> Notifiche Recenti</h3>
+                <p>Qui verranno visualizzate le notifiche più recenti.</p>
+                <ul>
+                    <li>[Data e Ora] Notifica di esempio 1</li>
+                    <li>[Data e Ora] Notifica di esempio 2</li>
+                </ul>
             </div>
-            <a href="https://terremoti.ingv.it/" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza Mappa INGV</a>
-        </div>
-        <div class="website-preview">
-            <h3><i class="fas fa-map-marked-alt"></i> ShakeMap INGV</h3>
-            <div class="iframe-container">
-                <iframe src="https://shakemap.ingv.it/index.html"></iframe>
+            <div class="home-grid-item">
+                <h3><i class="fas fa-exclamation-triangle"></i> Allerte Meteo</h3>
+                <p>Informazioni sulle allerte meteo in corso.</p>
+                <iframe src="https://www.3bmeteo.com/moduli_esterni/allerta_meteo/basilicata/it" width="100%" height="200" frameborder="0" style="border-radius: 4px;"></iframe>
             </div>
-            <a href="https://shakemap.ingv.it/index.html" target="_blank" class="external-link-button"><i class="fas fa-external-link-alt"></i> Apri ShakeMap INGV</a>
-        </div>
-        <div class="website-preview">
-            <h3><i class="fas fa-database"></i> DISS - Mapper INGV</h3>
-            <div class="iframe-container">
-                <iframe src="https://diss.ingv.it/mapper/"></iframe>
+            <div class="home-grid-item">
+                <h3><i class="fas fa-rss"></i> Feed RSS</h3>
+                <p>Aggregatore di feed RSS importanti.</p>
+                <a href="#" class="link-button"><i class="fas fa-rss"></i> Visualizza Feed</a>
             </div>
-            <a href="https://diss.ingv.it/mapper/" target="_blank" class="external-link-button"><i class="fas fa-external-link-alt"></i> Apri DISS - Mapper INGV</a>
-        </div>
-        <div class="website-preview">
-            <h3><i class="fas fa-rss"></i> QuakeLive RAN</h3>
-            <div class="iframe-container">
-                <iframe src="https://ran.protezionecivile.it/IT/quakelive.php"></iframe>
-            </div>
-            <a href="https://ran.protezionecivile.it/IT/quakelive.php" target="_blank" class="external-link-button"><i class="fas fa-external-link-alt"></i> Apri QuakeLive RAN</a>
+            <div class="home-grid-item">
+                <h3><i class="fas fa-chart-bar"></i> Statistiche</h3>
+                <p>Grafici e statistiche rilevanti.</p>
+                </div>
         </div>
     </main>
 
