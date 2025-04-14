@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Sala Controllo</title>
+    <link rel="icon" href="SALA CONTROLLO.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- Stili Generali --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #1e272e; /* Sfondo scuro, tipico delle control room */
+            color: #f8f9fa; /* Testo chiaro per contrasto */
+            display: grid;
+            grid-template-columns: 250px 1fr; /* Larghezza fissa per la navigazione */
+            grid-template-rows: 60px 1fr 40px;
+            grid-template-areas:
+                "header header"
+                "nav main"
+                "footer footer";
+            min-height: 100vh;
+        }
+
+        /* --- Header --- */
+        header {
+            grid-area: header;
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            text-align: left; /* Allineamento a sinistra per il titolo */
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        header img {
+            max-height: 40px; /* Immagine più piccola */
+        }
+
+        header h1 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        /* --- Navigazione --- */
+        nav {
+            grid-area: nav;
+            background-color: #34495e;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        nav button {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background-color: #4a6572; /* Tono più scuro per i bottoni */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        nav button:hover {
+            background-color: #5e7d8a;
+        }
+
+        nav #widget-meteo-container {
+            background-color: #4a6572;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        nav #widget-meteo-container h3 {
+            color: #f8f9fa;
+            margin-top: 0;
+            font-size: 1em;
+        }
+
+        nav #realtime-clock {
+            font-size: 0.9em;
+            color: #ced4da;
+            margin-top: 10px;
+        }
+
+        /* --- Main Content --- */
+        main {
+            grid-area: main;
+            padding: 20px;
+            background-color: #2c3e50; /* Sfondo scuro per il contenuto principale */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            overflow: auto; /* Aggiunge scroll se il contenuto è troppo lungo */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Griglia responsiva */
+            grid-gap: 20px;
+            align-items: start; /* Allinea gli elementi in alto nella griglia */
+        }
+
+        main > section {
+            display: none; /* Nasconde tutte le sezioni di default */
+        }
+
+        main > section.active {
+            display: block; /* Mostra la sezione attiva */
+        }
+
+        main h2 {
+            color: #f8f9fa;
+            margin-top: 0;
+            border-bottom: 2px solid #4a6572;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            grid-column: 1 / -1; /* Occupa tutta la larghezza della griglia */
+        }
+
+        .website-preview {
+            background-color: #34495e;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+        }
+
+        .website-preview h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #f8f9fa;
+            border-bottom: 1px solid #4a6572;
+            padding-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .website-preview iframe-container {
+            position: relative;
+            width: 100%;
+            height: 400px; /* Altezza predefinita per gli iframe */
+            border: 1px solid #4a6572;
+            border-radius: 3px;
+            overflow: hidden; /* Importante per contenere l'iframe */
+            background-color: #212529; /* Sfondo scuro per l'iframe */
+        }
+
+        .website-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .external-link-button {
+            padding: 12px 15px;
+            background-color: #e67e22; /* Arancione più Protezione Civile */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-top: 10px; /* Aggiunto un po' di spazio sopra i pulsanti */
+        }
+
+        .external-link-button:hover {
+            background-color: #d35400;
+        }
+
+        #notifiche-container {
+            background-color: #34495e;
+            padding: 15px;
+            border-radius: 4px;
+            grid-column: 1 / -1; /* Occupa tutta la larghezza per le notifiche */
+        }
+
+        .notifica {
+            background-color: #4a6572;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border-left: 5px solid #f39c12; /* Giallo/Arancio allerta */
+        }
+
+        .notifica h3 {
+            margin-top: 0;
+            color: #f8f9fa;
+            font-size: 1em;
+        }
+
+        .notifica p {
+            color: #ced4da;
+            margin-bottom: 0;
+            font-size: 0.9em;
+        }
+
+        #bollettini-section .website-preview:first-child .iframe-container {
+            height: 600px; /* Aumenta l'altezza per il Centro Funzionale */
+        }
+
+        #bollettini-section .generate-map-button {
+            padding: 12px 15px;
+            background-color: #3867d6; /* Blu per il bottone "Genera Mappa" */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        #bollettini-section .generate-map-button:hover {
+            background-color: #2a52be;
+        }
+
+        /* --- Footer --- */
+        footer {
+            grid-area: footer;
+            background-color: #2c3e50;
+            color: #ced4da;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8em;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="SALA CONTROLLO.png" alt="Sala Controllo Protezione Civile">
+        <h1>Dashboard Sala Controllo - Protezione Civile Basilicata</h1>
+    </header>
+
+    <nav>
+        <div id="widget-meteo-container">
+            <h3>Meteo Basilicata</h3>
+            <div><iframe src="https://www.3bmeteo.com/moduli_esterni/localita_1_giorno_compatto/5483/ffffff/fc9b2a/5e5e5e/ffffff/it" width="100%" height="200" frameborder="0" style="border-radius: 4px;"></iframe><br/><a href="https://www.3bmeteo.com/meteo/potenza" target="_blank" style="color:#ced4da; font-size:0.8em;">Meteo Potenza</a></div>
+            <div id="realtime-clock"></div>
+        </div>
+        <button onclick="showSection('home')"><i class="fas fa-home"></i> Home</button>
+        <button onclick="showSection('terremoto')"><i class="fas fa-mountain"></i> Terremoto</button>
+        <button onclick="showSection('idrogeologico')"><i class="fas fa-water"></i> Idrogeologico</button>
+        <button onclick="showSection('incendi')"><i class="fas fa-fire"></i> Incendi</button>
+        <button onclick="showSection('piani')"><i class="fas fa-file-alt"></i> Piani Protezione Civile</button>
+        <button onclick="showSection('bollettini')"><i class="fas fa-newspaper"></i> Bollettini</button>
+        <button onclick="window.open('http://www.gtfleet.net/View/Login.aspx', '_blank')"><i class="fas fa-truck"></i> Monitoraggio Flotta</button>
+        <button onclick="window.open('https://protezionecivile.apperosrl.it/websor', '_blank')"><i class="fas fa-globe"></i> WebSor</button>
+        <button onclick="window.open('https://protezionecivile.apperosrl.it/mgo/', '_blank')"><i class="fas fa-map-marked-alt"></i> MGO</button>
+    </nav>
+
+    <main>
+        <section id="home-section" class="rischio-section active">
+            <h2><i class="fas fa-bullhorn"></i> Home - Notifiche e Allerte</h2>
+            <div id="notifiche-container">
+                <div class="notifica">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Allerta Meteo Gialla</h3>
+                    <p><i class="fas fa-clock"></i> [Data e Ora] Previste precipitazioni intense e possibili raffiche di vento. Si raccomanda cautela negli spostamenti.</p>
+                </div>
+                <div class="notifica">
+                    <h3><i class="fas fa-road"></i> Aggiornamenti Viabilità</h3>
+                    <a href="https://www.stradeanas.it/it/comunicati-stampa?field_regions_category_tid=30&field_compartimento_tid=All&date_filter%5Bvalue%5D%5Byear%5D=&date_filter_1%5Bvalue%5D%5Bmonth%5D=&keys=" target="_blank" class="link-button"><i class="fas fa-external-link-alt"></i> Vai agli aggiornamenti Viabilità ANAS</a>
+                </div>
+                <div class="notifica">
+                    <h3><i class="fas fa-train"></i> Aggiornamenti RFI</h3>
+                    <a href="https://www.rfi.it/it/news-e-media/infomobilita.html?noup=notices&selectRegion=basilicata" target="_blank" class="link-button"><i class="fas fa-external-link-alt"></i> Vai agli aggiornamenti RFI</a>
+                </div>
+                <div class="notifica">
+                    <h3><i class="fas fa-car"></i> Traffico Autostrade per l'Italia</h3>
+                    <a href="https://www.autostrade.it/it/infoviabilita/traffico-in-real-time" target="_blank" class="link-button"><i class="fas fa-external-link-alt"></i> Traffico in tempo reale Autostrade</a>
+                </div>
+                <div class="notifica">
+                    <h3><i class="fas fa-newspaper"></i> Notizie ANSA - Basilicata</h3>
+                    <div id="ansa-basilicata-news">
+                        <p>Caricamento delle notizie...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="terremoto-section" class="rischio-section">
+            <h2><i class="fas fa-mountain"></i> Terremoto</h2>
+            <div class="website-preview">
+                <h3><i class="fas fa-list-alt"></i> Lista Terremoti INGV</h3>
+                <div class="iframe-container">
+                    <iframe src="https://terremoti.ingv.it/"></iframe>
+                </div>
+            </div>
+            <a href="https://terremoti.ingv.it/" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza Mappa INGV</a>
+            <a href="https://shakemap.ingv.it/index.html" target="_blank" class="external-link-button"><i class="fas fa-map-marked-alt"></i> Visualizza ShakeMap INGV</a>
+            <a href="https://diss.ingv.it/mapper/" target="_blank" class="external-link-button"><i class="fas fa-database"></i> Visualizza DISS - Mapper INGV</a>
+            <a href="https://ran.protezionecivile.it/IT/quakelive.php" target="_blank" class="external-link-button"><i class="fas fa-rss"></i> Visualizza QuakeLive RAN</a>
+        </section>
+
+        <section id="idrogeologico-section" class="rischio-section">
+            <h2><i class="fas fa-water"></i> <a href="https://beta.idrogeo.isprambiente.it/app/" target="_blank" style="color: #f8f9fa; text-decoration: none;">Rischio Idrogeologico - Visualizzazione Completa</a></h2>
+            <div class="website-preview">
+                <h3><i class="fas fa-globe"></i> Mappa Rischio Idrogeologico (ISPRA)</h3>
+                <div class="iframe-container" style="height: 600px;">
+                    <iframe src="https://beta.idrogeo.isprambiente.it/app/" style="width: 100%; height: 100%; border: none;"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section id="incendi-section" class="rischio-section">
+            <h2><i class="fas fa-fire"></i> Incendi</h2>
+            <a href="https://forest-fire.emergency.copernicus.eu/apps/effis_current_situation/" target="_blank" class="external-link-button"><i class="fas fa-globe-europe"></i> Copernicus EFFIS</a>
+            <a href="https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@21.2,39.6,5.3z" target="_blank" class="external-link-button"><i class="fas fa-satellite"></i> NASA FIRMS</a>
+            <a href="http://www.pcn.minambiente.it/viewer/index.php?services=AIB_Incendi_PNZ" target="_blank" class="external-link-button"><i class="fas fa-map"></i> PNZ Incendi (Ministero Ambiente)
