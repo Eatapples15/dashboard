@@ -67,6 +67,8 @@
             transition: background-color 0.3s ease;
             text-align: left;
             font-weight: bold;
+            display: flex; /* Allinea icona e testo */
+            align-items: center; /* Verticalmente al centro */
         }
 
         .sidebar button i {
@@ -87,6 +89,12 @@
             text-align: left;
             font-size: 0.9em;
             cursor: pointer;
+            display: flex; /* Allinea icona e testo */
+            align-items: center; /* Verticalmente al centro */
+        }
+
+        .sidebar .back-button i {
+            margin-right: 10px;
         }
 
         .sidebar .back-button:hover {
@@ -308,6 +316,11 @@
             font-size: 0.8em;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
         }
+
+        /* Correzione visualizzazione widget meteo */
+        #widget-meteo-container iframe {
+            width: 100%; /* Assicura che l'iframe occupi tutta la larghezza del contenitore */
+        }
     </style>
     <script>
         function showSection(sectionId) {
@@ -353,9 +366,9 @@
         <button onclick="showSection('incendi')"><i class="fas fa-fire"></i> Incendi</button>
         <button onclick="showSection('piani')"><i class="fas fa-file-alt"></i> Piani Protezione Civile</button>
         <button onclick="showSection('bollettini')"><i class="fas fa-newspaper"></i> Bollettini</button>
-        <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank"><i class="fas fa-truck"></i> Monitoraggio Flotta</a>
-        <a href="https://protezionecivile.apperosrl.it/websor" target="_blank"><i class="fas fa-globe"></i> WebSor</a>
-        <a href="https://protezionecivile.apperosrl.it/mgo/" target="_blank"><i class="fas fa-map-marked-alt"></i> MGO</a>
+        <button onclick="window.open('http://www.gtfleet.net/View/Login.aspx', '_blank')"><i class="fas fa-truck"></i> Monitoraggio Flotta</button>
+        <button onclick="window.open('https://protezionecivile.apperosrl.it/websor', '_blank')"><i class="fas fa-globe"></i> WebSor</button>
+        <button onclick="window.open('https://protezionecivile.apperosrl.it/mgo/', '_blank')"><i class="fas fa-map-marked-alt"></i> MGO</button>
         <button class="back-button" onclick="window.location.href='index.html'"><i class="fas fa-arrow-left"></i> Torna alla Home</button>
     </div>
 
@@ -376,8 +389,4 @@
                     </div>
                     <div class="notifica">
                         <h3><i class="fas fa-road"></i> Aggiornamenti Viabilità</h3>
-                        <a href="https://www.stradeanas.it/it/comunicati-stampa?field_regions_category_tid=30&field_compartimento_tid=All&date_filter%5Bvalue%5D%5Byear%5D=&date_filter_1%5Bvalue%5D%5Bmonth%5D=&keys=" target="_blank" class="link-button"><i class="fas fa-external-link-alt"></i> Vai agli aggiornamenti Viabilità ANAS</a>
-                    </div>
-                    <div class="notifica">
-                        <h3><i class="fas fa-train"></i> Aggiornamenti RFI</h3>
-                        <a href="https://www.rfi.it/it/news-e-media/infomobilita.html?noup
+                        <a href="https://www.stradeanas.it/it/comunicati-stampa?field_regions_category_tid=30&field_compartimento_tid=All&date_filter%5Bvalue%5D%5Byear%5D=&date_filter_1%5Bvalue%5D%5Bmonth%5D=&keys=" target="_blank"
