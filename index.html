@@ -56,7 +56,8 @@
             margin-top: 10px;
         }
 
-        .sidebar button {
+        .sidebar button, .sidebar a {
+            display: block;
             padding: 12px 15px;
             margin-bottom: 8px;
             background-color: #4a6572;
@@ -67,13 +68,14 @@
             transition: background-color 0.3s ease;
             text-align: left;
             font-weight: bold;
+            text-decoration: none; /* Impedisce la sottolineatura dei link */
         }
 
-        .sidebar button i {
+        .sidebar button i, .sidebar a i {
             margin-right: 10px;
         }
 
-        .sidebar button:hover {
+        .sidebar button:hover, .sidebar a:hover {
             background-color: #5e7d8a;
         }
 
@@ -300,6 +302,36 @@
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
         }
     </style>
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('main > section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId + '-section').classList.add('active');
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Mese è 0-indexed
+            const year = now.getFullYear();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const dateTimeString = `<span class="math-inline">\{day\}/</span>{month}/${year} - <span class="math-inline">\{hours\}\:</span>{minutes}:${seconds}`;
+            document.getElementById('realtime-clock').textContent = dateTimeString;
+        }
+
+        // Aggiorna l'orologio ogni secondo
+        setInterval(updateClock, 1000);
+
+        // Inizializza l'orologio all'avvio
+        updateClock();
+
+        // Mostra la sezione Home all'avvio
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('home');
+        });
+    </script>
 </head>
 <body>
     <div class="sidebar">
@@ -314,9 +346,9 @@
         <button onclick="showSection('incendi')"><i class="fas fa-fire"></i> Incendi</button>
         <button onclick="showSection('piani')"><i class="fas fa-file-alt"></i> Piani Protezione Civile</button>
         <button onclick="showSection('bollettini')"><i class="fas fa-newspaper"></i> Bollettini</button>
-        <button onclick="window.open('http://www.gtfleet.net/View/Login.aspx', '_blank')"><i class="fas fa-truck"></i> Monitoraggio Flotta</button>
-        <button onclick="window.open('https://protezionecivile.apperosrl.it/websor', '_blank')"><i class="fas fa-globe"></i> WebSor</button>
-        <button onclick="window.open('https://protezionecivile.apperosrl.it/mgo/', '_blank')"><i class="fas fa-map-marked-alt"></i> MGO</button>
+        <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank"><i class="fas fa-truck"></i> Monitoraggio Flotta</a>
+        <a href="https://protezionecivile.apperosrl.it/websor" target="_blank"><i class="fas fa-globe"></i> WebSor</a>
+        <a href="https://protezionecivile.apperosrl.it/mgo/" target="_blank"><i class="fas fa-map-marked-alt"></i> MGO</a>
         <button class="back-button" onclick="window.location.href='index.html'"><i class="fas fa-arrow-left"></i> Torna alla Home</button>
     </div>
 
@@ -345,27 +377,4 @@
                     </div>
                     <div class="notifica">
                         <h3><i class="fas fa-car"></i> Traffico Autostrade per l'Italia</h3>
-                        <a href="https://www.autostrade.it/it/infoviabilita/traffico-in-real-time" target="_blank" class="link-button"><i class="fas fa-external-link-alt"></i> Traffico in tempo reale Autostrade</a>
-                    </div>
-                    <div class="notifica">
-                        <h3><i class="fas fa-newspaper"></i> Notizie ANSA - Basilicata</h3>
-                        <div id="ansa-basilicata-news">
-                            <p>Caricamento delle notizie...</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="website-preview home-grid-item">
-                    <h3><i class="fas fa-mountain"></i> Terremoto - Sintesi</h3>
-                    <p>Visualizzazione rapida degli ultimi eventi sismici.</p>
-                    <div class="iframe-container" style="height: 200px;">
-                        <iframe src="https://terremoti.ingv.it/ultimi-eventi.php" style="border: none;"></iframe>
-                    </div>
-                    <a href="terremoto.html" class="external-link-button"><i class="fas fa-chevron-right"></i> Vai alla pagina Terremoto</a>
-                </div>
-
-                <div class="website-preview home-grid-item">
-                    <h3><i class="fas fa-water"></i> Idrogeologico - Sintesi</h3>
-                    <p>Informazioni sintetiche sul rischio idrogeologico.</p>
-                    <div class="iframe-container" style="height: 200px;">
-                        <iframe src="https://beta.idrogeo.isprambiente.it
+                        <a href="https://www.autostrade.it/it/infoviabilita/traffico-in-real-time" target="_blank" class="link-button">
