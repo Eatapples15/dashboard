@@ -306,60 +306,20 @@
     </script>
 </head>
 <body>
-    <div class="sidebar">
-        <div id="widget-meteo-orario-container">
-            <h3>Meteo Basilicata</h3>
-            <div><iframe src="https://www.3bmeteo.com/moduli_esterni/localita_1_giorno_compatto/5483/ffffff/fc9b2a/5e5e5e/ffffff/it" width="100%" height="200" frameborder="0" style="border-radius: 4px;"></iframe><br/><a href="https://www.3bmeteo.com/meteo/potenza" target="_blank" style="color:#ced4da; font-size:0.8em;">Meteo Potenza</a></div>
-            <div id="realtime-clock"></div>
-        </div>
-        <div class="sidebar-section">
-            <h3><i class="fas fa-exclamation-triangle"></i> Emergenze</h3>
-            <ul id="feed-emergenze">
-                <li>Caricamento feed...</li>
-            </ul>
-        </div>
-        <div class="sidebar-section">
-            <h3><i class="fas fa-road"></i> Viabilità Basilicata</h3>
-            <ul id="feed-viabilita">
-                <li>Caricamento feed...</li>
-            </ul>
-        </div>
-        <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
-        <a href="terremoti.html"><i class="fas fa-mountain"></i> Terremoto</a>
-        <a href="idrogeologico.html"><i class="fas fa-water"></i> Idrogeologico</a>
-        <a href="incendi.html"><i class="fas fa-fire"></i> Incendi</a>
-        <a href="piani.html"><i class="fas fa-file-alt"></i> Piani PC</a>
-        <a href="bollettini.html"><i class="fas fa-newspaper"></i> Bollettini</a>
-        <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank"><i class="fas fa-truck"></i> Flotta</a>
-        <a href="https://protezionecivile.apperosrl.it/websor" target="_blank"><i class="fas fa-globe"></i> WebSor</a>
-        <a href="https://protezionecivile.apperosrl.it/mgo/" target="_blank"><i class="fas fa-map-marked-alt"></i> MGO</a>
-    </div>
+    <?php include('sidebar.html'); ?>
 
-    <header>
-        <img src="SALA CONTROLLO.png" alt="Sala Controllo Protezione Civile">
-        <h1>Dashboard Sala Controllo - Protezione Civile Basilicata</h1>
-    </header>
+    <div class="container">
+        <?php include('header.html'); ?>
 
-    <main>
-        <h2><i class="fas fa-tachometer-alt"></i> Vista Unica - Informazioni Cruciali</h2>
+        <main>
+            <h2><i class="fas fa-tachometer-alt"></i> Vista Unica - Informazioni Cruciali</h2>
 
-        <div class="dashboard-grid">
-            <div class="dashboard-grid-item">
-                <h3><i class="fas fa-bell"></i> Notifiche Recenti</h3>
-                <p>Ultime notifiche dal sistema.</p>
-                <ul>
-                    <li>[14/04/2025 14:00] Allerta meteo arancione per piogge intense.</li>
-                    <li>[14/04/2025 13:45] Chiusura tratto autostradale A3 per incidente.</li>
-                    <li>[14/04/2025 13:15] Aggiornamento situazione incendio boschivo a Melfi.</li>
-                </ul>
-            </div>
-            <div class="dashboard-grid-item">
-                <h3><i class="fas fa-exclamation-triangle"></i> Allerte Meteo Attuali</h3>
-                <p>Situazione allerte meteorologiche in tempo reale.</p>
-                <iframe src="https://www.3bmeteo.com/moduli_esterni/allerta_meteo/basilicata/it" width="100%" height="200" frameborder="0" style="border-radius: 4px;"></iframe>
-            </div>
-            <div class="dashboard-grid-item">
-                <h3><i class="fas fa-map-marked-alt"></i> Eventi in Corso</h3>
-                <p>Mappa interattiva degli eventi attivi.</p>
-                <div class="iframe-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1617488.943828993!2d15.678285338134767!3d40.59998869999999!2m3!
+            <div class="dashboard-grid">
+                <div class="dashboard-grid-item">
+                    <h3><i class="fas fa-bell"></i> Notifiche Recenti</h3>
+                    <p>Ultime notifiche dal sistema.</p>
+                    <ul>
+                        <li>[14/04/2025 14:00] Allerta meteo arancione per piogge intense.</li>
+                        <li>[14/04/2025 13:45] Chiusura tratto autostradale A3 per incidente.</li>
+                        <li>[14/04/2025 13:15] Aggiornamento situazione incendio boschivo a Melfi.</li>
+                    </ul>
