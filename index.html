@@ -7,24 +7,283 @@
     <link rel="icon" href="SALA CONTROLLO.png" type="image/png">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
-        /* ... (i tuoi stili CSS) ... */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background-color: #1e272e;
-            color: #f8f9fa;
-            display: grid;
-            grid-template-columns: 280px 1fr; /* Aumentata larghezza sidebar */
-            grid-template-rows: auto 1fr auto;
-            grid-template-areas:
-                "sidebar header"
-                "sidebar main"
-                "sidebar footer";
-            height: 100vh;
-            overflow: hidden; /* Impedisce la scrollbar principale */
-        }
-        /* ... (altri stili) ... */
-    </style>
+    /* Stili di base per la pagina */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        background-color: #1e272e; /* Sfondo scuro principale */
+        color: #f8f9fa; /* Testo chiaro principale */
+        display: grid;
+        grid-template-columns: 260px 1fr; /* Larghezza sidebar leggermente ridotta */
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas:
+            "sidebar header"
+            "sidebar main"
+            "sidebar footer";
+        height: 100vh;
+        overflow: hidden; /* Impedisce la scrollbar principale */
+    }
+
+    /* Sidebar */
+    .sidebar {
+        grid-area: sidebar;
+        background-color: #2c3e50; /* Sfondo sidebar più scuro */
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Ombra più marcata */
+        overflow-y: auto;
+    }
+
+    #widget-meteo-orario-container {
+        background-color: #34495e; /* Sfondo widget leggermente più chiaro */
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    #widget-meteo-orario-container h3 {
+        color: #f8f9fa;
+        margin-top: 0;
+        font-size: 0.95em; /* Testo widget leggermente più piccolo */
+        margin-bottom: 8px;
+        border-bottom: 1px solid #4a6572;
+        padding-bottom: 5px;
+    }
+
+    #widget-meteo-orario-container iframe {
+        width: 100%;
+        border: 0;
+        border-radius: 3px;
+    }
+
+    #realtime-clock {
+        font-size: 0.85em;
+        color: #ced4da;
+        margin-top: 10px;
+    }
+
+    .sidebar-section {
+        background-color: #34495e; /* Sfondo sezione sidebar */
+        border-radius: 4px;
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+
+    .sidebar-section h3 {
+        color: #f8f9fa;
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1em;
+        border-bottom: 1px solid #4a6572;
+        padding-bottom: 5px;
+    }
+
+    .sidebar-section ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar-section ul li {
+        color: #ced4da;
+        font-size: 0.85em;
+        padding: 8px 0;
+        border-bottom: 1px solid #4a6572;
+    }
+
+    .sidebar-section ul li:last-child {
+        border-bottom: none;
+    }
+
+    .sidebar-section a {
+        color: #f8f9fa;
+        text-decoration: none;
+        font-weight: normal;
+        font-size: 0.9em;
+    }
+
+    .sidebar-section a:hover {
+        text-decoration: underline;
+    }
+
+    .sidebar-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 6px; /* Spazio leggermente ridotto tra i bottoni */
+        margin-top: 20px;
+        padding: 0 10px;
+    }
+
+    .menu-button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 15px; /* Padding leggermente ridotto */
+        background-color: #4a6572; /* Tono di blu più scuro */
+        color: #e9ecef; /* Testo leggermente più chiaro */
+        border: none;
+        border-radius: 3px; /* Bordi meno arrotondati */
+        cursor: pointer;
+        transition: background-color 0.15s ease-in-out; /* Transizione più rapida */
+        text-align: left;
+        font-weight: bold;
+        text-decoration: none;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 0.9em; /* Testo del menù leggermente più piccolo */
+    }
+
+    .menu-button i {
+        width: 20px;
+        text-align: center;
+        font-size: 1.1em;
+        color: #ced4da;
+    }
+
+    .menu-button:hover {
+        background-color: #5e7d8a; /* Hover leggermente più chiaro */
+    }
+
+    .menu-button.active {
+        background-color: #1e272e; /* Sfondo attivo scuro, in contrasto */
+        color: #ffffff;
+        border-left: 3px solid #f39c12; /* Evidenziatore laterale arancione */
+        padding-left: 12px; /* Sposta il testo per fare spazio all'evidenziatore */
+    }
+
+    .menu-button.active i {
+        color: #f39c12; /* Icona attiva arancione */
+    }
+
+    .menu-button.external-link {
+        text-decoration: none;
+    }
+
+    .menu-button.external-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Header */
+    header {
+        grid-area: header;
+        background-color: #2c3e50;
+        color: white;
+        padding: 10px 20px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    header img {
+        max-height: 35px; /* Logo leggermente più piccolo */
+    }
+
+    header h1 {
+        font-size: 1.3em; /* Titolo leggermente più piccolo */
+        margin: 0;
+    }
+
+    /* Contenuto principale */
+    main {
+        grid-area: main;
+        padding: 20px;
+        background-color: #34495e; /* Sfondo principale più chiaro */
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        grid-gap: 15px; /* Spazio ridotto nella griglia principale */
+        align-items: start;
+    }
+
+    main h2 {
+        color: #f8f9fa;
+        margin-top: 0;
+        border-bottom: 2px solid #4a6572;
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+        font-size: 1.15em;
+        grid-column: 1 / -1;
+    }
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Elementi griglia più stretti */
+        grid-gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .dashboard-grid-item {
+        background-color: #2c3e50; /* Elementi griglia più scuri */
+        border-radius: 3px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        min-height: 180px; /* Altezza minima ridotta */
+    }
+
+    .dashboard-grid-item h3 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        color: #f8f9fa;
+        border-bottom: 1px solid #4a6572;
+        padding-bottom: 4px;
+        font-size: 1em;
+    }
+
+    .dashboard-grid-item p {
+        color: #ced4da;
+        margin-bottom: 8px;
+        font-size: 0.85em;
+    }
+
+    .dashboard-grid-item .iframe-container {
+        flex-grow: 1;
+        overflow: hidden;
+        border-radius: 2px;
+        background-color: #212529;
+    }
+
+    .dashboard-grid-item .iframe-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .dashboard-grid-item .link-button {
+        display: inline-block;
+        padding: 6px 10px;
+        background-color: #4a6572;
+        color: white;
+        border-radius: 3px;
+        text-decoration: none;
+        margin-top: 5px;
+        font-size: 0.8em;
+    }
+
+    .dashboard-grid-item .link-button:hover {
+        background-color: #5e7d8a;
+    }
+
+    /* Footer */
+    footer {
+        grid-area: footer;
+        background-color: #2c3e50;
+        color: #ced4da;
+        text-align: center;
+        padding: 8px; /* Padding ridotto nel footer */
+        font-size: 0.75em; /* Testo footer più piccolo */
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    }
+</style>
     <script>
         async function loadContent(url, targetId) {
             try {
