@@ -6,143 +6,180 @@
     <title>Dashboard Sala Controllo - Protezione Civile Basilicata</title>
     <link rel="icon" href="SALA CONTROLLO.png" type="image/png">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <style>
-    /* Stili di base per la pagina */
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0;
-        background-color: #1e272e; /* Sfondo scuro principale */
-        color: #f8f9fa; /* Testo chiaro principale */
-        display: flex; /* Disposizione flex per le sezioni della home */
-        flex-direction: column; /* Le sezioni vanno una sopra l'altra */
-        height: 100vh;
-        overflow-y: auto; /* Permetti lo scorrimento verticale della pagina */
-        background-image: url('SALA CONTROLLO.png'); /* Imposta l'immagine come sfondo */
-        background-repeat: no-repeat; /* Non ripetere l'immagine */
-        background-size: cover; /* Copri l'intera area dello sfondo */
-        background-position: center center; /* Centra l'immagine */
-        background-attachment: fixed; /* Mantiene l'immagine fissa durante lo scorrimento */
-    }
+    <style>
+        /* Stili di base per la pagina */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #1e272e; /* Sfondo scuro principale */
+            color: #f8f9fa; /* Testo chiaro principale */
+            display: flex; /* Disposizione flex per le sezioni della home */
+            flex-direction: column; /* Le sezioni vanno una sopra l'altra */
+            height: 100vh;
+            overflow-y: auto; /* Permetti lo scorrimento verticale della pagina */
+            background-image: url('SALA CONTROLLO.png'); /* Imposta l'immagine come sfondo */
+            background-repeat: no-repeat; /* Non ripetere l'immagine */
+            background-size: cover; /* Copri l'intera area dello sfondo */
+            background-position: center center; /* Centra l'immagine */
+            background-attachment: fixed; /* Mantiene l'immagine fissa durante lo scorrimento */
+        }
 
-    /* Stili per le sezioni della Home */
-    .home-section {
-        display: flex;
-        justify-content: center; /* Centra orizzontalmente il contenuto */
-        align-items: center; /* Centra verticalmente il contenuto */
-        padding: 20px;
-        background-color: transparent; /* Rende lo sfondo delle sezioni trasparente */
-    }
+        /* Stili per le sezioni della Home */
+        .home-section {
+            display: flex;
+            justify-content: center; /* Centra orizzontalmente il contenuto */
+            align-items: center; /* Centra verticalmente il contenuto */
+            padding: 20px;
+            background-color: transparent; /* Rende lo sfondo delle sezioni trasparente */
+        }
 
-    .top-section {
-        flex-direction: column; /* Logo sopra il meteo/orologio */
-        gap: 30px;
-        flex: 0 1 auto; /* Non si espande troppo */
-        padding-top: 50px;
-    }
+        .top-section {
+            flex-direction: column; /* Logo sopra il meteo/orologio */
+            gap: 30px;
+            flex: 0 1 auto; /* Non si espande troppo */
+            padding-top: 50px;
+        }
 
-    .bottom-section {
-        flex: 1 1 auto; /* Occupa lo spazio rimanente */
-        background-color: rgba(0, 0, 0, 0.5); /* Sfondo semi-trasparente più scuro per contrasto */
-        border-radius: 10px 10px 0 0; /* Bordo arrotondato superiore */
-        margin-top: 50px; /* Spazio dalla sezione superiore */
-        padding: 40px;
-    }
+        .bottom-section {
+            flex: 1 1 auto; /* Occupa lo spazio rimanente */
+            background-color: rgba(0, 0, 0, 0.5); /* Sfondo semi-trasparente più scuro per contrasto */
+            border-radius: 10px 10px 0 0; /* Bordo arrotondato superiore */
+            margin-top: 50px; /* Spazio dalla sezione superiore */
+            padding: 40px;
+        }
 
-    /* Stili per il logo nella Home (ora non più necessario come elemento img) */
-    .home-logo {
-        display: none; /* Nascondi l'elemento img del logo */
-    }
+        /* Stili per il logo nella Home (ora non più necessario come elemento img) */
+        .home-logo {
+            display: none; /* Nascondi l'elemento img del logo */
+        }
 
-    /* Stili per il widget meteo e orologio nella Home */
-    #widget-meteo-orario-container {
-        background-color: rgba(52, 73, 94, 0.8); /* Sfondo semi-trasparente */
-        padding: 20px;
-        border-radius: 8px;
-        text-align: center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        width: 80%;
-        max-width: 400px;
-    }
+        /* Stili per il contenitore del widget (orologio, data, meteo) */
+        #widget-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
 
-    #widget-meteo-orario-container h3 {
-        color: #f8f9fa;
-        margin-top: 0;
-        font-size: 1.1em;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #4a6572;
-        padding-bottom: 8px;
-    }
+        /* Stili per l'orologio */
+        @font-face {
+            font-family: 'Segment7Standard';
+            src: url('Segment7Standard.woff2') format('woff2'),
+                 url('Segment7Standard.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-    #widget-meteo-orario-container iframe {
-        width: 100%;
-        height: 120px; /* Altezza ridotta per la home */
-        border: 0;
-        border-radius: 4px;
-    }
+        #realtime-clock {
+            font-family: 'Segment7Standard', sans-serif;
+            font-size: 4em;
+            color: #f39c12; /* Colore arancione per un look "7 segmenti" tipico */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.3); /* Sfondo scuro per far risaltare l'orologio */
+            border-radius: 8px;
+            letter-spacing: 5px; /* Spaziatura tra i "segmenti" */
+        }
 
-    #realtime-clock {
-        font-size: 1em;
-        color: #ced4da;
-        margin-top: 15px;
-    }
+        /* Stili per la data */
+        #realtime-date {
+            font-size: 1.5em;
+            color: #ced4da;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 8px 15px;
+            border-radius: 6px;
+        }
 
-    /* Stili per la griglia dei pulsanti del menù nella Home */
-    .menu-buttons-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Griglia responsiva */
-        gap: 20px;
-        width: 90%;
-        max-width: 960px;
-        margin: 0 auto; /* Centra la griglia */
-    }
+        /* Stili per il contenitore del meteo */
+        #meteo-container {
+            background-color: rgba(52, 73, 94, 0.8); /* Sfondo semi-trasparente */
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 400px;
+        }
 
-    /* Stili accattivanti per i pulsanti "da control room" */
-    .control-room-button {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 25px;
-        background-color: rgba(74, 101, 114, 0.8); /* Sfondo semi-trasparente */
-        color: #f8f9fa;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.15s ease-in-out;
-        font-size: 1em;
-        font-weight: bold;
-        text-align: center;
-        text-decoration: none;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-    }
+        #meteo-container h3 {
+            color: #f8f9fa;
+            margin-top: 0;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #4a6572;
+            padding-bottom: 8px;
+        }
 
-    .control-room-button i {
-        font-size: 2.5em;
-        margin-bottom: 15px;
-        color: #ced4da;
-    }
+        #meteo-container iframe {
+            width: 100%;
+            height: 120px; /* Altezza ridotta per la home */
+            border: 0;
+            border-radius: 4px;
+        }
 
-    .control-room-button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-        background-color: rgba(94, 125, 138, 0.9); /* Hover leggermente più chiaro e semi-trasparente */
-    }
+        #meteo-container a {
+            color: #ced4da;
+            font-size: 0.8em;
+        }
 
-    .control-room-button.external-link {
-        /* Stili specifici per i link esterni se necessario */
-    }
+        /* Stili per la griglia dei pulsanti del menù nella Home */
+        .menu-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Griglia responsiva */
+            gap: 20px;
+            width: 90%;
+            max-width: 960px;
+            margin: 0 auto; /* Centra la griglia */
+        }
 
-    /* Stili per il footer (assicurati che siano definiti) */
-    footer {
-        grid-area: footer;
-        background-color: #2c3e50;
-        color: #ced4da;
-        text-align: center;
-        padding: 10px;
-        font-size: 0.8em;
-        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-    }
-</style>
+        /* Stili accattivanti per i pulsanti "da control room" */
+        .control-room-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            background-color: rgba(74, 101, 114, 0.8); /* Sfondo semi-trasparente */
+            color: #f8f9fa;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.15s ease-in-out;
+            font-size: 1em;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .control-room-button i {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: #ced4da;
+        }
+
+        .control-room-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            background-color: rgba(94, 125, 138, 0.9); /* Hover leggermente più chiaro e semi-trasparente */
+        }
+
+        .control-room-button.external-link {
+            /* Stili specifici per i link esterni se necessario */
+        }
+
+        /* Stili per il footer (assicurati che siano definiti) */
+        footer {
+            grid-area: footer;
+            background-color: #2c3e50;
+            color: #ced4da;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8em;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
     <script>
         async function loadContent(url, targetId) {
             try {
@@ -157,34 +194,45 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             loadContent('header.html', 'header-container'); // Carichiamo comunque l'header per le altre pagine
+            updateClock(); // Aggiorna l'orologio e la data all'avvio
+            setInterval(updateClock, 1000);
         });
 
         function updateClock() {
             const now = new Date();
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const year = now.getFullYear();
+
+            // Aggiorna l'orologio
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            const dateTimeString = `${day}/${month}/${year} - ${hours}:${minutes}:${seconds}`;
+            const timeString = `${hours}:${minutes}:${seconds}`;
             const clockElement = document.getElementById('realtime-clock');
             if (clockElement) {
-                clockElement.textContent = dateTimeString;
+                clockElement.textContent = timeString;
+            }
+
+            // Aggiorna la data
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            const dateString = `${day}/${month}/${year}`;
+            const dateElement = document.getElementById('realtime-date');
+            if (dateElement) {
+                dateElement.textContent = dateString;
             }
         }
-
-        setInterval(updateClock, 1000);
-        updateClock();
     </script>
 </head>
 <body>
     <div class="home-section top-section">
         <img src="SALA CONTROLLO.png" alt="Logo Sala Controllo" class="home-logo">
-        <div id="widget-meteo-orario-container">
-            <h3>Meteo Basilicata</h3>
-            <div><iframe src="https://www.3bmeteo.com/moduli_esterni/localita_1_giorno_compatto/5483/ffffff/fc9b2a/5e5e5e/ffffff/it" width="100%" height="150" frameborder="0" style="border-radius: 4px;"></iframe><br/><a href="https://www.3bmeteo.com/meteo/potenza" target="_blank" style="color:#ced4da; font-size:0.8em;">Meteo Potenza</a></div>
+        <div id="widget-container">
             <div id="realtime-clock"></div>
+            <div id="realtime-date"></div>
+            <div id="meteo-container">
+                <h3>Meteo Basilicata</h3>
+                <div><iframe src="https://www.3bmeteo.com/moduli_esterni/localita_1_giorno_compatto/5483/ffffff/fc9b2a/5e5e5e/ffffff/it" width="100%" height="120" frameborder="0" style="border-radius: 4px;"></iframe><br/><a href="https://www.3bmeteo.com/meteo/potenza" target="_blank" style="color:#ced4da; font-size:0.8em;">Meteo Potenza</a></div>
+            </div>
         </div>
     </div>
 
@@ -205,6 +253,9 @@
             <button class="control-room-button" onclick="window.location.href='bollettini.html'">
                 <i class="fas fa-bullhorn"></i> Bollettini
             </button>
+            <a href="http://siger.regione.basilicata.it/sau/views/contents/login/login.xhtml" target="_blank" class="control-room-button external-link">
+                <i class="fas fa-server"></i> Siger
+            </a>
             <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank" class="control-room-button external-link">
                 <i class="fas fa-truck"></i> Flotta
             </a>
