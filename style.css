@@ -267,7 +267,112 @@ footer {
     font-size: 0.8em;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
+/* ... (altri stili) ... */
 
+body {
+    /* ... (altri stili del body) ... */
+    /* Opzione 1: Logo come sfondo fisso e coprente */
+    /* background-image: url('SALA CONTROLLO.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center; */
+
+    /* Opzione 2: Sfondo scuro di default, il logo sarà gestito da un contenitore se necessario */
+    background-color: #1e272e;
+}
+
+main {
+    grid-area: main;
+    padding: 20px;
+    background-color: transparent; /* Rende lo sfondo del main trasparente */
+    border-radius: 5px;
+    box-shadow: none; /* Rimuove l'ombra dal main */
+    overflow-y: auto;
+    display: flex; /* Utilizza flexbox per centrare i pulsanti */
+    flex-direction: column; /* Li dispone in colonna */
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra orizzontalmente */
+    gap: 20px; /* Spazio tra i gruppi di pulsanti */
+}
+
+main h2 {
+    color: #f8f9fa;
+    margin-top: 0;
+    border-bottom: 2px solid #4a6572;
+    padding-bottom: 10px;
+    margin-bottom: 30px; /* Più spazio sotto il titolo */
+    font-size: 1.5em;
+    text-align: center; /* Centra il titolo */
+    grid-column: 1 / -1; /* Occupa tutta la larghezza */
+}
+
+.rischi-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Griglia responsiva per i pulsanti */
+    gap: 15px;
+    width: 80%; /* Larghezza massima del contenitore dei pulsanti */
+    max-width: 800px; /* Larghezza massima */
+}
+
+.rischio-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #34495e;
+    color: #f8f9fa;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    min-height: 120px; /* Altezza minima dei pulsanti */
+}
+
+.rischio-button i {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #ced4da;
+}
+
+.rischio-button:hover {
+    background-color: #4a6572;
+}
+
+/* Stili per il logo a schermo intero (opzionale) */
+/* #full-screen-logo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Sfondo scuro semi-trasparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Assicura che sia sopra gli altri elementi */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+}
+
+#full-screen-logo.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0s;
+}
+
+#full-screen-logo img {
+    max-width: 90%;
+    max-height: 90%;
+} */
+
+/* ... (altri stili) ... */
 /* Stili per le notifiche (sezione a parte nella sidebar?) */
 #notifiche-container {
     /* Puoi aggiungere stili per il contenitore delle notifiche se necessario */
