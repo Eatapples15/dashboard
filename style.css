@@ -24,7 +24,57 @@ main {
 .link-compatto {
     /* ... (già inclusi nell'<style> nel file HTML) */
 }
+/* ... (altri stili) ... */
 
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Spazio tra i bottoni */
+    margin-top: 15px; /* Spazio sopra il menu */
+}
+
+.menu-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background-color: #4a6572;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: left;
+    font-weight: bold;
+    text-decoration: none; /* Assicurati che non ci siano sottolineature se usi un tag <a> */
+    width: 100%; /* Occupano tutta la larghezza della sidebar */
+    box-sizing: border-box; /* Evita problemi di larghezza con il padding */
+}
+
+.menu-button i {
+    width: 20px;
+    text-align: center;
+}
+
+.menu-button:hover {
+    background-color: #5e7d8a;
+}
+
+.menu-button.active {
+    background-color: #2c3e50;
+    color: #f8f9fa;
+}
+
+.menu-button.external-link {
+    /* Stili specifici per i link esterni se desideri */
+    text-decoration: none; /* Rimuove la sottolineatura predefinita dagli <a> */
+}
+
+.menu-button.external-link:hover {
+    text-decoration: underline; /* Aggiunge la sottolineatura all'hover per indicare un link esterno */
+}
+
+/* ... (altri stili) ... */
 /* Stili per il contenitore del widget meteo e orologio */
 #widget-meteo-container {
     background-color: #f9f9f9;
