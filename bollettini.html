@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bollettini e Avvisi</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8; /* Un leggero sfondo per la pagina */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .iframe-container {
+            flex-grow: 1; /* L'iframe occupa lo spazio disponibile */
+        }
+
+        iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .button-container {
+            padding: 20px;
+            text-align: center;
+            background-color: #e0e0e0; /* Un leggero sfondo per il contenitore del pulsante */
+            border-top: 1px solid #ccc;
+        }
+
+        .generate-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007bff; /* Blu tipico per i pulsanti */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .generate-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="iframe-container">
+        <iframe src="https://centrofunzionale.regione.basilicata.it/it/bollettini-avvisi.php?lt=A" title="Bollettini e Avvisi Protezione Civile Basilicata"></iframe>
+    </div>
+    <div class="button-container">
+        <a href="https://eatapples15.github.io/bollettinocom/" target="_blank" class="generate-button">Genera Bollettino - Test</a>
+    </div>
+</body>
+</html>
