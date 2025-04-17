@@ -43,12 +43,12 @@
 
     .bottom-section {
         flex: 1 1 auto; /* Occupa lo spazio rimanente */
-        background-color: rgba(0, 0, 0, 0.5); /* Sfondo semi-trasparente più scuro per contrasto */
+        background-color: transparent; /* Sfondo trasparente per la sezione */
         border-radius: 10px 10px 0 0; /* Bordo arrotondato superiore */
         margin-top: 50px; /* Spazio dalla sezione superiore */
         padding: 40px;
         display: flex; /* Per allineare i riquadri dei bottoni */
-        justify-content: space-between; /* Spazio tra i riquadri */
+        justify-content: space-around; /* Spazio uniforme tra i riquadri */
         align-items: flex-start; /* Allinea i riquadri in alto */
         width: 90%;
         max-width: 1200px;
@@ -147,7 +147,7 @@
         background-color: rgba(0, 0, 0, 0.3); /* Sfondo per i riquadri */
         border-radius: 10px;
         box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        width: 45%; /* Circa metà della larghezza della bottom-section */
+        width: 40%; /* Regola la larghezza dei contenitori */
         min-width: 250px; /* Larghezza minima per evitare restringimenti eccessivi */
     }
 
@@ -266,7 +266,7 @@
     </div>
 
     <div class="home-section bottom-section">
-        <div class="button-container">
+        <div class="button-container" style="margin-right: auto;">
             <h2>Gestione</h2>
             <button class="control-room-button" onclick="window.location.href='bollettini.html'">
                 <i class="fas fa-envelope-open-text"></i> Bollettini
@@ -284,7 +284,7 @@
                 <i class="fas fa-location-arrow"></i> MGO
             </a>
         </div>
-        <div class="button-container">
+        <div class="button-container" style="margin-left: auto;">
             <h2>Monitoraggio</h2>
             <button class="control-room-button" onclick="window.location.href='terremoti.html'">
                 <i class="fas fa-mountain"></i> Terremoto
