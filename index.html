@@ -47,6 +47,12 @@
         border-radius: 10px 10px 0 0; /* Bordo arrotondato superiore */
         margin-top: 50px; /* Spazio dalla sezione superiore */
         padding: 40px;
+        display: flex; /* Per allineare i riquadri dei bottoni */
+        justify-content: space-between; /* Spazio tra i riquadri */
+        align-items: flex-start; /* Allinea i riquadri in alto */
+        width: 90%;
+        max-width: 1200px;
+        margin: 50px auto 0; /* Margine superiore, auto a destra/sinistra, zero sotto */
     }
 
     /* Stili per il logo nella Home (ora non più necessario come elemento img) */
@@ -132,23 +138,35 @@
         font-size: 0.8em;
     }
 
-    /* Stili per la griglia dei pulsanti del menù nella Home */
-    .menu-buttons-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Griglia responsiva */
-        gap: 20px;
-        width: 90%;
-        max-width: 960px;
-        margin: 0 auto; /* Centra la griglia */
+    /* Stili per i contenitori dei pulsanti */
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* Spazio tra i bottoni */
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.3); /* Sfondo per i riquadri */
+        border-radius: 10px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        width: 45%; /* Circa metà della larghezza della bottom-section */
+        min-width: 250px; /* Larghezza minima per evitare restringimenti eccessivi */
+    }
+
+    .button-container h2 {
+        color: #f8f9fa;
+        margin-top: 0;
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 1.3em;
+        border-bottom: 1px solid #4a6572;
+        padding-bottom: 10px;
     }
 
     /* Stili accattivanti per i pulsanti "da control room" */
     .control-room-button {
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 25px;
+        padding: 15px 20px;
         background-color: rgba(74, 101, 114, 0.8); /* Sfondo semi-trasparente */
         color: #f8f9fa;
         border: none;
@@ -159,18 +177,18 @@
         font-weight: bold;
         text-align: center;
         text-decoration: none;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     }
 
     .control-room-button i {
-        font-size: 2.5em;
-        margin-bottom: 15px;
+        font-size: 1.5em;
+        margin-right: 10px;
         color: #ced4da;
     }
 
     .control-room-button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        transform: scale(1.03);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
         background-color: rgba(94, 125, 138, 0.9); /* Hover leggermente più chiaro e semi-trasparente */
     }
 
@@ -248,35 +266,39 @@
     </div>
 
     <div class="home-section bottom-section">
-        <div class="menu-buttons-grid">
-    <button class="control-room-button" onclick="window.location.href='terremoti.html'">
-        <i class="fas fa-mountain"></i> Terremoto
-    </button>
-    <button class="control-room-button" onclick="window.location.href='idrogeologico.html'">
-        <i class="fas fa-tint"></i> Idrogeologico
-    </button>
-    <button class="control-room-button" onclick="window.location.href='incendi.html'">
-        <i class="fas fa-fire-alt"></i> Incendi
-    </button>
-    <button class="control-room-button" onclick="window.location.href='piani.html'">
-        <i class="fas fa-map"></i> Piani PC
-    </button>
-    <button class="control-room-button" onclick="window.location.href='bollettini.html'">
-        <i class="fas fa-envelope-open-text"></i> Bollettini
-    </button>
-    <a href="http://siger.regione.basilicata.it/sau/views/contents/login/login.xhtml" target="_blank" class="control-room-button external-link">
-        <i class="fas fa-server"></i> Siger
-    </a>
-    <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank" class="control-room-button external-link">
-        <i class="fas fa-truck"></i> Flotta
-    </a>
-    <a href="https://protezionecivile.apperosrl.it/websor" target="_blank" class="control-room-button external-link">
-        <i class="fas fa-globe-europe"></i> WebSor
-    </a>
-    <a href="https://protezionecivile.apperosrl.it/mgo/" target="_blank" class="control-room-button external-link">
-        <i class="fas fa-location-arrow"></i> MGO
-    </a>
-</div>
+        <div class="button-container">
+            <h2>Gestione</h2>
+            <button class="control-room-button" onclick="window.location.href='bollettini.html'">
+                <i class="fas fa-envelope-open-text"></i> Bollettini
+            </button>
+            <a href="http://siger.regione.basilicata.it/sau/views/contents/login/login.xhtml" target="_blank" class="control-room-button external-link">
+                <i class="fas fa-server"></i> Siger
+            </a>
+            <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank" class="control-room-button external-link">
+                <i class="fas fa-truck"></i> Flotta
+            </a>
+            <a href="https://protezionecivile.apperosrl.it/websor" target="_blank" class="control-room-button external-link">
+                <i class="fas fa-globe-europe"></i> WebSor
+            </a>
+            <a href="https://protezionecivile.apperosrl.it/mgo/" target="_blank" class="control-room-button external-link">
+                <i class="fas fa-location-arrow"></i> MGO
+            </a>
+        </div>
+        <div class="button-container">
+            <h2>Monitoraggio</h2>
+            <button class="control-room-button" onclick="window.location.href='terremoti.html'">
+                <i class="fas fa-mountain"></i> Terremoto
+            </button>
+            <button class="control-room-button" onclick="window.location.href='idrogeologico.html'">
+                <i class="fas fa-tint"></i> Idrogeologico
+            </button>
+            <button class="control-room-button" onclick="window.location.href='incendi.html'">
+                <i class="fas fa-fire-alt"></i> Incendi
+            </button>
+            <button class="control-room-button" onclick="window.location.href='piani.html'">
+                <i class="fas fa-map"></i> Piani PC
+            </button>
+        </div>
     </div>
 
     <footer>
