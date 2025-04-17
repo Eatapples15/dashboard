@@ -143,22 +143,22 @@
         display: flex;
         flex-direction: column;
         gap: 15px; /* Spazio tra i bottoni */
-        padding: 20px;
-        background-color: rgba(0, 0, 0, 0.3); /* Sfondo per i riquadri */
-        border-radius: 10px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        padding: 25px; /* Aumentato il padding interno */
+        background-color: rgba(0, 0, 0, 0.4); /* Sfondo leggermente più scuro */
+        border-radius: 12px; /* Bordi più arrotondati */
+        box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5); /* Ombra più pronunciata */
         width: 40%; /* Regola la larghezza dei contenitori */
-        min-width: 250px; /* Larghezza minima per evitare restringimenti eccessivi */
+        min-width: 280px; /* Larghezza minima leggermente aumentata */
     }
 
     .button-container h2 {
-        color: #f8f9fa;
+        color: #f39c12; /* Colore del titolo più vivace */
         margin-top: 0;
-        margin-bottom: 15px;
+        margin-bottom: 20px; /* Aumentato il margine inferiore */
         text-align: center;
-        font-size: 1.3em;
-        border-bottom: 1px solid #4a6572;
-        padding-bottom: 10px;
+        font-size: 1.5em; /* Titolo più grande */
+        border-bottom: 2px solid #f39c12; /* Bordo più spesso e dello stesso colore */
+        padding-bottom: 12px; /* Aumentato il padding inferiore */
     }
 
     /* Stili accattivanti per i pulsanti "da control room" */
@@ -166,30 +166,30 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 15px 20px;
-        background-color: rgba(74, 101, 114, 0.8); /* Sfondo semi-trasparente */
+        padding: 18px 25px; /* Pulsanti più grandi */
+        background-color: rgba(74, 101, 114, 0.9); /* Sfondo pulsante leggermente più opaco */
         color: #f8f9fa;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px; /* Bordi pulsante più arrotondati */
         cursor: pointer;
         transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.15s ease-in-out;
-        font-size: 1em;
+        font-size: 1.1em; /* Testo pulsante più grande */
         font-weight: bold;
         text-align: center;
         text-decoration: none;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5); /* Ombra pulsante più evidente */
     }
 
     .control-room-button i {
-        font-size: 1.5em;
-        margin-right: 10px;
+        font-size: 1.7em; /* Icone più grandi */
+        margin-right: 12px; /* Più spazio dall'icona */
         color: #ced4da;
     }
 
     .control-room-button:hover {
-        transform: scale(1.03);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-        background-color: rgba(94, 125, 138, 0.9); /* Hover leggermente più chiaro e semi-trasparente */
+        transform: scale(1.05);
+        box-shadow: 0 8px 14px rgba(0, 0, 0, 0.6); /* Ombra hover più intensa */
+        background-color: rgba(94, 125, 138, 1); /* Hover pulsante completamente opaco */
     }
 
     .control-room-button.external-link {
