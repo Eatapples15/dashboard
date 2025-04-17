@@ -7,54 +7,72 @@
     <style>
         body {
             font-family: sans-serif;
-            margin: 20px;
+            margin: 0; /* Rimuove il margine predefinito del body */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Assicura che il body occupi almeno l'altezza della viewport */
         }
 
         .controls {
-            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            margin-bottom: 10px;
         }
 
-        .controls button {
-            padding: 10px 15px;
+        .controls label {
             margin-right: 10px;
-            cursor: pointer;
         }
 
         .grid-container {
             display: grid;
-            gap: 10px; /* Spazio tra gli elementi della griglia */
+            gap: 10px;
+            padding: 10px;
+            flex-grow: 1; /* Permette alla griglia di espandersi per riempire lo spazio disponibile */
         }
 
         .grid-item {
             border: 1px solid #ccc;
-            overflow: hidden; /* Importante per contenere l'iframe */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .url-input {
+            padding: 8px;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #eee;
+            box-sizing: border-box; /* Assicura che padding e border siano inclusi nella larghezza/altezza */
         }
 
         .grid-item iframe {
             width: 100%;
             height: 100%;
-            border: none; /* Rimuove il bordo predefinito dell'iframe */
+            border: none;
+            flex-grow: 1; /* Permette all'iframe di espandersi per riempire lo spazio disponibile nel box */
         }
 
-        /* Stili specifici per le diverse griglie (saranno applicati via JavaScript) */
+        /* Stili specifici per le diverse griglie */
         .grid-4 {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Griglia responsiva con almeno 300px per colonna */
         }
 
         .grid-6 {
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         }
 
         .grid-8 {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         }
     </style>
 </head>
 <body>
     <div class="controls">
-        <button onclick="setGrid(4)">4 Siti</button>
-        <button onclick="setGrid(6)">6 Siti</button>
-        <button onclick="setGrid(8)">8 Siti</button>
+        <label for="grid-size">Numero di siti:</label>
+        <select id="grid-size" onchange="setGrid(this.value)">
+            <option value="4">4</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+        </select>
     </div>
 
     <div class="grid-container">
@@ -62,49 +80,57 @@
 
     <script>
         const gridContainer = document.querySelector('.grid-container');
-        let numberOfSites = 0; // Tiene traccia del numero corrente di siti visualizzati
 
-        function createIframe(url) {
-            const iframe = document.createElement('iframe');
-            iframe.src = url;
-            return iframe;
-        }
+        function createGridItem(index) {
+            const gridItem = document.createElement('div');
+            gridItem.classList.add('grid-item');
 
-        function populateGrid(numSites) {
-            gridContainer.innerHTML = ''; // Pulisce la griglia esistente
-            for (let i = 0; i < numSites; i++) {
-                const gridItem = document.createElement('div');
-                gridItem.classList.add('grid-item');
-                // Qui potresti implementare una logica per chiedere all'utente l'URL per ogni box
-                // Per ora, inseriamo degli URL di esempio
-                let url = prompt(`Inserisci l'URL del sito ${i + 1}:`, 'https://www.google.com');
-                if (url) {
-                    gridItem.appendChild(createIframe(url));
-                    gridContainer.appendChild(gridItem);
-                } else {
-                    // Se l'utente annulla o non inserisce un URL, non aggiungiamo il box
-                    numSites--; // Decrementa il numero di siti da visualizzare
+            const input = document.createElement('input');
+            input.type = 'url';
+            input.classList.add('url-input');
+            input.placeholder = `Inserisci URL del sito ${index + 1}`;
+            input.addEventListener('change', function() {
+                const iframe = gridItem.querySelector('iframe');
+                if (iframe) {
+                    iframe.src = this.value;
+                } else if (this.value) {
+                    const newIframe = document.createElement('iframe');
+                    newIframe.src = this.value;
+                    gridItem.appendChild(newIframe);
                 }
-            }
-            numberOfSites = numSites;
+            });
+
+            gridItem.appendChild(input);
+            return gridItem;
         }
 
-        function setGrid(numColumns) {
+        function setGrid(numSites) {
+            gridContainer.innerHTML = '';
             gridContainer.classList.remove('grid-4', 'grid-6', 'grid-8');
-            if (numColumns === 4) {
+
+            if (numSites === '4') {
                 gridContainer.classList.add('grid-4');
-                populateGrid(4);
-            } else if (numColumns === 6) {
+                for (let i = 0; i < 4; i++) {
+                    gridContainer.appendChild(createGridItem(i));
+                }
+            } else if (numSites === '6') {
                 gridContainer.classList.add('grid-6');
-                populateGrid(6);
-            } else if (numColumns === 8) {
+                for (let i = 0; i < 6; i++) {
+                    gridContainer.appendChild(createGridItem(i));
+                }
+            } else if (numSites === '8') {
                 gridContainer.classList.add('grid-8');
-                populateGrid(8);
+                for (let i = 0; i < 8; i++) {
+                    gridContainer.appendChild(createGridItem(i));
+                }
             }
         }
 
         // Imposta la griglia iniziale a 4 siti al caricamento della pagina
-        setGrid(4);
+        document.addEventListener('DOMContentLoaded', function() {
+            setGrid('4');
+            document.getElementById('grid-size').value = '4'; // Imposta il valore di default nel menù a tendina
+        });
     </script>
 </body>
 </html>
