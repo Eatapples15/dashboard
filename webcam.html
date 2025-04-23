@@ -3,36 +3,131 @@
 <head>
 <title>Webcam della Basilicata</title>
 <style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4; /* Sfondo chiaro */
+    color: #333;
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    color: #3778c2; /* Blu Protezione Civile (un tono) */
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555;
+  }
+
+  select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    appearance: none; /* Rimuove l'aspetto predefinito su alcuni browser */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 16px;
+  }
+
+  select:focus {
+    outline: none;
+    border-color: #3778c2;
+    box-shadow: 0 0 5px rgba(55, 120, 194, 0.5);
+  }
+
   #container-webcam {
-    margin-top: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px; /* Aggiunto un po' di margine in basso */
   }
 
   .webcam-link {
     display: block;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #e9ecef;
+    border: 1px solid #dee2e6;
     text-decoration: none;
-    color: #333;
-    border-radius: 5px;
+    color: #495057;
+    border-radius: 6px;
+    transition: background-color 0.2s ease-in-out;
   }
 
   .webcam-link:hover {
-    background-color: #e0e0e0;
+    background-color: #d3d9df;
+  }
+
+  .webcam-link::before {
+    content: '\f03d'; /* Icona della webcam da Font Awesome */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-right: 10px;
+    color: #3778c2;
+  }
+
+  .home-button {
+    display: block;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #3778c2; /* Stesso blu del titolo */
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .home-button:hover {
+    background-color: #2c64a3;
+  }
+
+  .home-button::before {
+    content: '\f015'; /* Icona della home da Font Awesome */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-right: 10px;
+  }
+
+  p {
+    color: #6c757d;
+    font-style: italic;
   }
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQmQa7TBXA9XkPgvoMmTIBUInzn5VtSnFBsBnrNT9Tibxj7iTaEDc8JYgWiG2ymiPQFL5GXYmdlPpVg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+  <div class="container">
+    <h1>Webcam della Basilicata</h1>
 
-  <h1>Webcam della Basilicata</h1>
+    <label for="comune">Seleziona un comune:</label>
+    <select id="comune">
+      <option value="">-- Seleziona un comune --</option>
+    </select>
 
-  <label for="comune">Seleziona un comune:</label>
-  <select id="comune">
-    <option value="">-- Seleziona un comune --</option>
-  </select>
+    <div id="container-webcam">
+    </div>
 
-  <div id="container-webcam">
+    <a href="index.html" class="home-button">
+      <i class="fas fa-home"></i> Torna alla Home
+    </a>
   </div>
 
   <script>
@@ -51,7 +146,7 @@
         'https://www.skylinewebcams.com/it/webcam/italia/basilicata/matera/craco.html'
       ],
       'marconia': [
-        'http://www.meteomarconia.it/webcam.php' // URL corretta per Marconia
+        'http://www.meteomarconia.it/webcam.php'
       ],
       'maratea': [
         'https://www.skylinewebcams.com/it/webcam/italia/basilicata/potenza/maratea.html',
