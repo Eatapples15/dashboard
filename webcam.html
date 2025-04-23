@@ -3,8 +3,23 @@
 <head>
 <title>Webcam della Basilicata</title>
 <style>
-  #container-webcam iframe {
-    margin-bottom: 15px;
+  #container-webcam {
+    margin-top: 15px;
+  }
+
+  .webcam-link {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #333;
+    border-radius: 5px;
+  }
+
+  .webcam-link:hover {
+    background-color: #e0e0e0;
   }
 </style>
 </head>
@@ -84,12 +99,12 @@
         const webcamUrls = webcamData[comuneSelezionato];
         if (webcamUrls.length > 0) {
           webcamUrls.forEach(url => {
-            const iframe = document.createElement('iframe');
-            iframe.src = url;
-            iframe.width = '640';
-            iframe.height = '480';
-            iframe.frameBorder = '0';
-            containerWebcam.appendChild(iframe);
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank'; // Apri in una nuova scheda
+            link.textContent = `Webcam di ${comuneSelezionato.charAt(0).toUpperCase() + comuneSelezionato.slice(1)}`;
+            link.className = 'webcam-link';
+            containerWebcam.appendChild(link);
           });
         } else {
           const messaggio = document.createElement('p');
