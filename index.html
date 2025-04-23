@@ -71,6 +71,24 @@
         background-color: rgba(0, 0, 0, 0.3); /* Sfondo per il contenitore */
         border-radius: 10px;
         box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        margin-bottom: 20px; /* Aggiunto margine inferiore per separare da Windy */
+    }
+
+    /* Stili per l'iframe di Windy */
+    .windy-iframe-container {
+        display: flex;
+        justify-content: center;
+        width: 90%;
+        max-width: 650px; /* Imposta la larghezza dell'iframe */
+        margin: 0 auto 30px; /* Centra l'iframe e aggiunge margine inferiore */
+    }
+
+    .windy-iframe-container iframe {
+        width: 100%; /* L'iframe occupa tutta la larghezza del contenitore */
+        height: 450px; /* Imposta l'altezza dell'iframe */
+        border: 0; /* Rimuove il bordo predefinito dell'iframe */
+        border-radius: 8px; /* Aggiunge un leggero bordo arrotondato */
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); /* Aggiunge un'ombra leggera */
     }
 
     /* Stili per il contenitore orologio e data */
@@ -232,7 +250,7 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            const timeString = `${hours}:${minutes}:${seconds}`;
+            const timeString = `<span class="math-inline">\{hours\}\:</span>{minutes}:${seconds}`;
             const clockElement = document.getElementById('realtime-clock');
             if (clockElement) {
                 clockElement.textContent = timeString;
@@ -242,7 +260,7 @@
             const day = String(now.getDate()).padStart(2, '0');
             const month = String(now.getMonth() + 1).padStart(2, '0');
             const year = now.getFullYear();
-            const dateString = `${day}/${month}/${year}`;
+            const dateString = `<span class="math-inline">\{day\}/</span>{month}/${year}`;
             const dateElement = document.getElementById('realtime-date');
             if (dateElement) {
                 dateElement.textContent = dateString;
@@ -263,6 +281,9 @@
                 <div><iframe src="https://www.3bmeteo.com/moduli_esterni/localita_1_giorno_compatto/5483/ffffff/fc9b2a/5e5e5e/ffffff/it" width="100%" height="120" frameborder="0" style="border-radius: 4px;"></iframe><br/><a href="https://www.3bmeteo.com/meteo/potenza" target="_blank" style="color:#ced4da; font-size:0.8em;">Meteo Potenza</a></div>
             </div>
         </div>
+        <div class="windy-iframe-container">
+            <iframe width="650" height="450" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=8&overlay=wind&product=ecmwf&level=surface&lat=40.259&lon=15.963&detailLat=40.635&detailLon=15.963&detail=true" frameborder="0"></iframe>
+        </div>
     </div>
 
     <div class="home-section bottom-section">
@@ -280,7 +301,7 @@
             <a href="https://protezionecivile.apperosrl.it/websor" target="_blank" class="control-room-button external-link">
                 <i class="fas fa-globe-europe"></i> WebSor
             </a>
-            <a href="https://protezionecivile.apperosrl.it/mgo/" target="_blank" class="control-room-button external-link">
+            <a href="https://protezionecivile.apperosrl..it/mgo/" target="_blank" class="control-room-button external-link">
                 <i class="fas fa-location-arrow"></i> MGO
             </a>
         </div>
