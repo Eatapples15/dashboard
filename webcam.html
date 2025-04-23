@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Webcam della Basilicata</title>
+<style>
+  #container-webcam iframe {
+    margin-bottom: 15px;
+  }
+</style>
+</head>
+<body>
+
+  <h1>Webcam della Basilicata</h1>
+
+  <label for="comune">Seleziona un comune:</label>
+  <select id="comune">
+    <option value="">-- Seleziona un comune --</option>
+  </select>
+
+  <div id="container-webcam">
+  </div>
+
+  <script>
+    const selectComune = document.getElementById('comune');
+    const containerWebcam = document.getElementById('container-webcam');
+
+    const webcamData = {
+      'matera': [
+        'https://embed.skylinewebcams.com/hls/live/667.m3u8',
+        'https://embed.skylinewebcams.com/hls/live/3457.m3u8'
+      ],
+      'pisticci': [
+        'https://embed.skylinewebcams.com/hls/live/2784.m3u8'
+      ],
+      'craco': [
+        'https://embed.skylinewebcams.com/hls/live/4467.m3u8'
+      ],
+      'marconia': [
+        'https://embed.skylinewebcams.com/hls/live/2784.m3u8' // Assicurati che sia la webcam corretta
+      ],
+      'maratea': [
+        'https://embed.skylinewebcams.com/hls/live/842.m3u8',
+        'https://embed.skylinewebcams.com/hls/live/1390.m3u8'
+      ],
+      'castelsaraceno': [
+        'https://embed.skylinewebcams.com/hls/live/1878.m3u8'
+      ],
+      'potenza': [
+        'https://embed.skylinewebcams.com/hls/live/4537.m3u8',
+        'https://embed.skylinewebcams.com/hls/live/1575.m3u8'
+      ],
+      'tito scalo': [
+        'https://embed.skylinewebcams.com/hls/live/3662.m3u8'
+      ],
+      'lago pantano - pignola': [
+        'https://embed.skylinewebcams.com/hls/live/1594.m3u8'
+      ],
+      'brienza': [
+        'https://embed.skylinewebcams.com/hls/live/1548.m3u8'
+      ],
+      'atella': [
+        'https://embed.skylinewebcams.com/hls/live/5215.m3u8'
+      ],
+      'lauria': [
+        'https://embed.skylinewebcams.com/hls/live/1521.m3u8'
+      ],
+      // Aggiungi qui gli altri comuni e le relative URL delle webcam
+    };
+
+    // Popola la lista dei comuni dinamicamente
+    for (const comune in webcamData) {
+      const option = document.createElement('option');
+      option.value = comune;
+      option.textContent = comune.charAt(0).toUpperCase() + comune.slice(1);
+      selectComune.appendChild(option);
+    }
+
+    selectComune.addEventListener('change', function() {
+      containerWebcam.innerHTML = ''; // Pulisci il contenitore
+
+      const comuneSelezionato = this.value;
+      if (comuneSelezionato && webcamData[comuneSelezionato]) {
+        const webcamUrls = webcamData[comuneSelezionato];
+        if (webcamUrls.length > 0) {
+          webcamUrls.forEach(url => {
+            const iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.width = '640';
+            iframe.height = '480';
+            iframe.frameBorder = '0';
+            containerWebcam.appendChild(iframe);
+          });
+        } else {
+          const messaggio = document.createElement('p');
+          messaggio.textContent = `Nessuna webcam disponibile per ${comuneSelezionato.charAt(0).toUpperCase() + comuneSelezionato.slice(1)}.`;
+          containerWebcam.appendChild(messaggio);
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
