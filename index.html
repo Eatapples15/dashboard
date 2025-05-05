@@ -196,6 +196,17 @@
         /* Stili specifici per i link esterni se necessario */
     }
 
+    .control-room-button.new-site {
+        background-color: #27ae60; /* Verde per evidenziare il nuovo sito */
+        color: #fff;
+        font-weight: bolder;
+    }
+
+    .control-room-button.new-site:hover {
+        background-color: #2ecc71;
+        transform: scale(1.07);
+    }
+
     /* Stili per il footer (assicurati che siano definiti) */
     footer {
         grid-area: footer;
@@ -232,7 +243,7 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            const timeString = `${hours}:${minutes}:${seconds}`;
+            const timeString = `<span class="math-inline">\{hours\}\:</span>{minutes}:${seconds}`;
             const clockElement = document.getElementById('realtime-clock');
             if (clockElement) {
                 clockElement.textContent = timeString;
@@ -242,7 +253,7 @@
             const day = String(now.getDate()).padStart(2, '0');
             const month = String(now.getMonth() + 1).padStart(2, '0');
             const year = now.getFullYear();
-            const dateString = `${day}/${month}/${year}`;
+            const dateString = `<span class="math-inline">\{day\}/</span>{month}/${year}`;
             const dateElement = document.getElementById('realtime-date');
             if (dateElement) {
                 dateElement.textContent = dateString;
@@ -260,21 +271,24 @@
             </div>
             <div id="meteo-container">
                 <h3>Meteo Basilicata</h3>
-                           <iframe width="650" height="120" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=8&overlay=wind&product=ecmwf&level=surface&lat=40.259&lon=15.963&detailLat=40.635&detailLon=15.963&detail=true" frameborder="0"></iframe>
-        </div>
+                                <iframe width="650" height="120" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=8&overlay=wind&product=ecmwf&level=surface&lat=40.259&lon=15.963&detailLat=40.635&detailLon=15.963&detail=true" frameborder="0"></iframe>
+    </div>
     </div>
 
     <div class="home-section bottom-section">
         <div class="button-container" style="margin-right: auto;">
             <h2>Gestione</h2>
+            <a href="https://macnil.gtfleet.net/dashboard/fleet-control" target="_blank" class="control-room-button external-link new-site">
+                <i class="fas fa-tachometer-alt"></i> Nuovo Flotta
+            </a>
+            <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank" class="control-room-button external-link">
+                <i class="fas fa-truck"></i> Flotta
+            </a>
             <button class="control-room-button" onclick="window.location.href='bollettini.html'">
                 <i class="fas fa-envelope-open-text"></i> Bollettini
             </button>
             <a href="http://siger.regione.basilicata.it/sau/views/contents/login/login.xhtml" target="_blank" class="control-room-button external-link">
                 <i class="fas fa-server"></i> Siger
-            </a>
-            <a href="http://www.gtfleet.net/View/Login.aspx" target="_blank" class="control-room-button external-link">
-                <i class="fas fa-truck"></i> Flotta
             </a>
             <a href="https://protezionecivile.apperosrl.it/websor" target="_blank" class="control-room-button external-link">
                 <i class="fas fa-globe-europe"></i> WebSor
@@ -298,8 +312,7 @@
                 <i class="fas fa-map"></i> Piani PC
             </button>
             <button class="control-room-button" onclick="window.location.href='griglia.html'">
-                <i class="fas fa-map"></i> Vista Griglia
-            </button>
+                <i class="fas fa-map"></i> Vista Griglia</button>
             <button class="control-room-button" onclick="window.location.href='webcam.html'">
                 <i class="fas fa-video"></i> Webcam
             </button>
@@ -307,7 +320,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2025 Dashboard Protezione Civile Basilicata</p>
+        <p>&copy; 2025 Dashboard Protezione Civile Basilicata - Eatapples</p>
     </footer>
 
 </body>
