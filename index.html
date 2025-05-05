@@ -1,142 +1,276 @@
-<!DOCTYPE html>
-<html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Sala Controllo - Protezione Civile Basilicata</title>
-    <link rel="icon" href="SALA CONTROLLO.png" type="image/png">
-    <link rel="manifest" href="/manifest.json">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQmQa7TBXA9XkPgvoMmTIBUInzn5VtSnFBsBnrNT9Tibxj7iTaEDc8JYgWiG2ymiPQFL5GXYmdlPpVg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-   <style>
-    /* Stili di base per la pagina */
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0;
-        background-color: #1e272e; /* Sfondo scuro principale */
-        color: #f8f9fa; /* Testo chiaro principale */
-        display: flex; /* Disposizione flex per le sezioni della home */
-        flex-direction: column; /* Le sezioni vanno una sopra l'altra */
-        height: 100vh;
-        overflow-y: auto; /* Permetti lo scorrimento verticale della pagina */
-        background-image: url('SALA CONTROLLO.png'); /* Imposta l'immagine come sfondo */
-        background-repeat: no-repeat; /* Non ripetere l'immagine */
-        background-size: cover; /* Copri l'intera area dello sfondo */
-        background-position: center center; /* Centra l'immagine */
-        background-attachment: fixed; /* Mantiene l'immagine fissa durante lo scorrimento */
-    }
 
-    /* Stili per le sezioni della Home */
-    .home-section {
-        display: flex;
-        justify-content: center; /* Centra orizzontalmente il contenuto */
-        align-items: center; /* Centra verticalmente il contenuto */
-        padding: 20px;
-        background-color: transparent; /* Rende lo sfondo delle sezioni trasparente */
-    }
+    <meta charset="UTF-8">
 
-    .top-section {
-        flex-direction: column; /* Logo sopra il meteo/orologio */
-        gap: 30px;
-        flex: 0 1 auto; /* Non si espande troppo */
-        padding-top: 50px;
-    }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    .bottom-section {
-        flex: 1 1 auto; /* Occupa lo spazio rimanente */
-        background-color: transparent; /* Sfondo trasparente per la sezione */
-        border-radius: 10px 10px 0 0; /* Bordo arrotondato superiore */
-        margin-top: 50px; /* Spazio dalla sezione superiore */
-        padding: 40px;
-        display: flex; /* Per allineare i riquadri dei bottoni */
-        justify-content: space-around; /* Spazio uniforme tra i riquadri */
-        align-items: flex-start; /* Allinea i riquadri in alto */
-        width: 90%;
-        max-width: 1200px;
-        margin: 50px auto 0; /* Margine superiore, auto a destra/sinistra, zero sotto */
-    }
+    <title>Dashboard Sala Controllo - Protezione Civile Basilicata</title>
 
-    /* Stili per il logo nella Home (ora non più necessario come elemento img) */
-    .home-logo {
-        display: none; /* Nascondi l'elemento img del logo */
-    }
+    <link rel="icon" href="SALA CONTROLLO.png" type="image/png">
 
-    /* Stili per il contenitore del widget (orologio, data, meteo) */
-    #widget-container {
-        display: flex;
-        justify-content: space-between; /* Spazio tra gli elementi */
-        align-items: center; /* Allinea verticalmente gli elementi */
-        width: 90%; /* Larghezza del contenitore */
-        max-width: 1200px; /* Larghezza massima del contenitore */
-        padding: 20px;
-        background-color: rgba(0, 0, 0, 0.3); /* Sfondo per il contenitore */
-        border-radius: 10px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    }
+    <link rel="manifest" href="/manifest.json">
 
-    /* Stili per il contenitore orologio e data */
-    .clock-date-container {
-        display: flex;
-        flex-direction: column; /* Data sotto l'orologio */
-        align-items: flex-start; /* Allinea a sinistra orologio e data */
-        gap: 5px; /* Piccolo spazio tra orologio e data */
-    }
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQmQa7TBXA9XkPgvoMmTIBUInzn5VtSnFBsBnrNT9Tibxj7iTaEDc8JYgWiG2ymiPQFL5GXYmdlPpVg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    /* Stili per l'orologio */
-    @font-face {
-        font-family: 'Segment7Standard';
-        src: url('Segment7Standard.woff2') format('woff2'),
-                    url('Segment7Standard.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-    }
+   <style>
 
-    #realtime-clock {
-        font-family: 'Segment7Standard', sans-serif;
-        font-size: 3.5em; /* Aumentato la dimensione */
-        color: #f39c12; /* Colore arancione */
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        letter-spacing: 5px;
-        white-space: nowrap; /* Impedisce al testo di andare a capo */
-    }
+    /* Stili di base per la pagina */
 
-    /* Stili per la data */
-    #realtime-date {
-        font-size: 1.5em; /* Aumentato la dimensione */
-        color: #f39c12; /* Giallo come richiesto */
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        white-space: nowrap; /* Impedisce al testo di andare a capo */
-    }
+    body {
 
-    /* Stili per il contenitore del meteo */
-    #meteo-container {
-        background-color: rgba(52, 73, 94, 0.8); /* Sfondo semi-trasparente */
-        padding: 20px;
-        border-radius: 8px;
-        text-align: center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        max-width: 400px; /* Mantiene la larghezza massima */
-    }
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-    #meteo-container h3 {
-        color: #f8f9fa;
-        margin-top: 0;
-        font-size: 1.1em;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #4a6572;
-        padding-bottom: 8px;
-    }
+        margin: 0;
 
-    #meteo-container iframe {
-        width: 100%;
-        height: 120px; /* Altezza ridotta per la home */
-        border: 0;
-        border-radius: 4px;
-    }
+        background-color: #1e272e; /* Sfondo scuro principale */
 
-    #meteo-container a {
-        color: #ced4da;
-        font-size: 0.8em;
-    }
+        color: #f8f9fa; /* Testo chiaro principale */
+
+        display: flex; /* Disposizione flex per le sezioni della home */
+
+        flex-direction: column; /* Le sezioni vanno una sopra l'altra */
+
+        height: 100vh;
+
+        overflow-y: auto; /* Permetti lo scorrimento verticale della pagina */
+
+        background-image: url('SALA CONTROLLO.png'); /* Imposta l'immagine come sfondo */
+
+        background-repeat: no-repeat; /* Non ripetere l'immagine */
+
+        background-size: cover; /* Copri l'intera area dello sfondo */
+
+        background-position: center center; /* Centra l'immagine */
+
+        background-attachment: fixed; /* Mantiene l'immagine fissa durante lo scorrimento */
+
+    }
+
+
+
+    /* Stili per le sezioni della Home */
+
+    .home-section {
+
+        display: flex;
+
+        justify-content: center; /* Centra orizzontalmente il contenuto */
+
+        align-items: center; /* Centra verticalmente il contenuto */
+
+        padding: 20px;
+
+        background-color: transparent; /* Rende lo sfondo delle sezioni trasparente */
+
+    }
+
+
+
+    .top-section {
+
+        flex-direction: column; /* Logo sopra il meteo/orologio */
+
+        gap: 30px;
+
+        flex: 0 1 auto; /* Non si espande troppo */
+
+        padding-top: 50px;
+
+    }
+
+
+
+    .bottom-section {
+
+        flex: 1 1 auto; /* Occupa lo spazio rimanente */
+
+        background-color: transparent; /* Sfondo trasparente per la sezione */
+
+        border-radius: 10px 10px 0 0; /* Bordo arrotondato superiore */
+
+        margin-top: 50px; /* Spazio dalla sezione superiore */
+
+        padding: 40px;
+
+        display: flex; /* Per allineare i riquadri dei bottoni */
+
+        justify-content: space-around; /* Spazio uniforme tra i riquadri */
+
+        align-items: flex-start; /* Allinea i riquadri in alto */
+
+        width: 90%;
+
+        max-width: 1200px;
+
+        margin: 50px auto 0; /* Margine superiore, auto a destra/sinistra, zero sotto */
+
+    }
+
+
+
+    /* Stili per il logo nella Home (ora non più necessario come elemento img) */
+
+    .home-logo {
+
+        display: none; /* Nascondi l'elemento img del logo */
+
+    }
+
+
+
+    /* Stili per il contenitore del widget (orologio, data, meteo) */
+
+    #widget-container {
+
+        display: flex;
+
+        justify-content: space-between; /* Spazio tra gli elementi */
+
+        align-items: center; /* Allinea verticalmente gli elementi */
+
+        width: 90%; /* Larghezza del contenitore */
+
+        max-width: 1200px; /* Larghezza massima del contenitore */
+
+        padding: 20px;
+
+        background-color: rgba(0, 0, 0, 0.3); /* Sfondo per il contenitore */
+
+        border-radius: 10px;
+
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+
+    }
+
+
+
+    /* Stili per il contenitore orologio e data */
+
+    .clock-date-container {
+
+        display: flex;
+
+        flex-direction: column; /* Data sotto l'orologio */
+
+        align-items: flex-start; /* Allinea a sinistra orologio e data */
+
+        gap: 5px; /* Piccolo spazio tra orologio e data */
+
+    }
+
+
+
+    /* Stili per l'orologio */
+
+    @font-face {
+
+        font-family: 'Segment7Standard';
+
+        src: url('Segment7Standard.woff2') format('woff2'),
+
+                    url('Segment7Standard.woff') format('woff');
+
+        font-weight: normal;
+
+        font-style: normal;
+
+    }
+
+
+
+    #realtime-clock {
+
+        font-family: 'Segment7Standard', sans-serif;
+
+        font-size: 3.5em; /* Aumentato la dimensione */
+
+        color: #f39c12; /* Colore arancione */
+
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+        letter-spacing: 5px;
+
+        white-space: nowrap; /* Impedisce al testo di andare a capo */
+
+    }
+
+
+
+    /* Stili per la data */
+
+    #realtime-date {
+
+        font-size: 1.5em; /* Aumentato la dimensione */
+
+        color: #f39c12; /* Giallo come richiesto */
+
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+
+        white-space: nowrap; /* Impedisce al testo di andare a capo */
+
+    }
+
+
+
+    /* Stili per il contenitore del meteo */
+
+    #meteo-container {
+
+        background-color: rgba(52, 73, 94, 0.8); /* Sfondo semi-trasparente */
+
+        padding: 20px;
+
+        border-radius: 8px;
+
+        text-align: center;
+
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+        max-width: 400px; /* Mantiene la larghezza massima */
+
+    }
+
+
+
+    #meteo-container h3 {
+
+        color: #f8f9fa;
+
+        margin-top: 0;
+
+        font-size: 1.1em;
+
+        margin-bottom: 10px;
+
+        border-bottom: 1px solid #4a6572;
+
+        padding-bottom: 8px;
+
+    }
+
+
+
+    #meteo-container iframe {
+
+        width: 100%;
+
+        height: 120px; /* Altezza ridotta per la home */
+
+        border: 0;
+
+        border-radius: 4px;
+
+    }
+
+
+
+    #meteo-container a {
+
+        color: #ced4da;
+
+        font-size: 0.8em;
+
+    }
 
     /* Stili per i contenitori dei pulsanti */
     .button-container {
