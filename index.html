@@ -3,292 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sala Controllo - Protezione Civile Basilicata</title>
+    <title>S.O.R. BASILICATA - Dashboard Sala Controllo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
         :root {
-            --bg: #0b0f19;
-            --card-bg: #161c2d;
-            --header-bg: #1e293b;
-            --accent: #f39c12;
-            --danger: #ff4757;
-            --warning: #ffa502;
-            --success: #2ed573;
-            --text: #f8f9fa;
+            --bg: #0a0e17; --card: #1a202c; --accent: #f39c12;
+            --danger: #ff4757; --warning: #eccc68; --success: #2ed573;
+            --text: #f1f2f6; --border: #2d3436;
         }
 
-        body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
+        body, html { 
+            margin: 0; padding: 0; height: 100vh; width: 100vw;
+            background: var(--bg); font-family: 'Segoe UI', sans-serif; 
+            color: var(--text); overflow: hidden; 
         }
 
-        /* Top Bar */
-        header {
-            background: var(--header-bg);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid var(--accent);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-
-        .logo-area { display: flex; align-items: center; gap: 15px; }
-        .main-title { font-size: 1.4rem; font-weight: bold; letter-spacing: 1px; }
-        .clock-area { text-align: right; line-height: 1.2; }
-        #realtime-clock { font-family: monospace; font-size: 1.8rem; color: var(--accent); font-weight: bold; }
-
-        /* Main Grid Layout */
-        .dashboard-container {
+        .container {
             display: grid;
-            grid-template-columns: 350px 1fr 350px;
-            grid-template-rows: 1fr 250px;
-            gap: 10px;
-            padding: 10px;
-            flex: 1;
-            overflow: hidden;
+            grid-template-columns: 330px 1fr 350px;
+            grid-template-rows: 50px 1fr 140px; 
+            height: 100vh; gap: 8px; padding: 8px; box-sizing: border-box;
         }
 
-        .card {
-            background: var(--card-bg);
-            border-radius: 6px;
-            border: 1px solid #2d3748;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+        header { 
+            grid-column: span 3; background: #111827; display: flex; 
+            justify-content: space-between; align-items: center; 
+            padding: 0 20px; border-bottom: 2px solid var(--accent);
         }
+        #time { font-size: 1.6rem; font-weight: bold; color: var(--accent); font-family: monospace; }
 
-        .card-header {
-            background: rgba(255,255,255,0.05);
-            padding: 10px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: var(--accent);
-            border-bottom: 1px solid #2d3748;
-            display: flex;
-            justify-content: space-between;
-        }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; }
+        .card-header { padding: 8px 12px; background: rgba(255,255,255,0.05); font-size: 0.75rem; font-weight: bold; color: var(--accent); border-bottom: 1px solid var(--border); text-transform: uppercase; }
+        .scrollable { overflow-y: auto; flex: 1; padding: 8px; }
 
-        /* Widgets Sensori */
-        .scrollable { overflow-y: auto; flex: 1; padding: 5px; }
-        .sensor-item {
-            padding: 8px;
-            margin-bottom: 5px;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.03);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-        }
-        .sensor-item.alert { 
-            background: rgba(255, 71, 87, 0.2); 
-            border-left: 4px solid var(--danger); 
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse { 0% {opacity: 1;} 50% {opacity: 0.7;} 100% {opacity: 1;} }
+        .item { padding: 10px; margin-bottom: 6px; border-radius: 4px; background: #2d3436; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #636e72; font-size: 0.8rem; }
+        .item.critical { border-left-color: var(--danger); background: rgba(255, 71, 87, 0.2); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 50% { opacity: 0.6; } }
 
-        .val-badge { padding: 2px 6px; border-radius: 4px; font-weight: bold; background: #2d3748; }
-        .alert .val-badge { background: var(--danger); }
+        .boll-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .zone-strip { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 900; color: #000; margin-bottom: 4px; }
 
-        /* Bollettino Summary */
-        .bollettino-box {
-            display: flex;
-            gap: 10px;
-            padding: 10px;
-            height: 100%;
-        }
-        .zone-card {
-            flex: 1;
-            background: rgba(0,0,0,0.2);
-            border-radius: 4px;
-            text-align: center;
-            padding: 5px;
-        }
-        .color-green { background: #2ed573; color: black; }
-        .color-yellow { background: #ffa502; color: black; }
-        .color-orange { background: #ff7f50; color: white; }
+        /* Stile Tabella Invasi */
+        .diga-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+        .diga-table th { text-align: left; padding: 5px; color: var(--accent); font-size: 0.65rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--card); }
+        .diga-table td { padding: 8px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .vol-val { font-family: monospace; font-weight: bold; }
+        .var-pos { color: var(--success); }
+        .var-neg { color: var(--danger); }
 
-        /* Mappa Centrale */
-        .map-container { position: relative; width: 100%; height: 100%; }
-        iframe { border: none; width: 100%; height: 100%; }
-
-        /* Link veloci */
-        .link-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            padding: 10px;
-        }
-        .btn-link {
-            background: #1e293b;
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid #334155;
-            transition: 0.2s;
-        }
-        .btn-link:hover { background: var(--accent); color: black; }
-
-        footer { background: #000; padding: 5px 20px; font-size: 0.7rem; color: #666; display: flex; justify-content: space-between; }
+        .console { grid-column: span 3; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .btn { background: #232a3b; color: white; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; cursor: pointer; text-decoration: none; }
+        .btn:hover { background: var(--accent); color: #000; }
+        
+        iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo-area">
-        <div style="background: var(--accent); padding: 8px; border-radius: 4px; color: black;">
-            <i class="fas fa-shield-alt fa-2x"></i>
-        </div>
-        <div class="main-title">Sala Controllo - Protezione Civile Regione Basilicata</div>
-    </div>
-    <div class="clock-area">
-        <div id="date">--/--/----</div>
-        <div id="realtime-clock">00:00:00</div>
-    </div>
-</header>
+<div class="container">
+    <header>
+        <div style="font-weight: 800;">SALA OPERATIVA REGIONALE - PROTEZIONE CIVILE BASILICATA</div>
+        <div id="time">00:00:00</div>
+    </header>
 
-<div class="dashboard-container">
-    
     <div class="card">
-        <div class="card-header">
-            <span>MONITORAGGIO SENSORI (LIVE)</span>
-            <i class="fas fa-exclamation-triangle" style="color: var(--danger)"></i>
-        </div>
-        <div class="scrollable" id="sensor-list">
-            <div style="text-align:center; padding:20px;">Caricamento dati sensori...</div>
-        </div>
+        <div class="card-header">Monitoraggio Sensori</div>
+        <div class="scrollable" id="sensor-feed">Caricamento...</div>
     </div>
 
-    <div style="display: flex; flex-direction: column; gap: 10px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
         <div class="card" style="flex: 1;">
-            <div class="map-container">
-                <iframe src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=8&overlay=rain&product=ecmwf&level=surface&lat=40.6&lon=15.8"></iframe>
-            </div>
+            <iframe src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=8&overlay=rain&product=ecmwf&level=surface&lat=40.635&lon=15.963"></iframe>
         </div>
-        
-        <div class="card" style="height: 180px;">
-            <div class="card-header">AVVISO DI CRITICITÀ REGIONALE</div>
-            <div class="bollettino-box" id="bollettino-summary">
-                <div class="zone-card"><strong>Zona A</strong><br>Basi A2<div class="color-green">VERDE</div></div>
-                <div class="zone-card"><strong>Zona B</strong><br>Basi B<div class="color-yellow">GIALLO</div></div>
-                <div class="zone-card"><strong>Zona C</strong><br>Basi C<div class="color-green">VERDE</div></div>
-                <div class="zone-card"><strong>Zona D</strong><br>Basi D<div class="color-yellow">GIALLO</div></div>
-                <div class="zone-card"><strong>Zona E</strong><br>Basi E1/E2<div class="color-green">VERDE</div></div>
-            </div>
-        </div>
-    </div>
-
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-        <div class="card" style="flex: 1;">
-            <div class="card-header">ULTIMI EVENTI SISMICI (INGV)</div>
+        <div class="card" style="height: 220px;">
+            <div class="card-header">Bollettino Vigilanza Oggi/Domani</div>
             <div class="scrollable">
-                <iframe src="https://terremoti.ingv.it/eventi" style="height: 100%; zoom: 0.8;"></iframe>
-            </div>
-        </div>
-        <div class="card" style="height: 180px;">
-            <div class="card-header">RISORSE IDRICHE / DIGHE</div>
-            <div class="scrollable" style="font-size: 0.8rem; padding: 10px;">
-                <div class="sensor-item"><span>Diga Monte Cotugno</span> <span class="val-badge">60%</span></div>
-                <div class="sensor-item"><span>Diga del Pertusillo</span> <span class="val-badge">45%</span></div>
-                <a href="http://www.adb.basilicata.it/adb/risorseidriche/dispoidriche/sceglidatidighe.asp" target="_blank" style="color:var(--accent); font-size: 0.7rem;">Dati dettagliati AdB &rarr;</a>
+                <div class="boll-wrapper">
+                    <div id="grid-oggi"></div>
+                    <div id="grid-domani"></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="card" style="grid-column: span 3;">
-        <div class="card-header">CONSOLE APPLICATIVI GESTIONALI</div>
-        <div class="link-grid">
-            <a href="https://protezionecivile.apperosrl.it/websor" target="_blank" class="btn-link"><i class="fas fa-globe"></i> WebSor</a>
-            <a href="http://siger.regione.basilicata.it" target="_blank" class="btn-link"><i class="fas fa-server"></i> Siger Login</a>
-            <a href="https://macnil.gtfleet.net" target="_blank" class="btn-link"><i class="fas fa-truck"></i> GTFleet 360</a>
-            <a href="https://traccar.arka.tech" target="_blank" class="btn-link"><i class="fas fa-helicopter"></i> Tracker Elicottero</a>
-            <a href="https://idranti-basilicata-870e1.web.app/" target="_blank" class="btn-link"><i class="fas fa-fire-extinguisher"></i> Mappa Idranti</a>
-            <a href="https://www.flightradar24.com/40.6,15.8/8" target="_blank" class="btn-link"><i class="fas fa-plane"></i> FlightRadar Basilicata</a>
-            <a href="https://eatapples15.github.io/Firecam/" target="_blank" class="btn-link"><i class="fas fa-video"></i> Rete Webcam AIB</a>
-            <a href="#" class="btn-link"><i class="fas fa-file-pdf"></i> Bollettini Oggi/Domani</a>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="card" style="flex: 1.2;">
+            <div class="card-header">Sismicità INGV</div>
+            <div class="scrollable" id="quake-feed">Caricamento...</div>
+        </div>
+        <div class="card" style="flex: 1.8;">
+            <div class="card-header">Stato Invasi Real-Time</div>
+            <div class="scrollable">
+                <table class="diga-table">
+                    <thead>
+                        <tr>
+                            <th>Diga</th>
+                            <th>Netto (Mm³)</th>
+                            <th>Var. (cm)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="diga-body">
+                        <tr><td colspan="3">Inizializzazione...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
+    <div class="console">
+        <div class="btn" onclick="openPopup('https://protezionecivile.apperosrl.it/websor')"><i class="fas fa-globe"></i>WEBSOR</div>
+        <div class="btn" onclick="openPopup('http://siger.regione.basilicata.it')"><i class="fas fa-server"></i>SIGER</div>
+        <div class="btn" onclick="openPopup('https://macnil.gtfleet.net')"><i class="fas fa-truck"></i>GTFLEET</div>
+        <div class="btn" onclick="openPopup('https://traccar.arka.tech')"><i class="fas fa-helicopter"></i>TRACKER ELI</div>
+        <div class="btn" onclick="openPopup('https://idranti-basilicata-870e1.web.app/')"><i class="fas fa-fire-extinguisher"></i>IDRANTI</div>
+        <div class="btn" onclick="openPopup('https://www.flightradar24.com/40.6,15.8/8')"><i class="fas fa-plane"></i>FLIGHTRADAR</div>
+        <div class="btn" onclick="openPopup('https://eatapples15.github.io/Firecam/')"><i class="fas fa-video"></i>WEBCAM AIB</div>
+        <div class="btn" onclick="getAcqueSudPopup()"><i class="fas fa-tint"></i>IDRICO</div>
+    </div>
 </div>
 
-<footer>
-    <div>SISTEMA MONITORAGGIO INTEGRATO - PC BASILICATA</div>
-    <div id="last-update">Ultimo aggiornamento dati: --:--</div>
-</footer>
-
 <script>
-    // Configurazione dati JSON (Sostituire gli URL con quelli raw di GitHub se necessario)
-    const SENSOR_DATA = {
-        "sensori": {
-            "idrometria": { "meta": {"label": "IDRO", "unit": "m"}, "dati": [
-                {"nome": "Bradano Serramarina", "valore": 4.21, "status": "alert"},
-                {"nome": "Basento SS 106", "valore": 1.9, "status": "normal"},
-                {"nome": "Agri a Roccanova", "valore": 0.05, "status": "normal"},
-                {"nome": "Torre Accio", "valore": 2.08, "status": "alert"}
-            ]},
-            "anemometria": { "meta": {"label": "VENTO", "unit": "m/s"}, "dati": [
-                {"nome": "Castelsaraceno", "valore": 225, "status": "alert"},
-                {"nome": "Gorgoglione", "valore": 6.3, "status": "normal"}
-            ]}
-        }
-    };
+    const URL_SENSORI = "https://raw.githubusercontent.com/Eatapples15/allerte_bollettino_basilicata/main/dati_sensori.json";
+    const URL_BOLL = "https://raw.githubusercontent.com/Eatapples15/allerte_bollettino_basilicata/main/dati_bollettino.json";
+    const URL_CSV = "https://raw.githubusercontent.com/Eatapples15/allerte_bollettino_basilicata/main/storico_invasi_basilicata.csv";
+    const API_INGV = "https://webservices.ingv.it/fdsnws/event/1/query?format=geojson&minmag=1.5&minlat=39.0&maxlat=42.0&minlon=14.0&maxlon=18.0&limit=6&orderby=time";
 
-    function updateDashboard() {
-        const list = document.getElementById('sensor-list');
-        list.innerHTML = '';
+    const colorMap = { green: {ita:"VERDE", hex:"#2ed573"}, yellow: {ita:"GIALLO", hex:"#eccc68"}, orange: {ita:"ARANCIONE", hex:"#f97316"}, red: {ita:"ROSSO", hex:"#ff4757"} };
 
-        // Combiniamo i sensori e mettiamo in cima gli alert
-        let allSensors = [];
-        for (let cat in SENSOR_DATA.sensori) {
-            let meta = SENSOR_DATA.sensori[cat].meta;
-            SENSOR_DATA.sensori[cat].dati.forEach(d => {
-                allSensors.push({...d, label: meta.label, unit: meta.unit});
+    function openPopup(url) { window.open(url, 'win', 'width=1200,height=800,scrollbars=yes'); }
+    function getAcqueSudPopup() {
+        const mesi = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"];
+        openPopup(`https://acquedelsudspa.it/servizi/${mesi[new Date().getMonth()]}-${new Date().getFullYear()}/`);
+    }
+
+    setInterval(() => { document.getElementById('time').innerText = new Date().toLocaleTimeString('it-IT'); }, 1000);
+
+    async function updateDashboard() {
+        try {
+            // --- BOLLETTINO ---
+            const bD = await (await fetch(URL_BOLL)).json();
+            const gO = document.getElementById('grid-oggi'); const gD = document.getElementById('grid-domani');
+            gO.innerHTML = '<div style="font-size:0.6rem; text-align:center; color:orange; margin-bottom:5px">OGGI</div>';
+            gD.innerHTML = '<div style="font-size:0.6rem; text-align:center; color:orange; margin-bottom:5px">DOMANI</div>';
+            Object.keys(bD.zone).forEach(z => {
+                const s = (v) => `<div class="zone-strip" style="background:${colorMap[v].hex}"><span>${z}</span><span>${colorMap[v].ita}</span></div>`;
+                gO.innerHTML += s(bD.zone[z].oggi); gD.innerHTML += s(bD.zone[z].domani);
             });
-        }
 
-        // Ordinamento: prima gli alert
-        allSensors.sort((a,b) => (a.status === 'alert' ? -1 : 1));
+            // --- SENSORI ---
+            const sD = await (await fetch(URL_SENSORI)).json();
+            const sf = document.getElementById('sensor-feed'); sf.innerHTML = '';
+            let sList = [];
+            for(let cat in sD.sensori) { 
+                let u = sD.sensori[cat].meta.unit; 
+                sD.sensori[cat].dati.forEach(x => sList.push({...x, u}));
+            }
+            sList.sort((a,b) => (a.status === 'alert' ? -1 : 1)).forEach(s => {
+                const emo = s.u.includes('mm') ? "🌧️" : s.u.includes('m') ? "💧" : "🌡️";
+                sf.innerHTML += `<div class="item ${s.status === 'alert' ? 'critical' : ''}"><div>${emo} <strong>${s.nome}</strong></div><div><strong>${s.valore}</strong> <small>${s.u}</small></div></div>`;
+            });
 
-        allSensors.forEach(s => {
-            const div = document.createElement('div');
-            div.className = `sensor-item ${s.status === 'alert' ? 'alert' : ''}`;
-            div.innerHTML = `
-                <div>
-                    <small style="opacity:0.7">${s.label}</small><br>
-                    <strong>${s.nome}</strong>
-                </div>
-                <div class="val-badge">${s.valore} ${s.unit}</div>
-            `;
-            list.appendChild(div);
-        });
+            // --- INGV ---
+            const qD = await (await fetch(API_INGV)).json();
+            const qf = document.getElementById('quake-feed'); qf.innerHTML = '';
+            qD.features.forEach(f => {
+                const p = f.properties;
+                qf.innerHTML += `<div class="item ${p.mag >= 3.0 ? 'critical' : ''}"><div>🏠 <strong>${p.place.split(',')[0]}</strong></div><div><strong>M ${p.mag}</strong></div></div>`;
+            });
 
-        document.getElementById('last-update').textContent = "Aggiornamento: " + new Date().toLocaleTimeString();
+            // --- INVASI (LOGICA PARSING CSV MANUALE) ---
+            const response = await fetch(URL_CSV);
+            const csvText = await response.text();
+            
+            Papa.parse(csvText, {
+                header: false, // Usiamo header false per gestire la struttura irregolare
+                skipEmptyLines: true,
+                complete: function(results) {
+                    const rows = results.data;
+                    const tbody = document.getElementById('diga-body');
+                    tbody.innerHTML = '';
+                    
+                    // Definiamo i nomi che cerchiamo e la riga in cui iniziano i dati reali
+                    const targetDighe = ["M.Cotugno", "Pertusillo", "Camastra", "Basentello", "Conza", "S.Giuliano"];
+                    
+                    rows.forEach(row => {
+                        // Puliamo il nome della diga (spesso hanno invii a capo nel CSV)
+                        let rawName = row[0] ? row[0].replace(/\n/g, ' ').trim() : "";
+                        
+                        // Cerchiamo se la riga corrente appartiene a una delle nostre dighe target
+                        let foundName = targetDighe.find(t => rawName.startsWith(t));
+                        
+                        if (foundName) {
+                            // In base al tuo CSV:
+                            // Indice 9: Netto mc (Anno Corrente)
+                            // Indice 7: Variazione cm
+                            let volumeNetto = row[9] ? row[9].replace(/[\.-]/g, '') : "0"; 
+                            // Convertiamo in Milioni di metri cubi
+                            let volMm3 = (parseInt(volumeNetto) / 1000000).toFixed(2);
+                            if (isNaN(volMm3)) volMm3 = "N.D.";
+
+                            let variazione = row[7] ? row[7].replace(/"/g, '') : "0";
+                            let varNum = parseFloat(variazione.replace(',', '.'));
+                            let varClass = varNum > 0 ? "var-pos" : (varNum < 0 ? "var-neg" : "");
+                            let varText = varNum > 0 ? `+${variazione}` : variazione;
+
+                            tbody.innerHTML += `
+                                <tr>
+                                    <td><strong>${foundName}</strong></td>
+                                    <td class="vol-val">${volMm3}</td>
+                                    <td class="${varClass}">${varText}</td>
+                                </tr>
+                            `;
+                        }
+                    });
+                }
+            });
+
+        } catch (e) { console.error("Errore aggiornamento:", e); }
     }
 
-    function updateClock() {
-        const now = new Date();
-        document.getElementById('realtime-clock').textContent = now.toLocaleTimeString('it-IT');
-        document.getElementById('date').textContent = now.toLocaleDateString('it-IT', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
-    }
-
-    setInterval(updateClock, 1000);
-    updateClock();
-    updateDashboard(); // Iniziale
-
-    // Nota: Per leggere i file JSON da GitHub direttamente via JS, usa fetch(url_raw)
+    updateDashboard();
+    setInterval(updateDashboard, 60000);
 </script>
-
 </body>
 </html>
