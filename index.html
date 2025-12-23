@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.O.R. Dashboard - Basilicata</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Sala Controllo - Protezione Civile Basilicata</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
+            --bg: #0b0f19;
+            --card-bg: #161c2d;
+            --header-bg: #1e293b;
             --accent: #f39c12;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --success: #10b981;
-            --text-main: #f8f9fa;
+            --danger: #ff4757;
+            --warning: #ffa502;
+            --success: #2ed573;
+            --text: #f8f9fa;
         }
 
         body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -27,190 +28,266 @@
             overflow: hidden;
         }
 
-        /* Header migliorato */
+        /* Top Bar */
         header {
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
+            background: var(--header-bg);
             padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--accent);
+            border-bottom: 3px solid var(--accent);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
-        .header-info { display: flex; gap: 20px; align-items: center; }
-        #clock { font-family: monospace; font-size: 1.5rem; color: var(--accent); font-weight: bold; }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .main-title { font-size: 1.4rem; font-weight: bold; letter-spacing: 1px; }
+        .clock-area { text-align: right; line-height: 1.2; }
+        #realtime-clock { font-family: monospace; font-size: 1.8rem; color: var(--accent); font-weight: bold; }
 
-        /* Grid Principale Dashboard */
-        .dashboard-grid {
+        /* Main Grid Layout */
+        .dashboard-container {
             display: grid;
-            grid-template-columns: 1fr 1.5fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 15px;
-            padding: 15px;
+            grid-template-columns: 350px 1fr 350px;
+            grid-template-rows: 1fr 250px;
+            gap: 10px;
+            padding: 10px;
             flex: 1;
+            overflow: hidden;
         }
 
         .card {
             background: var(--card-bg);
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #2d3748;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            border: 1px solid #334155;
+            overflow: hidden;
         }
 
         .card-header {
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--accent);
+            border-bottom: 1px solid #2d3748;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Widgets Sensori */
+        .scrollable { overflow-y: auto; flex: 1; padding: 5px; }
+        .sensor-item {
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.03);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 5px;
+            font-size: 0.85rem;
         }
+        .sensor-item.alert { 
+            background: rgba(255, 71, 87, 0.2); 
+            border-left: 4px solid var(--danger); 
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% {opacity: 1;} 50% {opacity: 0.7;} 100% {opacity: 1;} }
 
-        .card-title { color: var(--accent); font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }
+        .val-badge { padding: 2px 6px; border-radius: 4px; font-weight: bold; background: #2d3748; }
+        .alert .val-badge { background: var(--danger); }
 
-        /* Widget Specifici */
-        .sensor-list, .quake-list {
-            overflow-y: auto;
+        /* Bollettino Summary */
+        .bollettino-box {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            height: 100%;
+        }
+        .zone-card {
             flex: 1;
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+            text-align: center;
+            padding: 5px;
         }
+        .color-green { background: #2ed573; color: black; }
+        .color-yellow { background: #ffa502; color: black; }
+        .color-orange { background: #ff7f50; color: white; }
 
-        .alert-item {
-            background: rgba(239, 68, 68, 0.1);
-            border-left: 4px solid var(--danger);
-            padding: 8px;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-        }
+        /* Mappa Centrale */
+        .map-container { position: relative; width: 100%; height: 100%; }
+        iframe { border: none; width: 100%; height: 100%; }
 
-        .normal-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-        }
-
-        iframe { width: 100%; height: 100%; border: none; border-radius: 4px; }
-
-        /* Sezione Links Rapidi (Sidebar style o Bottom) */
+        /* Link veloci */
         .link-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 10px;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            padding: 10px;
         }
-
-        .btn-small {
-            background: #334155;
+        .btn-link {
+            background: #1e293b;
             color: white;
             text-decoration: none;
-            padding: 8px;
+            padding: 10px;
             border-radius: 4px;
             font-size: 0.75rem;
-            text-align: center;
-            transition: 0.3s;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            border: 1px solid #334155;
+            transition: 0.2s;
         }
+        .btn-link:hover { background: var(--accent); color: black; }
 
-        .btn-small:hover { background: var(--accent); }
-
-        footer { font-size: 0.7rem; text-align: center; padding: 5px; opacity: 0.6; }
+        footer { background: #000; padding: 5px 20px; font-size: 0.7rem; color: #666; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
 
 <header>
-    <div>
-        <strong style="font-size: 1.2rem;">S.O.R. BASILICATA</strong> 
-        <span style="margin-left: 10px; font-size: 0.8rem; color: #94a3b8;">Protezione Civile</span>
+    <div class="logo-area">
+        <div style="background: var(--accent); padding: 8px; border-radius: 4px; color: black;">
+            <i class="fas fa-shield-alt fa-2x"></i>
+        </div>
+        <div class="main-title">Sala Controllo - Protezione Civile Regione Basilicata</div>
     </div>
-    <div class="header-info">
-        <div id="date" style="color: #94a3b8;"></div>
-        <div id="clock">00:00:00</div>
+    <div class="clock-area">
+        <div id="date">--/--/----</div>
+        <div id="realtime-clock">00:00:00</div>
     </div>
 </header>
 
-<div class="dashboard-grid">
+<div class="dashboard-container">
     
     <div class="card">
         <div class="card-header">
-            <span class="card-title"><i class="fas fa-rss"></i> Sensori Regionali (Alert)</span>
-            <span class="status-dot" style="color: var(--success)">● Live</span>
+            <span>MONITORAGGIO SENSORI (LIVE)</span>
+            <i class="fas fa-exclamation-triangle" style="color: var(--danger)"></i>
         </div>
-        <div class="sensor-list" id="sensor-data">
-            <div class="alert-item">
-                <strong>IDRO: Basento (Potenza)</strong><br>
-                Livello: 2.45m - <span style="color:var(--danger)">SOGLIA SUPERATA</span>
+        <div class="scrollable" id="sensor-list">
+            <div style="text-align:center; padding:20px;">Caricamento dati sensori...</div>
+        </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="card" style="flex: 1;">
+            <div class="map-container">
+                <iframe src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=8&overlay=rain&product=ecmwf&level=surface&lat=40.6&lon=15.8"></iframe>
             </div>
-            <div class="normal-item">Idro: Agri (Pisticci) - 0.80m (Regolare)</div>
-            <div class="normal-item">Idro: Sinni (Valsinni) - 1.20m (Regolare)</div>
+        </div>
+        
+        <div class="card" style="height: 180px;">
+            <div class="card-header">AVVISO DI CRITICITÀ REGIONALE</div>
+            <div class="bollettino-box" id="bollettino-summary">
+                <div class="zone-card"><strong>Zona A</strong><br>Basi A2<div class="color-green">VERDE</div></div>
+                <div class="zone-card"><strong>Zona B</strong><br>Basi B<div class="color-yellow">GIALLO</div></div>
+                <div class="zone-card"><strong>Zona C</strong><br>Basi C<div class="color-green">VERDE</div></div>
+                <div class="zone-card"><strong>Zona D</strong><br>Basi D<div class="color-yellow">GIALLO</div></div>
+                <div class="zone-card"><strong>Zona E</strong><br>Basi E1/E2<div class="color-green">VERDE</div></div>
+            </div>
         </div>
     </div>
 
-    <div class="card" style="grid-row: span 2;">
-        <div class="card-header">
-            <span class="card-title"><i class="fas fa-map-marked-alt"></i> Situazione Meteo & Bollettini</span>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="card" style="flex: 1;">
+            <div class="card-header">ULTIMI EVENTI SISMICI (INGV)</div>
+            <div class="scrollable">
+                <iframe src="https://terremoti.ingv.it/eventi" style="height: 100%; zoom: 0.8;"></iframe>
+            </div>
         </div>
-        <iframe src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=8&overlay=rain&product=ecmwf&level=surface&lat=40.6&lon=15.8"></iframe>
-        <div style="height: 40%; margin-top: 10px; background: #000; border: 1px solid #334155;">
-             <p style="text-align: center; color: #64748b; font-size: 0.8rem; padding-top: 20px;">[Area Bollettino Criticità / Avvisi Vigilanza]</p>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-header">
-            <span class="card-title"><i class="fas fa-house-damage"></i> Ultimi Terremoti (Basilicata/IT)</span>
-        </div>
-        <div class="quake-list" id="quake-data">
-            <div class="normal-item">Mag: 1.2 - Zona: Potentino - 12:45</div>
-            <div class="normal-item">Mag: 0.8 - Zona: Pollino - 10:20</div>
+        <div class="card" style="height: 180px;">
+            <div class="card-header">RISORSE IDRICHE / DIGHE</div>
+            <div class="scrollable" style="font-size: 0.8rem; padding: 10px;">
+                <div class="sensor-item"><span>Diga Monte Cotugno</span> <span class="val-badge">60%</span></div>
+                <div class="sensor-item"><span>Diga del Pertusillo</span> <span class="val-badge">45%</span></div>
+                <a href="http://www.adb.basilicata.it/adb/risorseidriche/dispoidriche/sceglidatidighe.asp" target="_blank" style="color:var(--accent); font-size: 0.7rem;">Dati dettagliati AdB &rarr;</a>
+            </div>
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-header"><span class="card-title"><i class="fas fa-external-link-alt"></i> Applicativi & Gestione</span></div>
+    <div class="card" style="grid-column: span 3;">
+        <div class="card-header">CONSOLE APPLICATIVI GESTIONALI</div>
         <div class="link-grid">
-            <a href="http://siger.regione.basilicata.it" target="_blank" class="btn-small"><i class="fas fa-server"></i> SIGER</a>
-            <a href="https://macnil.gtfleet.net" target="_blank" class="btn-small"><i class="fas fa-truck"></i> GTFleet</a>
-            <a href="https://traccar.arka.tech" target="_blank" class="btn-small"><i class="fas fa-helicopter"></i> Elicottero</a>
-            <a href="https://protezionecivile.apperosrl.it/websor" target="_blank" class="btn-small"><i class="fas fa-globe"></i> WebSor</a>
-            <a href="https://eatapples15.github.io/Firecam/" target="_blank" class="btn-small"><i class="fas fa-video"></i> Webcam</a>
-            <a href="https://www.flightradar24.com" target="_blank" class="btn-small"><i class="fas fa-plane"></i> FlightRadar</a>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-header"><span class="card-title"><i class="fas fa-fire"></i> Monitoraggio AIB / Idrico</span></div>
-        <div style="flex: 1; font-size: 0.8rem;">
-            <p><i class="fas fa-tint" style="color: #3498db;"></i> Invasi: Monte Cotugno 60%</p>
-            <p><i class="fas fa-fire" style="color: var(--danger);"></i> Segnalazioni AIB attive: 0</p>
-            <hr style="border-color: #334155;">
-            <a href="https://idranti-basilicata-870e1.web.app/" target="_blank" class="btn-small" style="width: 100%;">Mappa Idranti</a>
+            <a href="https://protezionecivile.apperosrl.it/websor" target="_blank" class="btn-link"><i class="fas fa-globe"></i> WebSor</a>
+            <a href="http://siger.regione.basilicata.it" target="_blank" class="btn-link"><i class="fas fa-server"></i> Siger Login</a>
+            <a href="https://macnil.gtfleet.net" target="_blank" class="btn-link"><i class="fas fa-truck"></i> GTFleet 360</a>
+            <a href="https://traccar.arka.tech" target="_blank" class="btn-link"><i class="fas fa-helicopter"></i> Tracker Elicottero</a>
+            <a href="https://idranti-basilicata-870e1.web.app/" target="_blank" class="btn-link"><i class="fas fa-fire-extinguisher"></i> Mappa Idranti</a>
+            <a href="https://www.flightradar24.com/40.6,15.8/8" target="_blank" class="btn-link"><i class="fas fa-plane"></i> FlightRadar Basilicata</a>
+            <a href="https://eatapples15.github.io/Firecam/" target="_blank" class="btn-link"><i class="fas fa-video"></i> Rete Webcam AIB</a>
+            <a href="#" class="btn-link"><i class="fas fa-file-pdf"></i> Bollettini Oggi/Domani</a>
         </div>
     </div>
 
 </div>
 
 <footer>
-    &copy; 2025 Dashboard Protezione Civile Basilicata - Sala Operativa Regionale
+    <div>SISTEMA MONITORAGGIO INTEGRATO - PC BASILICATA</div>
+    <div id="last-update">Ultimo aggiornamento dati: --:--</div>
 </footer>
 
 <script>
+    // Configurazione dati JSON (Sostituire gli URL con quelli raw di GitHub se necessario)
+    const SENSOR_DATA = {
+        "sensori": {
+            "idrometria": { "meta": {"label": "IDRO", "unit": "m"}, "dati": [
+                {"nome": "Bradano Serramarina", "valore": 4.21, "status": "alert"},
+                {"nome": "Basento SS 106", "valore": 1.9, "status": "normal"},
+                {"nome": "Agri a Roccanova", "valore": 0.05, "status": "normal"},
+                {"nome": "Torre Accio", "valore": 2.08, "status": "alert"}
+            ]},
+            "anemometria": { "meta": {"label": "VENTO", "unit": "m/s"}, "dati": [
+                {"nome": "Castelsaraceno", "valore": 225, "status": "alert"},
+                {"nome": "Gorgoglione", "valore": 6.3, "status": "normal"}
+            ]}
+        }
+    };
+
+    function updateDashboard() {
+        const list = document.getElementById('sensor-list');
+        list.innerHTML = '';
+
+        // Combiniamo i sensori e mettiamo in cima gli alert
+        let allSensors = [];
+        for (let cat in SENSOR_DATA.sensori) {
+            let meta = SENSOR_DATA.sensori[cat].meta;
+            SENSOR_DATA.sensori[cat].dati.forEach(d => {
+                allSensors.push({...d, label: meta.label, unit: meta.unit});
+            });
+        }
+
+        // Ordinamento: prima gli alert
+        allSensors.sort((a,b) => (a.status === 'alert' ? -1 : 1));
+
+        allSensors.forEach(s => {
+            const div = document.createElement('div');
+            div.className = `sensor-item ${s.status === 'alert' ? 'alert' : ''}`;
+            div.innerHTML = `
+                <div>
+                    <small style="opacity:0.7">${s.label}</small><br>
+                    <strong>${s.nome}</strong>
+                </div>
+                <div class="val-badge">${s.valore} ${s.unit}</div>
+            `;
+            list.appendChild(div);
+        });
+
+        document.getElementById('last-update').textContent = "Aggiornamento: " + new Date().toLocaleTimeString();
+    }
+
     function updateClock() {
         const now = new Date();
-        document.getElementById('clock').textContent = now.toLocaleTimeString('it-IT');
-        document.getElementById('date').textContent = now.toLocaleDateString('it-IT', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('realtime-clock').textContent = now.toLocaleTimeString('it-IT');
+        document.getElementById('date').textContent = now.toLocaleDateString('it-IT', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
     }
+
     setInterval(updateClock, 1000);
     updateClock();
+    updateDashboard(); // Iniziale
 
-    // Funzione teorica per fetch dati (INGV o OpenData Regionali)
-    // function fetchQuakes() { ... }
+    // Nota: Per leggere i file JSON da GitHub direttamente via JS, usa fetch(url_raw)
 </script>
 
 </body>
