@@ -3,85 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P.C. Basilicata - Dashboard Sala Controllo</title>
+    <title>P.C. Basilicata - Dashboard HQ</title>
     <link rel="icon" href="logo.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
         :root {
-            --bg: #0a0e17; --card: #1a202c; --accent: #f39c12;
+            --bg: #0a0e17; --card: #151c27; --accent: #f39c12;
             --danger: #ff4757; --warning: #eccc68; --success: #2ed573;
-            --text: #f1f2f6; --border: #2d3436;
+            --text: #f1f2f6; --border: #2d3436; --header-bg: #111827;
         }
 
         body, html { 
             margin: 0; padding: 0; height: 100vh; width: 100vw;
-            background: var(--bg); font-family: 'Segoe UI', sans-serif; 
+            background: var(--bg); font-family: 'Inter', 'Segoe UI', sans-serif; 
             color: var(--text); overflow: hidden; 
         }
 
         .container {
             display: grid;
-            grid-template-columns: 330px 1fr 350px;
-            grid-template-rows: 50px 1fr 140px; 
-            height: 100vh; gap: 8px; padding: 8px; box-sizing: border-box;
+            grid-template-columns: 340px 1fr 380px;
+            grid-template-rows: 60px 1fr 140px; 
+            height: 100vh; gap: 10px; padding: 10px; box-sizing: border-box;
         }
 
         header { 
-            grid-column: span 3; background: #111827; display: flex; 
+            grid-column: span 3; background: var(--header-bg); display: flex; 
             justify-content: space-between; align-items: center; 
-            padding: 0 20px; border-bottom: 2px solid var(--accent);
+            padding: 0 25px; border-bottom: 3px solid var(--accent);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-        #time { font-size: 1.6rem; font-weight: bold; color: var(--accent); font-family: monospace; }
+        #time { font-size: 1.8rem; font-weight: 700; color: var(--accent); font-family: 'Courier New', monospace; }
 
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; }
-        .card-header { padding: 8px 12px; background: rgba(255,255,255,0.05); font-size: 0.75rem; font-weight: bold; color: var(--accent); border-bottom: 1px solid var(--border); text-transform: uppercase; }
-        .scrollable { overflow-y: auto; flex: 1; padding: 8px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; }
+        .card-header { padding: 10px 15px; background: rgba(255,255,255,0.03); font-size: 0.8rem; font-weight: 800; color: var(--accent); border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; }
+        .scrollable { overflow-y: auto; flex: 1; padding: 10px; }
 
-        .item { padding: 10px; margin-bottom: 6px; border-radius: 4px; background: #2d3436; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #636e72; font-size: 0.8rem; }
-        .item.critical { border-left-color: var(--danger); background: rgba(255, 71, 87, 0.2); animation: pulse 1.5s infinite; }
-        @keyframes pulse { 50% { opacity: 0.6; } }
+        /* Filtri Sensori */
+        .filter-bar { display: flex; gap: 4px; padding: 8px; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border); }
+        .filter-btn { flex: 1; background: #2d3436; border: none; color: #94a3b8; font-size: 0.6rem; padding: 5px 2px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .filter-btn.active { background: var(--accent); color: #000; }
 
-        .boll-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .zone-strip { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 900; color: #000; margin-bottom: 4px; }
-
-        /* Stile Tabella Invasi */
-        .diga-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
-        .diga-table th { text-align: left; padding: 5px; color: var(--accent); font-size: 0.65rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--card); }
-        .diga-table td { padding: 8px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .vol-val { font-family: monospace; font-weight: bold; }
-        .var-pos { color: var(--success); }
-        .var-neg { color: var(--danger); }
-
-        .console { grid-column: span 3; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .btn { background: #232a3b; color: white; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; cursor: pointer; text-decoration: none; }
-        .btn:hover { background: var(--accent); color: #000; }
+        /* Grafica Bollettino LED */
+        .boll-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .zone-card { background: #1e2533; border-radius: 6px; padding: 8px; margin-bottom: 6px; border: 1px solid #2d3436; }
+        .zone-header { font-size: 0.7rem; color: #94a3b8; margin-bottom: 5px; font-weight: bold; text-align: center; border-bottom: 1px solid #334155; padding-bottom: 3px; }
+        .zone-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; }
+        .zone-name { font-size: 0.75rem; font-weight: 600; }
+        .status-led { width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 8px currentColor; border: 1px solid rgba(255,255,255,0.2); }
         
-        iframe { width: 100%; height: 100%; border: none; }
+        /* Tabella Invasi */
+        .diga-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+        .diga-table th { text-align: left; padding: 10px 5px; color: #94a3b8; font-size: 0.65rem; border-bottom: 2px solid var(--border); }
+        .diga-table td { padding: 10px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .vol-val { font-family: 'JetBrains Mono', monospace; font-weight: bold; color: #fff; }
+        
+        /* Item Style */
+        .item { padding: 12px; margin-bottom: 8px; border-radius: 6px; background: #1e2533; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #4b5563; }
+        .item.critical { border-left-color: var(--danger); background: rgba(255, 71, 87, 0.1); border-right: 1px solid var(--danger); animation: alert-glow 2s infinite; }
+        @keyframes alert-glow { 0%, 100% { box-shadow: inset 0 0 0 rgba(0,0,0,0); } 50% { box-shadow: inset 0 0 15px rgba(255,71,87,0.3); } }
+
+        /* Console */
+        .console { grid-column: span 3; display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
+        .btn { background: #1e2533; color: #94a3b8; border: 1px solid #334155; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border-radius: 6px; font-size: 0.65rem; font-weight: 700; cursor: pointer; transition: 0.3s; text-align: center; }
+        .btn i { font-size: 1.2rem; }
+        .btn:hover { background: var(--accent); color: #000; transform: translateY(-2px); }
+
+        .nav-btn { background: var(--accent); border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+        iframe { background: #000; width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <div style="font-weight: 800;">SALA CONTROLLO - PROTEZIONE CIVILE BASILICATA</div>
-          <link rel="icon" href="logo.png" type="image/png">
+        <div style="font-weight: 900; letter-spacing: 2px; font-size: 1.2rem;">SALA OPERATIVA REGIONALE - BASILICATA</div>
         <div id="time">00:00:00</div>
     </header>
 
     <div class="card">
-        <div class="card-header">Monitoraggio Sensori</div>
-        <div class="scrollable" id="sensor-feed">Caricamento...</div>
+        <div class="card-header">📡 Live Sensor Data</div>
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="setFilter('all', this)">TUTTI</button>
+            <button class="filter-btn" onclick="setFilter('pluviometri', this)">PIOGGIA</button>
+            <button class="filter-btn" onclick="setFilter('idrometri', this)">LIVELLO</button>
+            <button class="filter-btn" onclick="setFilter('termometri', this)">TEMP</button>
+        </div>
+        <div class="scrollable" id="sensor-feed">Caricamento sensori...</div>
     </div>
 
-    <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div class="card" style="flex: 1;">
-            <iframe src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=8&overlay=rain&product=ecmwf&level=surface&lat=40.635&lon=15.963"></iframe>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="card" style="flex: 1.5;">
+            <div class="card-header">
+                <span id="map-title">Mappa Meteo (Windy)</span>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span id="res-idx" style="font-size:0.7rem; opacity:0.6;">1/5</span>
+                    <button class="nav-btn" onclick="changeMap(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <button class="nav-btn" onclick="changeMap(1)"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <iframe id="main-frame" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=8&overlay=rain&product=ecmwf&level=surface&lat=40.635&lon=15.963"></iframe>
         </div>
-        <div class="card" style="height: 220px;">
-            <div class="card-header">Bollettino Vigilanza Oggi/Domani</div>
+        
+        <div class="card" style="flex: 1;">
+            <div class="card-header">📉 Vigilanza Meteo-Idrogeologica</div>
             <div class="scrollable">
-                <div class="boll-wrapper">
+                <div class="boll-container">
                     <div id="grid-oggi"></div>
                     <div id="grid-domani"></div>
                 </div>
@@ -89,26 +116,30 @@
         </div>
     </div>
 
-    <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div class="card" style="flex: 1.2;">
-            <div class="card-header">Sismicità INGV</div>
-            <div class="scrollable" id="quake-feed">Caricamento...</div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="card" style="flex: 1;">
+            <div class="card-header">🌋 Sismicità Recente (INGV)</div>
+            <div class="scrollable" id="quake-feed">Ricerca eventi sismici...</div>
         </div>
-        <div class="card" style="flex: 1.8;">
-            <div class="card-header">Stato Invasi Real-Time</div>
+        
+        <div class="card" style="flex: 1.2;">
+            <div class="card-header">💧 Stato Invasi & Risorse</div>
             <div class="scrollable">
                 <table class="diga-table">
                     <thead>
-                        <tr>
-                            <th>Diga</th>
-                            <th>Netto (Mm³)</th>
-                            <th>Var. (cm)</th>
-                        </tr>
+                        <tr><th>Invaso</th><th>Netto (Mm³)</th><th>Trend</th></tr>
                     </thead>
-                    <tbody id="diga-body">
-                        <tr><td colspan="3">Inizializzazione...</td></tr>
-                    </tbody>
+                    <tbody id="diga-body"></tbody>
                 </table>
+            </div>
+        </div>
+
+        <div class="card" style="height: 100px; background: linear-gradient(135deg, #1a202c 0%, #0f172a 100%);">
+            <div class="card-header" style="font-size: 0.6rem;">Status Quick-Report</div>
+            <div style="display: flex; justify-content: space-around; align-items: center; height: 100%;">
+                <div style="text-align:center;"><div id="count-alert" style="font-size:1.5rem; font-weight:bold; color:var(--danger);">0</div><div style="font-size:0.5rem; opacity:0.7;">ALLERTE</div></div>
+                <div style="text-align:center;"><div id="avg-temp" style="font-size:1.5rem; font-weight:bold; color:var(--success);">--</div><div style="font-size:0.5rem; opacity:0.7;">TEMP. MEDIA</div></div>
+                <div style="text-align:center;"><div style="font-size:1.5rem; font-weight:bold; color:var(--accent);">OK</div><div style="font-size:0.5rem; opacity:0.7;">SISTEMI</div></div>
             </div>
         </div>
     </div>
@@ -117,114 +148,142 @@
         <div class="btn" onclick="openPopup('https://protezionecivile.apperosrl.it/websor')"><i class="fas fa-globe"></i>WEBSOR</div>
         <div class="btn" onclick="openPopup('http://siger.regione.basilicata.it')"><i class="fas fa-server"></i>SIGER</div>
         <div class="btn" onclick="openPopup('https://macnil.gtfleet.net')"><i class="fas fa-truck"></i>GTFLEET</div>
-        <div class="btn" onclick="openPopup('https://traccar.arka.tech')"><i class="fas fa-helicopter"></i>TRACKER ELI</div>
+        <div class="btn" onclick="openPopup('https://traccar.arka.tech')"><i class="fas fa-helicopter"></i>TRACKER</div>
         <div class="btn" onclick="openPopup('https://idranti-basilicata-870e1.web.app/')"><i class="fas fa-fire-extinguisher"></i>IDRANTI</div>
-        <div class="btn" onclick="openPopup('https://www.flightradar24.com/40.6,15.8/8')"><i class="fas fa-plane"></i>FLIGHTRADAR</div>
-        <div class="btn" onclick="openPopup('https://eatapples15.github.io/Firecam/')"><i class="fas fa-video"></i>WEBCAM AIB</div>
+        <div class="btn" onclick="openPopup('https://www.flightradar24.com/40.6,15.8/8')"><i class="fas fa-plane"></i>FLIGHT</div>
+        <div class="btn" onclick="openPopup('https://eatapples15.github.io/Firecam/')"><i class="fas fa-video"></i>AIB CAM</div>
         <div class="btn" onclick="getAcqueSudPopup()"><i class="fas fa-tint"></i>IDRICO</div>
     </div>
 </div>
 
 <script>
-    const URL_SENSORI = "https://raw.githubusercontent.com/Eatapples15/allerte_bollettino_basilicata/main/dati_sensori.json";
-    const URL_BOLL = "https://raw.githubusercontent.com/Eatapples15/allerte_bollettino_basilicata/main/dati_bollettino.json";
-    const URL_CSV = "https://raw.githubusercontent.com/Eatapples15/allerte_bollettino_basilicata/main/storico_invasi_basilicata.csv";
-    const API_INGV = "https://webservices.ingv.it/fdsnws/event/1/query?format=geojson&minmag=1.5&minlat=39.0&maxlat=42.0&minlon=14.0&maxlon=18.0&limit=6&orderby=time";
+    const resources = [
+        { title: "Mappa Meteo (Windy)", url: "https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=8&overlay=rain&product=ecmwf&level=surface&lat=40.635&lon=15.963" },
+        { title: "Bollettino Criticità", url: "https://www.formazionesicurezza.org/protezionecivile/bollettino/map_emb.html" },
+        { title: "Radar Precipitazioni", url: "https://www.meteo.it/mappe/radar-meteo/italia" },
+        { title: "Situazione Rischi", url: "https://www.formazionesicurezza.org/protezionecivile/bollettino/situazionerischi.html" },
+        { title: "Fulmini Live", url: "https://www.lightningmaps.org/?lang=it" }
+    ];
 
-    const colorMap = { green: {ita:"VERDE", hex:"#2ed573"}, yellow: {ita:"GIALLO", hex:"#eccc68"}, orange: {ita:"ARANCIONE", hex:"#f97316"}, red: {ita:"ROSSO", hex:"#ff4757"} };
+    let currentResIndex = 0;
+    let currentSensorFilter = 'all';
+    let lastSensorData = null;
 
-    function openPopup(url) { window.open(url, 'win', 'width=1200,height=800,scrollbars=yes'); }
-    function getAcqueSudPopup() {
-        const mesi = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"];
-        openPopup(`https://acquedelsudspa.it/servizi/${mesi[new Date().getMonth()]}-${new Date().getFullYear()}/`);
+    const colorMap = { 
+        green: {hex:"#2ed573", label:"VERDE"}, 
+        yellow: {hex:"#eccc68", label:"GIALLO"}, 
+        orange: {hex:"#f97316", label:"ARANCIONE"}, 
+        red: {hex:"#ff4757", label:"ROSSO"} 
+    };
+
+    function setFilter(type, btn) {
+        currentSensorFilter = type;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderSensors();
     }
 
-    setInterval(() => { document.getElementById('time').innerText = new Date().toLocaleTimeString('it-IT'); }, 1000);
+    function changeMap(dir) {
+        currentResIndex = (currentResIndex + dir + resources.length) % resources.length;
+        document.getElementById('main-frame').src = resources[currentResIndex].url;
+        document.getElementById('map-title').innerText = resources[currentResIndex].title;
+        document.getElementById('res-idx').innerText = `${currentResIndex + 1}/${resources.length}`;
+    }
+
+    function openPopup(url) { window.open(url, 'win', 'width=1200,height=800'); }
+    function getAcqueSudPopup() {
+        const d = new Date();
+        const mesi = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"];
+        openPopup(`https://acquedelsudspa.it/servizi/${mesi[d.getMonth()]}-${d.getFullYear()}/`);
+    }
+
+    function renderSensors() {
+        if(!lastSensorData) return;
+        const sf = document.getElementById('sensor-feed');
+        sf.innerHTML = '';
+        let list = [];
+        let totalAlerts = 0;
+        let temps = [];
+
+        for(let cat in lastSensorData.sensori) {
+            if(currentSensorFilter !== 'all' && cat.toLowerCase() !== currentSensorFilter) continue;
+            
+            lastSensorData.sensori[cat].dati.forEach(s => {
+                if(s.status === 'alert') totalAlerts++;
+                if(cat.toLowerCase() === 'termometri') temps.push(parseFloat(s.valore));
+                list.push({...s, category: cat, unit: lastSensorData.sensori[cat].meta.unit});
+            });
+        }
+
+        // Ordina: prima gli alert, poi il valore più alto
+        list.sort((a,b) => (a.status === 'alert' ? -1 : 1) || parseFloat(b.valore) - parseFloat(a.valore));
+
+        list.forEach(item => {
+            sf.innerHTML += `
+                <div class="item ${item.status === 'alert' ? 'critical' : ''}">
+                    <div style="font-size:0.75rem;"><strong>${item.nome}</strong><br><small style="opacity:0.6">${item.category}</small></div>
+                    <div style="text-align:right"><strong>${item.valore}</strong> <small>${item.unit}</small></div>
+                </div>`;
+        });
+
+        document.getElementById('count-alert').innerText = totalAlerts;
+        if(temps.length > 0) {
+            let avg = (temps.reduce((a,b) => a+b, 0) / temps.length).toFixed(1);
+            document.getElementById('avg-temp').innerText = avg + "°";
+        }
+    }
 
     async function updateDashboard() {
         try {
-            // --- BOLLETTINO ---
-            const bD = await (await fetch(URL_BOLL)).json();
-            const gO = document.getElementById('grid-oggi'); const gD = document.getElementById('grid-domani');
-            gO.innerHTML = '<div style="font-size:0.6rem; text-align:center; color:orange; margin-bottom:5px">OGGI</div>';
-            gD.innerHTML = '<div style="font-size:0.6rem; text-align:center; color:orange; margin-bottom:5px">DOMANI</div>';
-            Object.keys(bD.zone).forEach(z => {
-                const s = (v) => `<div class="zone-strip" style="background:${colorMap[v].hex}"><span>${z}</span><span>${colorMap[v].ita}</span></div>`;
-                gO.innerHTML += s(bD.zone[z].oggi); gD.innerHTML += s(bD.zone[z].domani);
-            });
+            // BOLLETTINO
+            const bD = await (await fetch("https://raw.githubusercontent.com/Eatapples15/allerte_bollettino_basilicata/main/dati_bollettino.json")).json();
+            const renderBoll = (day) => {
+                let html = `<div class="zone-card"><div class="zone-header">${day}</div>`;
+                Object.keys(bD.zone).forEach(z => {
+                    let col = colorMap[bD.zone[z][day.toLowerCase()]];
+                    html += `<div class="zone-row"><span class="zone-name">${z}</span><div class="status-led" style="color:${col.hex}; background:${col.hex}; shadow: 0 0 5px ${col.hex}" title="${col.label}"></div></div>`;
+                });
+                return html + `</div>`;
+            };
+            document.getElementById('grid-oggi').innerHTML = renderBoll('OGGI');
+            document.getElementById('grid-domani').innerHTML = renderBoll('DOMANI');
 
-            // --- SENSORI ---
-            const sD = await (await fetch(URL_SENSORI)).json();
-            const sf = document.getElementById('sensor-feed'); sf.innerHTML = '';
-            let sList = [];
-            for(let cat in sD.sensori) { 
-                let u = sD.sensori[cat].meta.unit; 
-                sD.sensori[cat].dati.forEach(x => sList.push({...x, u}));
-            }
-            sList.sort((a,b) => (a.status === 'alert' ? -1 : 1)).forEach(s => {
-                const emo = s.u.includes('mm') ? "🌧️" : s.u.includes('m') ? "💧" : "🌡️";
-                sf.innerHTML += `<div class="item ${s.status === 'alert' ? 'critical' : ''}"><div>${emo} <strong>${s.nome}</strong></div><div><strong>${s.valore}</strong> <small>${s.u}</small></div></div>`;
-            });
+            // SENSORI
+            lastSensorData = await (await fetch("https://raw.githubusercontent.com/Eatapples15/allerte_bollettino_basilicata/main/dati_sensori.json")).json();
+            renderSensors();
 
-            // --- INGV ---
-            const qD = await (await fetch(API_INGV)).json();
+            // INGV
+            const qD = await (await fetch("https://webservices.ingv.it/fdsnws/event/1/query?format=geojson&minmag=1.0&minlat=39.0&maxlat=42.5&minlon=13.5&maxlon=19.0&limit=10")).json();
             const qf = document.getElementById('quake-feed'); qf.innerHTML = '';
             qD.features.forEach(f => {
                 const p = f.properties;
-                qf.innerHTML += `<div class="item ${p.mag >= 3.0 ? 'critical' : ''}"><div>🏠 <strong>${p.place.split(',')[0]}</strong></div><div><strong>M ${p.mag}</strong></div></div>`;
+                qf.innerHTML += `<div class="item ${p.mag >= 2.5 ? 'critical' : ''}">
+                    <div style="font-size:0.7rem;"><strong>${p.place}</strong><br><small>${new Date(p.time).toLocaleString('it-IT')}</small></div>
+                    <div style="font-weight:900; color:var(--accent);">M ${p.mag}</div>
+                </div>`;
             });
 
-            // --- INVASI (LOGICA PARSING CSV MANUALE) ---
-            const response = await fetch(URL_CSV);
-            const csvText = await response.text();
-            
-            Papa.parse(csvText, {
-                header: false, // Usiamo header false per gestire la struttura irregolare
-                skipEmptyLines: true,
-                complete: function(results) {
-                    const rows = results.data;
-                    const tbody = document.getElementById('diga-body');
-                    tbody.innerHTML = '';
-                    
-                    // Definiamo i nomi che cerchiamo e la riga in cui iniziano i dati reali
-                    const targetDighe = ["M.Cotugno", "Pertusillo", "Camastra", "Basentello", "Conza", "S.Giuliano"];
-                    
-                    rows.forEach(row => {
-                        // Puliamo il nome della diga (spesso hanno invii a capo nel CSV)
-                        let rawName = row[0] ? row[0].replace(/\n/g, ' ').trim() : "";
-                        
-                        // Cerchiamo se la riga corrente appartiene a una delle nostre dighe target
-                        let foundName = targetDighe.find(t => rawName.startsWith(t));
-                        
-                        if (foundName) {
-                            // In base al tuo CSV:
-                            // Indice 9: Netto mc (Anno Corrente)
-                            // Indice 7: Variazione cm
-                            let volumeNetto = row[9] ? row[9].replace(/[\.-]/g, '') : "0"; 
-                            // Convertiamo in Milioni di metri cubi
-                            let volMm3 = (parseInt(volumeNetto) / 1000000).toFixed(2);
-                            if (isNaN(volMm3)) volMm3 = "N.D.";
-
-                            let variazione = row[7] ? row[7].replace(/"/g, '') : "0";
-                            let varNum = parseFloat(variazione.replace(',', '.'));
-                            let varClass = varNum > 0 ? "var-pos" : (varNum < 0 ? "var-neg" : "");
-                            let varText = varNum > 0 ? `+${variazione}` : variazione;
-
-                            tbody.innerHTML += `
-                                <tr>
-                                    <td><strong>${foundName}</strong></td>
-                                    <td class="vol-val">${volMm3}</td>
-                                    <td class="${varClass}">${varText}</td>
-                                </tr>
-                            `;
-                        }
-                    });
-                }
-            });
-
-        } catch (e) { console.error("Errore aggiornamento:", e); }
+            // INVASI
+            const csv = await (await fetch("https://raw.githubusercontent.com/Eatapples15/allerte_bollettino_basilicata/main/storico_invasi_basilicata.csv")).text();
+            Papa.parse(csv, { complete: (r) => {
+                const tbody = document.getElementById('diga-body'); tbody.innerHTML = '';
+                const targets = ["M.Cotugno", "Pertusillo", "Camastra", "Basentello", "Conza", "S.Giuliano"];
+                r.data.forEach(row => {
+                    let name = row[0]?.replace(/\n/g, ' ').trim();
+                    let match = targets.find(t => name?.startsWith(t));
+                    if(match) {
+                        let vol = (parseInt(row[9]?.replace(/[\.-]/g, '')) / 1000000).toFixed(2);
+                        let vNum = parseFloat(row[7]?.replace(',', '.'));
+                        let icon = vNum > 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+                        let color = vNum > 0 ? 'var(--success)' : 'var(--danger)';
+                        tbody.innerHTML += `<tr><td><strong>${match}</strong></td><td class="vol-val">${vol}</td><td style="color:${color}"><i class="fas ${icon}"></i> ${row[7] || 0}</td></tr>`;
+                    }
+                });
+            }});
+        } catch (e) { console.error(e); }
     }
 
+    setInterval(() => { document.getElementById('time').innerText = new Date().toLocaleTimeString('it-IT'); }, 1000);
     updateDashboard();
     setInterval(updateDashboard, 60000);
 </script>
